@@ -9,8 +9,7 @@ public class LinkedList {
         next = null;
     }
 
-    public void insertMovie(String title, int year, double score) {
-        Movie movie = new Movie(title, year, score);
+    public void insertMovie(Movie movie) {
         if(head == null) {
             head = movie;
             tail = movie;
