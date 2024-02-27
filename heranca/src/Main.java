@@ -3,6 +3,12 @@
 //Erika - 10403716
 //Júlia - 10408802
 
+//Fontes utilizadas para esse trabalho: 
+// Material disponibilizado pelo professor.
+// e os seguintes sites;
+// - https://www.devmedia.com.br/trabalhando-com-arrays-em-java/25530
+// - https://pt.stackoverflow.com/questions/3905/como-comparar-strings-em-java
+
 
 
 public class Main {
