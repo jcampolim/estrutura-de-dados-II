@@ -2,7 +2,6 @@
 // https://www.programiz.com/java-programming/queue
 
 import java.util.ArrayDeque;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class BinaryTree {
