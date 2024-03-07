@@ -1,5 +1,22 @@
 public class Main {
     public static void main(String[] args) {
+
+        /*
+                    F   -----------------> N=0; H=3
+                   / \
+                  /   \
+                 /     \
+                /       \
+               B         G   ------------> N=1; H=2
+              / \         \
+             /   \         \
+            /     \         \
+           A       D         I  ---------> N=2; H=1
+                  / \       /
+                 /   \     /
+                C     E   H    ----------> N=3; H=0
+
+         */
         Node a = new Node();
         Node b = new Node();
         Node c = new Node();
@@ -58,5 +75,11 @@ public class Main {
 
         System.out.print("\nLevel order: ");
         t.levelOrderTraversal();
+
+        System.out.println("\n");
+
+
+
+
     }
 }

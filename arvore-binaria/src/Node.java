@@ -73,7 +73,7 @@ public class Node {
         return Math.max(hl, hr);
     }
 
-    // TODO: Melhorar o toString
+    // TODO: Make the toString better
     public String toString() {
         return "Node " +  Integer.toHexString(this.hashCode()) + "; Data " + data;
     }

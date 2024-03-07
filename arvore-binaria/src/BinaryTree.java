@@ -121,6 +121,7 @@ public class BinaryTree {
         System.out.print(root.getData() + " ");
     }
 
+    // Bônus
     public void levelOrderTraversal() {
         Queue<Node> queue = new ArrayDeque<>();
 
