@@ -1,7 +1,7 @@
 //Integrantes - RA
 //Enzo Guarnieri - 10410074
 //Erika Borges Piaui - 10403716
-//Júlia Compolim de Oste - 10408802
+//Júlia Campolim de Oste - 10408802
 
 //Fontes de pesquisa:
 //https://profkishimoto.github.io/edii04g11-2024-1/
