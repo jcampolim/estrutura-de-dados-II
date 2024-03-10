@@ -7,10 +7,9 @@
 //https://profkishimoto.github.io/edii04g11-2024-1/
 
 public class Main {
-	
 	public static void main (String [] args) {
 		
-		 Node a = new Node();
+ 	     Node a = new Node();
 	     Node b = new Node();
 	     Node c = new Node();
 	     Node d = new Node();
@@ -111,5 +110,4 @@ public class Main {
 	     System.out.println("\n");
 	        
 	}
-
 }
