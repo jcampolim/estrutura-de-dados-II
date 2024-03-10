@@ -27,7 +27,6 @@ public class BinaryTree {
         return getDegree(root);
     }
 
-    //TODO: fix getDegree function
     public int getDegree(Node root) {
         int parent = 0, left = 0, right = 0;
 
@@ -40,9 +39,10 @@ public class BinaryTree {
             right = getDegree(root.getRight());
         }
 
-        if(parent > left && parent > right) return parent;
-        else if(left > parent && left > right) return left;
-        else return right;
+        if(left > parent) parent = left;
+        if(right > parent) parent = right;
+
+        return parent;
     }
 
     public int getHeight() {
@@ -121,7 +121,6 @@ public class BinaryTree {
         System.out.print(root.getData() + " ");
     }
 
-    // Bônus
     public void levelOrderTraversal() {
         Queue<Node> queue = new ArrayDeque<>();
 
