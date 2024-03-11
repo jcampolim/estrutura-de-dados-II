@@ -1,3 +1,10 @@
+// Integrantes - RA
+// Enzo Guarnieri - 10410074
+// Erika Borges Piaui - 10403716
+// Júlia Campolim de Oste - 10408802
+
+// Fontes de pesquisa:
+// https://profkishimoto.github.io/edii04g11-2024-1/
 // https://www.geeksforgeeks.org/queue-interface-java/
 // https://www.programiz.com/java-programming/queue
 
@@ -7,10 +14,12 @@ import java.util.Queue;
 public class BinaryTree {
     Node root;
 
+    // Constructor
     public BinaryTree() {
         root = null;
     }
 
+    // Getter and setter
     public void setRoot(Node root) {
         this.root = root;
     }
@@ -23,6 +32,7 @@ public class BinaryTree {
         return root == null;
     }
 
+    // Get tree degree
     public int getDegree() {
         return getDegree(root);
     }
@@ -45,6 +55,7 @@ public class BinaryTree {
         return parent;
     }
 
+    // Get tree height
     public int getHeight() {
         if(root == null) {
             return -1;
@@ -75,6 +86,7 @@ public class BinaryTree {
         }
     }
 
+    // Print binary tree
     public void inOrderTraversal() {
         inOrderTraversal(root);
     }

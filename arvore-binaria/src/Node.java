@@ -1,3 +1,13 @@
+// Integrantes - RA
+// Enzo Guarnieri - 10410074
+// Erika Borges Piaui - 10403716
+// Júlia Campolim de Oste - 10408802
+
+// Fontes de pesquisa:
+// https://profkishimoto.github.io/edii04g11-2024-1/
+// https://www.geeksforgeeks.org/queue-interface-java/
+// https://www.programiz.com/java-programming/queue
+
 public class Node {
     private String data;
     private Node parent;
@@ -52,6 +62,7 @@ public class Node {
         return this.right == null && this.left == null;
     }
 
+    // Get node degree
     public int getDegree() {
         if(this.right == null && this.left == null) return 0;
         if(this.right == null || this.left == null) return 1;
@@ -59,11 +70,13 @@ public class Node {
 
     }
 
+    // Get node level
     public int getLevel() {
         if(this.isRoot()) return 0;
         return this.parent.getLevel() + 1;
     }
 
+    // Get node height
     public int getHeight() {
         if(this.isLeaf()) return 0;
         int hl = 0;
@@ -71,11 +84,6 @@ public class Node {
         if(!(this.left == null)) hl = this.left.getHeight() + 1;
         if(!(this.right == null)) hr = this.right.getHeight() + 1;
         return Math.max(hl, hr);
-    }
-
-    // TODO: Make the toString better
-    public String toString() {
-        return "Node " +  Integer.toHexString(this.hashCode()) + "; Data " + data;
     }
 }
 
