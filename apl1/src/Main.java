@@ -52,7 +52,7 @@ public class Main {
             try {
                 option = Integer.parseInt(auxOption);
             } catch (Exception e) {
-                System.out.println("O valor digitado deve ser um inteiro.");
+                System.out.println("O valor digitado deve ser um inteiro\n.");
             }
 
             System.out.println("***********************************************************\n");
@@ -62,8 +62,8 @@ public class Main {
             } else if(option == 1) {
                 System.out.print("Digite a expressão: ");
 
-                scan.nextLine();
                 expression = scan.nextLine();
+                scan.nextLine();
 
                 isValid = verifyExpression(expression);
 
