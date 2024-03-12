@@ -41,7 +41,7 @@ public class Node {
         return this.right == null && this.left == null;
     }
 
-    public String visit() {
+    public Object visit() {
         return "";
     }
 }

@@ -1,5 +1,5 @@
 public class Operando extends Node {
-    private String operate;
+    private int operate;
 
     public Operando() {
         super();
@@ -7,14 +7,14 @@ public class Operando extends Node {
 
     public Operando(Node parent, int operate) {
         super(parent);
-        this.operate = Integer.toString(operate);
+        this.operate = operate;
     }
 
     public void setOperate(int operate) {
-        this.operate = Integer.toString(operate);
+        this.operate = operate;
     }
 
-    @Override public String visit() {
+    @Override public Integer visit() {
         return operate;
     }
 }
