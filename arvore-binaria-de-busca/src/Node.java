@@ -13,6 +13,8 @@ public class Node {
     public Node(String data, Node parent) {
         this.data = data;
         this.parent = parent;
+        right = null;
+        left = null;
     }
 
     public String getData() {
