@@ -62,19 +62,79 @@ public class BST extends BinaryTree {
     // a BST não possui um nó com a chave indicada
     // enzo
     public boolean remove(String data) {
+        if(this.isEmpty()) return false;
+        Node remove = this.search(data);
+        // Caso 1: No e folha
+        // Subimos para o pai e vemos qual filho temos que remover
+        if(remove.isLeaf()) {
+            if (remove.getParent().getRight().getData().equals(data)) {
+                remove.getParent().setRight(null);
+                remove.setParent(null);
+            } else {
+                remove.getParent().setLeft(null);
+                remove.setParent(null);
+            }
+            return true;
+        }
+        // Caso 2: No so possui uma sub-arvore
+        if(remove.getDegree() == 1){
+            // pai para a direita
+            if (remove.getParent().getRight().getData().equals(data)){
+                // filho a direita
+                if(remove.getRight() != null){
+                    remove.getParent().setRight(remove.getRight());
+                    remove.getRight().setParent(remove.getParent());
+                }else{ // filho a esquerda
+                    remove.getParent().setRight(remove.getRight());
+                    remove.getLeft().setParent(remove.getParent());
+                }
+            }else{ // pai para a esquerda
+                // filho a direita
+                if(remove.getRight() != null){
+                    remove.getParent().setLeft(remove.getRight());
+                    remove.getRight().setParent(remove.getParent());
+                }else{ // filho a esquerda
+                    remove.getParent().setLeft(remove.getRight());
+                    remove.getLeft().setParent(remove.getParent());
+                }
+            }
+            return true;
+        }
+        // Caso 3: No possui dois filhos
+        // Usando o antecessor
+        // Trocamos as informacoes
+        Node antecessor = this.findPredecessor(data);
+        String aux = antecessor.getData();
+        antecessor.setData(remove.getData());
+        remove.setData(aux);
+        // Removemos agora que data é folha
+        if (remove.getParent().getRight().getData().equals(data)) {
+            remove.getParent().setRight(null);
+            remove.setParent(null);
+        } else {
+            remove.getParent().setLeft(null);
+            remove.setParent(null);
+        }
         return true;
+
     }
 
     //TODO: retorna nó com menor chave ou null caso a BST esteja vazia
     // enzo
     public Node findMin() {
-        return null;
+        if(this.isEmpty()) return null;
+        Node node = this.getRoot();
+        while (!node.isLeaf()) node = node.getLeft();
+        return node;
     }
 
     //TODO: retona nó com maior chave ou null caso a BST esteja vazia
     // enzo
     public Node findMax() {
-        return null;
+        if(this.isEmpty()) return null;
+        Node node = this.getRoot();
+        while (!node.isLeaf()) node = node.getRight();
+        return node;
     }
 
     //TODO: retorna o antecessor do nó que contém a chave indicada ou null
