@@ -1,3 +1,8 @@
+//Nomes:
+// - Enzo Guarnieri, 10410074
+// - Erika Borges Piaui, 10403716
+// - Júlia Campolim de Oste, 10408802
+
 public class Main {
     public static void main(String[] args) {
         BST bst = new BST();
@@ -15,6 +20,36 @@ public class Main {
 
         System.out.println(bst.findMin().getData());
         System.out.println(bst.findMax().getData());
+        
+        String searchData = "10";
+        Node searchNode = bst.search(searchData); 
+        if (searchNode != null) {
+            System.out.println("Nó com chave " + searchData + " encontrado!");
+        } else {
+            System.out.println("Nó com chave " + searchData + " não encontrado!");
+        }
+        
+        searchData = "20";
+        searchNode = bst.search(searchData); 
+        if (searchNode != null) {
+            System.out.println("Nó com chave " + searchData + " encontrado!");
+        } else {
+            System.out.println("Nó com chave " + searchData + " não encontrado!");
+        }
+        
+        Node predecessor = bst.findPredecessor("03");
+        if (predecessor != null) {
+            System.out.println("Antecessor de 03: " + predecessor.getData());
+        } else {
+            System.out.println("Não há antecessor para 03");
+        }
+
+        Node successor = bst.findSuccessor("01");
+        if (successor != null) {
+            System.out.println("Sucessor de 01: " + successor.getData());
+        } else {
+            System.out.println("Não há sucessor para 01");
+        }
 
         bst.inOrderTraversal();
 
