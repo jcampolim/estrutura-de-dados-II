@@ -1,4 +1,9 @@
-// https://sentry.io/answers/how-to-compare-strings-in-java/#:~:text=If%20you%20want%20to%20find,compareTo()%20.
+//Nomes:
+// - Enzo Guarnieri, 10410074
+// - Erika Borges Piaui, 10403716
+// - Júlia Campolim de Oste, 10408802
+//Fontes:
+// - https://sentry.io/answers/how-to-compare-strings-in-java/#:~:text=If%20you%20want%20to%20find,compareTo()%20.
 
 public class BST extends BinaryTree {
     public BST() {
@@ -13,9 +18,22 @@ public class BST extends BinaryTree {
     // retorna o nó encontrado, caso contrário retorna null
     // erika
     public Node search(String data) {
-        return null;
+        return search(root, data);
     }
-
+    
+    private Node search(Node root, String data) {
+    	if (data.equals(root.getData())) {
+    	    return root;
+    	}
+    	else if (data.compareTo(root.getData()) < 0) {
+    	    return search(root.getLeft(), data);
+    	}
+    	else if (data.compareTo(root.getData()) > 0) {
+    		return search(root.getRight(), data);
+    	}
+    	return null;
+    }
+   
     //TODO: insere novo nó na BST. Caso já exista um nó com a mesma chave
     // a BST não é alterada
     // Opcional: lançar execeção (throw new RuntimeException()) para indicar que
@@ -136,19 +154,63 @@ public class BST extends BinaryTree {
         while (!node.isLeaf()) node = node.getRight();
         return node;
     }
-
+   
     //TODO: retorna o antecessor do nó que contém a chave indicada ou null
     // caso esteja vazia
     // erika
     public Node findPredecessor(String data) {
-        return null;
-    }
+    	Node node = search(root, data);
 
-    //TODO: retorna o sucessor do nó que contém a chave indicada ou null
+        if (node != null && node.getLeft() != null) {
+            Node predecessor = node.getLeft();
+            while (predecessor.getRight() != null) {
+                predecessor = predecessor.getRight();
+            }
+            return predecessor;
+        }
+
+        Node aux = root;
+        Node predecessor = null;
+        while (aux != null) {
+            if (data.compareTo(aux.getData()) > 0) {
+                predecessor = aux; 
+                aux = aux.getRight();
+            } else if (data.compareTo(aux.getData()) < 0) {
+                aux = aux.getLeft();
+            } else {
+                break; 
+            }
+        }
+        return predecessor;
+     }
+
+	//TODO: retorna o sucessor do nó que contém a chave indicada ou null
     // caso esteja vazia
     // erika
     public Node findSuccessor(String data) {
-        return null;
+    	Node node = search(root, data);
+
+        if (node != null && node.getRight() != null) {
+            Node successor = node.getRight();
+            while (successor.getLeft() != null) {
+                successor = successor.getLeft();
+            }
+            return successor;
+        }
+
+        Node aux = root;
+        Node successor = null;
+        while (aux != null) {
+            if (data.compareTo(aux.getData()) < 0) {
+                successor = aux; 
+                aux = aux.getLeft();
+            } else if (data.compareTo(aux.getData()) > 0) {
+                aux = aux.getRight();
+            } else {
+                break;
+            }
+        }
+        return successor;
     }
 
     //TODO: remove todos os nós e suas conexões
