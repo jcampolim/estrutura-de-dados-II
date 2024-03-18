@@ -22,16 +22,13 @@ public class BST extends BinaryTree {
     }
     
     private Node search(Node root, String data) {
-    	if (data.equals(root.getData())) {
-    	    return root;
-    	}
-    	else if (data.compareTo(root.getData()) < 0) {
-    	    return search(root.getLeft(), data);
-    	}
-    	else if (data.compareTo(root.getData()) > 0) {
-    		return search(root.getRight(), data);
-    	}
-    	return null;
+        if (root == null || data.equals(root.getData())) {
+            return root;
+        } else if (data.compareTo(root.getData()) < 0) {
+            return search(root.getLeft(), data);
+        } else {
+            return search(root.getRight(), data);
+        }
     }
    
     //TODO: insere novo nó na BST. Caso já exista um nó com a mesma chave
