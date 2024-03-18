@@ -14,9 +14,7 @@ public class BST extends BinaryTree {
         super(root);
     }
 
-    //TODO: busca o nó com a chave na BST. Caso o nó pertença à BST
-    // retorna o nó encontrado, caso contrário retorna null
-    // erika
+
     public Node search(String data) {
         return search(root, data);
     }
@@ -31,11 +29,7 @@ public class BST extends BinaryTree {
         }
     }
    
-    //TODO: insere novo nó na BST. Caso já exista um nó com a mesma chave
-    // a BST não é alterada
-    // Opcional: lançar execeção (throw new RuntimeException()) para indicar que
-    // já existe um nó com a chave indicada
-    // julia
+
     public Node insert(String data) {
         if(isEmpty()) {
             root = new Node(data, null);
@@ -72,13 +66,15 @@ public class BST extends BinaryTree {
         }
     }
 
-    //TODO: remove nó, caso o nó pertença à BST.
-    // Opcional: lançar execeção (throw new RuntimeException()) para indicar que
-    // a BST não possui um nó com a chave indicada
-    // enzo
+
     public boolean remove(String data) {
         if(this.isEmpty()) return false;
         Node remove = this.search(data);
+        //Se nao existir o no
+        if(remove == null){
+            System.out.println("Nó não existe na arvore.");
+            return false;
+        }
         // Caso 1: No e folha
         // Subimos para o pai e vemos qual filho temos que remover
         if(remove.isLeaf()) {
@@ -116,26 +112,25 @@ public class BST extends BinaryTree {
             return true;
         }
         // Caso 3: No possui dois filhos
-        // Usando o antecessor
+        // Usando o antecessor (maior dos menores)
         // Trocamos as informacoes
         Node antecessor = this.findPredecessor(data);
         String aux = antecessor.getData();
         antecessor.setData(remove.getData());
         remove.setData(aux);
         // Removemos agora que data é folha
-        if (remove.getParent().getRight().getData().equals(data)) {
-            remove.getParent().setRight(null);
-            remove.setParent(null);
+        if (antecessor.getParent().getRight().getData().equals(data)) {
+            antecessor.getParent().setRight(null);
+            antecessor.setParent(null);
         } else {
-            remove.getParent().setLeft(null);
-            remove.setParent(null);
+            antecessor.getParent().setLeft(null);
+            antecessor.setParent(null);
         }
         return true;
 
     }
 
-    //TODO: retorna nó com menor chave ou null caso a BST esteja vazia
-    // enzo
+
     public Node findMin() {
         if(this.isEmpty()) return null;
         Node node = this.getRoot();
@@ -143,8 +138,7 @@ public class BST extends BinaryTree {
         return node;
     }
 
-    //TODO: retona nó com maior chave ou null caso a BST esteja vazia
-    // enzo
+
     public Node findMax() {
         if(this.isEmpty()) return null;
         Node node = this.getRoot();
@@ -152,9 +146,7 @@ public class BST extends BinaryTree {
         return node;
     }
    
-    //TODO: retorna o antecessor do nó que contém a chave indicada ou null
-    // caso esteja vazia
-    // erika
+
     public Node findPredecessor(String data) {
     	Node node = search(root, data);
 
@@ -181,9 +173,7 @@ public class BST extends BinaryTree {
         return predecessor;
      }
 
-	//TODO: retorna o sucessor do nó que contém a chave indicada ou null
-    // caso esteja vazia
-    // erika
+
     public Node findSuccessor(String data) {
     	Node node = search(root, data);
 
@@ -210,8 +200,7 @@ public class BST extends BinaryTree {
         return successor;
     }
 
-    //TODO: remove todos os nós e suas conexões
-    // julia
+
     public void clear() {
         clear(root);
     }
