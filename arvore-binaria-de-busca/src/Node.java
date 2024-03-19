@@ -1,3 +1,6 @@
+//Fontes:
+// - https://profkishimoto.github.io/edii04g11-2024-1/
+
 public class Node {
     private String data;
     private Node parent;
