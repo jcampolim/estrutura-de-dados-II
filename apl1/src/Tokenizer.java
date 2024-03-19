@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -17,6 +18,10 @@ public class Tokenizer {
     }
 
     public List<String> tokenize(){
+        // Um pouco de gambiarra mas tudo bem
+        Character[] a = new Character[]{'+', '*', '(', ')', '-', '/'} ;
+        List<Character> validTokens = Arrays.asList(a);
+
         List<String> tokens = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         char currChar = getNextChar();
@@ -27,7 +32,6 @@ public class Tokenizer {
                 sb.append(currChar);
                 currChar = getNextChar();
             }
-
                 if (Character.isDigit(currChar)) {
                     sb.setLength(0);
                     while (Character.isDigit(currChar) || currChar == '.') {
@@ -35,18 +39,16 @@ public class Tokenizer {
                         currChar = getNextChar();
                     }
                     tokens.add(sb.toString());
-                } else if (currChar == '+') {
-                    tokens.add("+");
+                } else if(validTokens.contains(currChar)){
+                    tokens.add(Character.toString(currChar));
                     currChar = getNextChar();
-                } else if (currChar == '*') {
-                    tokens.add("*");
-                    currChar = getNextChar();
-                } else if (currChar == '\0') {
-                    System.out.println("Chegou ao final!");
+                } else if(currChar == '\0'){
+                    System.out.println("Chegou ao final da string.");
                     isTokenizing = false;
-                } else {
+                }else{
                     System.out.println("Token não reconhecido: " + currChar);
                     isTokenizing = false;
+                    return null; // saida null é um sinal de Token invalido.
                 }
         }
         System.out.println("Encerrando....");
@@ -54,10 +56,13 @@ public class Tokenizer {
     }
 
     public static void main(String[] args){
-        Tokenizer t = new Tokenizer("25+     0.5          * 1 + A");
+        Tokenizer t = new Tokenizer("1.5 + (2 - (3 + 4)) * 5.1");
         List<String> tokens = t.tokenize();
-        for(int i=0; i < tokens.size(); i++){
-            System.out.println("Token[" + i + "]: " + tokens.get(i));
+        if(tokens == null) {System.out.println("Token invalido");}
+        else {
+            for (int i = 0; i < tokens.size(); i++) {
+                System.out.println("Token[" + i + "]: " + tokens.get(i));
+            }
         }
     }
 }
