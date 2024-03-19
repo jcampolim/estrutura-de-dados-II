@@ -1,3 +1,6 @@
+//Fontes:
+// - https://profkishimoto.github.io/edii04g11-2024-1/
+
 import java.util.ArrayDeque;
 import java.util.Queue;
 
