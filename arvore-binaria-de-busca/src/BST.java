@@ -4,6 +4,7 @@
 // - Júlia Campolim de Oste, 10408802
 //Fontes:
 // - https://sentry.io/answers/how-to-compare-strings-in-java/#:~:text=If%20you%20want%20to%20find,compareTo()%20.
+// - https://profkishimoto.github.io/edii04g11-2024-1/
 
 public class BST extends BinaryTree {
     public BST() {
