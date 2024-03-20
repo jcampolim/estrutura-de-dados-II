@@ -1,12 +1,13 @@
-//Fontes:
-// - https://profkishimoto.github.io/edii04g11-2024-1/
-
-import java.util.ArrayDeque;
-import java.util.Queue;
-
+// Nomes:
+// Enzo Guarnieri, 10410074
+// Erika Borges Piaui, 10403716
+// Júlia Campolim de Oste, 10408802
+// Fontes:
+//// - https://sentry.io/answers/how-to-compare-strings-in-java/#:~:text=If%20you%20want%20to%20find,compareTo()%20.
 public class BinaryTree {
     Node root;
 
+    // Construtor
     public BinaryTree() {
         root = null;
     }
@@ -15,6 +16,7 @@ public class BinaryTree {
         this.root = root;
     }
 
+    // Getters e Setters
     public void setRoot(Node root) {
         this.root = root;
     }
@@ -23,10 +25,12 @@ public class BinaryTree {
         return root;
     }
 
+    // Verifica se a árvore está vazia
     public boolean isEmpty() {
         return root == null;
     }
 
+    // Retorna o grau da árvore
     public int getDegree() {
         return getDegree(root);
     }
@@ -49,6 +53,7 @@ public class BinaryTree {
         return parent;
     }
 
+    // Retorna a altura da árvore
     public int getHeight() {
         if(root == null) {
             return -1;
@@ -79,8 +84,10 @@ public class BinaryTree {
         }
     }
 
+    // Exibe a árvore em ordem
     public void inOrderTraversal() {
         inOrderTraversal(root);
+        System.out.println();
     }
 
     public void inOrderTraversal(Node root) {
