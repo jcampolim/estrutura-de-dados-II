@@ -1,8 +1,47 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     //TODO: enzo
+    public static boolean isNumber(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c) && c != '.' ) {
+                return false;
+            }
+        }
+        return true;
+    }
     public static boolean verifyExpression(String expression) {
+        Tokenizer t = new Tokenizer(expression);
+        List<String> tokens = t.tokenize();
+        int nParantesis = 0;
+        Boolean opBinario = false;
+        if(tokens == null) {return false;}
+        else {
+            for (int i = 0; i < tokens.size(); i++) {
+                if(nParantesis < 0) {
+                    System.out.println("Paranteses incorretos.");
+                    return false;
+                }
+                if(tokens.get(i).equals("(")) {nParantesis++;}
+                if(tokens.get(i).equals(")")) {nParantesis--;}
+                // Como sabemos que todos os tokens são validos.
+                // Podemos verificar o formato deles.
+                if(isNumber(tokens.get(i)) && !opBinario) {opBinario = true;}
+                else if(!tokens.get(i).equals("(") || !tokens.get(i).equals(")") && opBinario) {opBinario = false;}
+            }
+            if(nParantesis > 0) {
+                System.out.println("Paranteses incorretos.");
+                return false;
+            }
+            if(!opBinario) {
+                System.out.println("Falta um operando.");
+                return false;
+            }
+        }
         return true;
     }
 
@@ -69,6 +108,9 @@ public class Main {
 
                 if(!isValid) {
                     System.out.println("A expressão digitada não é válida.");
+                }
+                else{
+                    System.out.println("A expressão digitada é válida.");
                 }
             } else if(option == 2) {
                 if(isValid) {

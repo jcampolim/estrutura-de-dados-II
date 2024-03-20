@@ -46,23 +46,12 @@ public class Tokenizer {
                     System.out.println("Chegou ao final da string.");
                     isTokenizing = false;
                 }else{
-                    System.out.println("Token não reconhecido: " + currChar);
+                    System.out.println("Símbolo não reconhecido: " + currChar);
                     isTokenizing = false;
                     return null; // saida null é um sinal de Token invalido.
                 }
         }
-        System.out.println("Encerrando....");
         return tokens;
     }
 
-    public static void main(String[] args){
-        Tokenizer t = new Tokenizer("1.5 + (2 - (3 + 4)) * 5.1");
-        List<String> tokens = t.tokenize();
-        if(tokens == null) {System.out.println("Token invalido");}
-        else {
-            for (int i = 0; i < tokens.size(); i++) {
-                System.out.println("Token[" + i + "]: " + tokens.get(i));
-            }
-        }
-    }
 }
