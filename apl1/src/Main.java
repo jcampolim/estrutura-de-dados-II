@@ -71,19 +71,22 @@ public class Main {
 
     //TODO: enzo
     public static float expressionCalculation(BinaryTree tree) {
-       /* Queue<Node> queue = new PriorityQueue<Node>();
+       /*
+       Character[] a = new Character[]{'+', '*', '(', ')', '-', '/'} ;
+       List<Character> validTokens = Arrays.asList(a);
+       Queue<Node> queue = new PriorityQueue<Node>();
         Stack<Node> stack = new Stack<Node>();
         queue.add(tree.getRoot());
         // Criar fila e pilha de execução (percorrer tree por nivel e colocar na pilha somente operadores)
         while(!queue.isEmpty()){
-            Node aux = queue.pop;
+            Node aux = queue.pull();
             if(aux.getLeft() != null){
                 queue.add(aux.getLeft());
             }
             if(aux.getRight() != null){
                 queue.add(aux.getRight());
             }
-            if(aux.isOperator) { // PRECISA IMPLEMENTAR ESSA IDEIA
+            if(validTokens.contains(queue.peek())) { // PRECISA IMPLEMENTAR ESSA IDEIA // Acho que implementei kkkkk
             stack.add(aux);
             }
         }
