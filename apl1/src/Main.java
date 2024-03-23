@@ -52,10 +52,89 @@ public class Main {
         }
         return true;
     }
-
+    
     //TODO: erika
+    private static int setPrecedence(String operator) {
+        if (operator.equals("+") || operator.equals("-")) {
+            return 1;
+        } else if (operator.equals("*") || operator.equals("/")) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
+    
+    private static List<String> convertToPosfix(String expression) {
+        Tokenizer tokenizer = new Tokenizer(expression);
+        List<String> tokens = tokenizer.tokenize();
+
+        List<String> postfixExpression = new ArrayList<>();
+        Stack<String> operatorStack = new Stack<>();
+
+        for (String token : tokens) {
+            if (isNumber(token)) {
+                postfixExpression.add(token);
+            } else if (token.equals("(")) {
+                operatorStack.push(token);
+            } else if (token.equals(")")) {
+                while (!operatorStack.isEmpty() && !operatorStack.peek().equals("(")) {
+                    postfixExpression.add(operatorStack.pop());
+                }
+                if (!operatorStack.isEmpty() && operatorStack.peek().equals("(")) {
+                    operatorStack.pop(); 
+                } 
+            } else {
+                while (!operatorStack.isEmpty() && setPrecedence(operatorStack.peek()) >= setPrecedence(token)) {
+                    postfixExpression.add(operatorStack.pop());
+                }
+                operatorStack.push(token);
+            }
+        }
+
+        while (!operatorStack.isEmpty()) {
+            if (operatorStack.peek().equals("(")) {
+                System.out.println("Parenteses incorretos");
+                return null;
+            }
+            postfixExpression.add(operatorStack.pop());
+        }
+        return postfixExpression;
+    }
+
     public static boolean createTree(String expression, BinaryTree tree) {
-        return true;
+        List<String> postfixExpression = convertToPosfix(expression);
+        Stack<Node> stack = new Stack<>();
+
+        for (String token : postfixExpression) {
+            if (isNumber(token)) {
+                stack.push(new Operando(null, Integer.parseInt(token)));
+            } else {
+                Operador operatorNode = new Operador();
+                operatorNode.setOperate(token);
+                
+                Node right = stack.pop();
+                Node left = stack.pop();
+                
+                operatorNode.setLeft(left);
+                operatorNode.setRight(right);
+                
+                stack.push(operatorNode);
+            }
+        }
+
+        Node root;
+        if (stack.isEmpty()) {
+            root = null;
+        } else {
+            root = stack.pop();
+        }
+
+        if (root != null) {
+            tree.setRoot(root);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static void printTree(BinaryTree tree) {
