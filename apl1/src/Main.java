@@ -17,7 +17,8 @@ public class Main {
         Tokenizer t = new Tokenizer(expression);
         List<String> tokens = t.tokenize();
         int nParantesis = 0;
-        Boolean opBinario = false;
+        boolean ultimoEraOperando = false;
+        boolean ultimoEraOperador = true;
         if(tokens == null) {return false;}
         else {
             for (int i = 0; i < tokens.size(); i++) {
@@ -26,17 +27,25 @@ public class Main {
                     return false;
                 }
                 if(tokens.get(i).equals("(")) {nParantesis++;}
-                if(tokens.get(i).equals(")")) {nParantesis--;}
+                else if(tokens.get(i).equals(")")) {nParantesis--;}
                 // Como sabemos que todos os tokens são validos.
                 // Podemos verificar o formato deles.
-                if(isNumber(tokens.get(i)) && !opBinario) {opBinario = true;}
-                else if(!tokens.get(i).equals("(") || !tokens.get(i).equals(")") && opBinario) {opBinario = false;}
+                else if(isNumber(tokens.get(i)) && !ultimoEraOperando && ultimoEraOperador){
+                    ultimoEraOperando = true;
+                    ultimoEraOperador = false;
+                } else if(ultimoEraOperando && !ultimoEraOperador){
+                    ultimoEraOperando = false;
+                    ultimoEraOperador = true;
+                }
+                else{
+                    return false;
+                }
             }
             if(nParantesis > 0) {
                 System.out.println("Paranteses incorretos.");
                 return false;
             }
-            if(!opBinario) {
+            if(!ultimoEraOperando) {
                 System.out.println("Falta um operando.");
                 return false;
             }
