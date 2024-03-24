@@ -118,7 +118,7 @@ public class Main {
 
         for (String token : postfixExpression) {
             if (isNumber(token)) {
-                stack.push(new Operando(null, Integer.parseInt(token)));
+                stack.push(new Operando(null, Float.parseFloat(token)));
             } else {
                 Operador operatorNode = new Operador();
                 operatorNode.setOperate(token);
