@@ -1,3 +1,10 @@
+// Nomes:
+// Enzo Guarnieri, 10410074
+// Erika Borges Piaui, 10403716
+// Júlia Campolim de Oste, 10408802
+// Fontes:
+// https://www.geeksforgeeks.org/overriding-in-java/
+
 import java.util.*;
 
 public class Main {
@@ -15,21 +22,21 @@ public class Main {
     }
 
     // Verifica se a expressão digitada pelo usuário é válida
-    public static boolean verifyExpression(String expression) {
+    public static List verifyExpression(String expression, List<String> tokens) {
         Tokenizer tokenizer = new Tokenizer(expression);
-        List<String> tokens = tokenizer.tokenize();
+        tokens = tokenizer.tokenize();
 
         int nParantesis = 0;
         boolean lastIsOperate = false;
         boolean lastIsOperator = true;
 
         if(tokens == null) {
-            return false;
+            return null;
         } else {
             for (int i = 0; i < tokens.size(); i++) {
                 if(nParantesis < 0) {
                     System.out.println("Parênteses incorretos.");
-                    return false;
+                    return null;
                 }
 
                 if(tokens.get(i).equals("(")) {
@@ -46,19 +53,19 @@ public class Main {
                     lastIsOperator = true;
                 }
                 else{
-                    return false;
+                    return null;
                 }
             }
             if(nParantesis > 0) {
                 System.out.println("Parênteses incorretos.");
-                return false;
+                return null;
             }
             if(!lastIsOperate) {
                 System.out.println("Falta um operando.");
-                return false;
+                return null;
             }
         }
-        return true;
+        return tokens;
     }
     
     // Para montar a ávore binária, a estratégia usada foi passar a expressão para posfixa primeiro
@@ -74,9 +81,8 @@ public class Main {
     }
 
     // Função que converte a expressão para posfixa
-    private static List<String> convertToPosfix(String expression) {
+    private static List<String> convertToPosfix(String expression, List<String> tokens) {
         Tokenizer tokenizer = new Tokenizer(expression);
-        List<String> tokens = tokenizer.tokenize();
 
         List<String> postfixExpression = new ArrayList<>();
         Stack<String> operatorStack = new Stack<>();
@@ -112,8 +118,8 @@ public class Main {
     }
 
     // Cria a árvore binária com a expressão
-    public static boolean createTree(String expression, BinaryTree tree) {
-        List<String> postfixExpression = convertToPosfix(expression);
+    public static boolean createTree(String expression, BinaryTree tree, List<String> tokens) {
+        List<String> postfixExpression = convertToPosfix(expression, tokens);
         Stack<Node> stack = new Stack<>();
 
         for (String token : postfixExpression) {
@@ -162,16 +168,15 @@ public class Main {
         System.out.println();
     }
 
-    // TODO: enzo
     // Calcula o resultado da expressão
     public static float expressionCalculation(BinaryTree tree) {
-        String[] a = new String[]{"+", "*", "(", ")", "-", "/"} ;
-        List<String> validTokens = Arrays.asList(a);
+        String[] auxValidTokens = new String[]{"+", "*", "(", ")", "-", "/"} ;
+        List<String> validTokens = Arrays.asList(auxValidTokens);
 
         Queue<Object> queue = new LinkedList<>();
         Stack<Operador> stack = new Stack<Operador>();
         queue.add(tree.getRoot());
-        // Criar fila e pilha de execução (percorrer tree por nivel e colocar na pilha somente operadores)
+
         while(!queue.isEmpty()){
             Node aux = (Node) queue.poll();
             if(aux.getLeft() != null){
@@ -180,18 +185,16 @@ public class Main {
             if(aux.getRight() != null){
                 queue.add(aux.getRight());
             }
-            if(validTokens.contains(aux.visit().toString())){ // PRECISA IMPLEMENTAR ESSA IDEIA
-            stack.add((Operador) aux);
+            if(validTokens.contains(aux.visit().toString())){
+                stack.add((Operador) aux);
             }
         }
-         // Se trabalha a pilha de execução
+
         while (!stack.isEmpty()){
-            stack.pop().operate();  // Pensar em como fazer o no Operador se tranformar em um no operando
-                                    // equivalente ao resultado dos nos operandos filhos dele.
+            stack.pop().operate();
         }
 
         return Float.valueOf(tree.root.visit().toString());
-
     }
 
     // Função com todas as chamadas de menu
@@ -200,7 +203,7 @@ public class Main {
 
         int option = 0;
         String expression =  "", auxOption;
-
+        List<String> tokens = null;
         boolean isValid = false, hasTree = false;
 
         BinaryTree tree = new BinaryTree();
@@ -219,7 +222,7 @@ public class Main {
             try {
                 option = Integer.parseInt(auxOption);
             } catch (Exception e) {
-                System.out.println("O valor digitado deve ser um inteiro\n.");
+                System.out.println("O valor digitado deve ser um inteiro.\n");
             }
 
             System.out.println("***********************************************************\n");
@@ -232,17 +235,16 @@ public class Main {
                 expression = scan.nextLine();
                 scan.nextLine();
 
-                isValid = verifyExpression(expression);
-
-                if(!isValid) {
-                    System.out.println("A expressão digitada não é válida.");
-                }
-                else{
+                tokens = verifyExpression(expression, tokens);
+                if(tokens != null) {
+                    isValid = true;
                     System.out.println("A expressão digitada é válida.");
+                } else  {
+                    System.out.println("A expressão digitada não é válida.");
                 }
             } else if(option == 2) {
                 if(isValid) {
-                    createTree(expression, tree);
+                    createTree(expression, tree, tokens);
                     hasTree = true;
                     System.out.println("Árvore criada com sucesso!");
                 } else {

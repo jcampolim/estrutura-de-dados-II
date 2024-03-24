@@ -1,3 +1,10 @@
+// Nomes:
+// Enzo Guarnieri, 10410074
+// Erika Borges Piaui, 10403716
+// Júlia Campolim de Oste, 10408802
+// Fontes:
+// https://www.geeksforgeeks.org/overriding-in-java/
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,28 +33,29 @@ public class Tokenizer {
 
         boolean isTokenizing = true;
         while(isTokenizing) {
-            while (Character.isWhitespace(currChar)) { // Ignora espaços em branco.
+            // Ignora os espaços em branco
+            while (Character.isWhitespace(currChar)) {
                 sb.append(currChar);
                 currChar = getNextChar();
             }
-                if (Character.isDigit(currChar)) {
-                    sb.setLength(0);
-                    while (Character.isDigit(currChar) || currChar == '.') {
-                        sb.append(currChar);
-                        currChar = getNextChar();
-                    }
-                    tokens.add(sb.toString());
-                } else if(validTokens.contains(currChar)) {
-                    tokens.add(Character.toString(currChar));
+
+            // Verifica se o próximo char da string é válido
+            if (Character.isDigit(currChar)) {
+                sb.setLength(0);
+                while (Character.isDigit(currChar) || currChar == '.') {
+                    sb.append(currChar);
                     currChar = getNextChar();
-                } else if(currChar == '\0') {
-                    System.out.println("Chegou ao final da string.");
-                    isTokenizing = false;
-                }else {
-                    System.out.println("Símbolo não reconhecido: " + currChar);
-                    isTokenizing = false;
-                    return null; // saida null é um sinal de Token invalido.
                 }
+                tokens.add(sb.toString());
+            } else if(validTokens.contains(currChar)) {
+                tokens.add(Character.toString(currChar));
+                currChar = getNextChar();
+            } else if(currChar == '\0') {
+                isTokenizing = false;
+            }else {
+                System.out.println("Símbolo não reconhecido: " + currChar);
+                return null;
+            }
         }
         return tokens;
     }

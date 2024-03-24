@@ -1,3 +1,8 @@
+// Nomes:
+// Enzo Guarnieri, 10410074
+// Erika Borges Piaui, 10403716
+// Júlia Campolim de Oste, 10408802
+// Fontes:
 // https://www.geeksforgeeks.org/overriding-in-java/
 
 public class Node {
