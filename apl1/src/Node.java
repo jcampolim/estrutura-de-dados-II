@@ -5,6 +5,7 @@ public class Node {
     private Node left;
     private Node right;
 
+    // Construtores
     public Node() {
         parent = null;
         left = null;
@@ -14,6 +15,7 @@ public class Node {
         this.parent = parent;
     }
 
+    // Getters e setters
     public Node getParent() {
         return this.parent;
     }
@@ -34,13 +36,17 @@ public class Node {
         this.right = right;
     }
 
+    // Verifica se o nó é raiz da árvore
     public Boolean isRoot() {
         return this.parent == null;
     }
+
+    // Verifica se o nó é folha da árvore
     public Boolean isLeaf() {
         return this.right == null && this.left == null;
     }
 
+    // Método que será herdado pelas sub-classes de Node
     public Object visit() {
         return "";
     }

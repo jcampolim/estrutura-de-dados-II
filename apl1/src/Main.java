@@ -1,51 +1,59 @@
 import java.util.*;
 
 public class Main {
-    //TODO: enzo
-    public static boolean isNumber(String str) {
-        if (str == null || str.isEmpty()) {
+    // Verifica se a string é um número
+    public static boolean isNumber(String string) {
+        if (string == null || string.isEmpty()) {
             return false;
         }
-        for (char c : str.toCharArray()) {
+        for (char c : string.toCharArray()) {
             if (!Character.isDigit(c) && c != '.' ) {
                 return false;
             }
         }
         return true;
     }
+
+    // Verifica se a expressão digitada pelo usuário é válida
     public static boolean verifyExpression(String expression) {
-        Tokenizer t = new Tokenizer(expression);
-        List<String> tokens = t.tokenize();
+        Tokenizer tokenizer = new Tokenizer(expression);
+        List<String> tokens = tokenizer.tokenize();
+
         int nParantesis = 0;
-        boolean ultimoEraOperando = false;
-        boolean ultimoEraOperador = true;
-        if(tokens == null) {return false;}
-        else {
+        boolean lastIsOperate = false;
+        boolean lastIsOperator = true;
+
+        if(tokens == null) {
+            return false;
+        } else {
             for (int i = 0; i < tokens.size(); i++) {
                 if(nParantesis < 0) {
-                    System.out.println("Paranteses incorretos.");
+                    System.out.println("Parênteses incorretos.");
                     return false;
                 }
-                if(tokens.get(i).equals("(")) {nParantesis++;}
-                else if(tokens.get(i).equals(")")) {nParantesis--;}
-                // Como sabemos que todos os tokens são validos.
-                // Podemos verificar o formato deles.
-                else if(isNumber(tokens.get(i)) && !ultimoEraOperando && ultimoEraOperador){
-                    ultimoEraOperando = true;
-                    ultimoEraOperador = false;
-                } else if(ultimoEraOperando && !ultimoEraOperador){
-                    ultimoEraOperando = false;
-                    ultimoEraOperador = true;
+
+                if(tokens.get(i).equals("(")) {
+                    nParantesis++;
+                } else if(tokens.get(i).equals(")")) {
+                    nParantesis--;
+                }
+                // Como todos os tokens são válidos, basta verificar a posição deles
+                else if(isNumber(tokens.get(i)) && !lastIsOperate && lastIsOperator){
+                    lastIsOperate = true;
+                    lastIsOperator = false;
+                } else if(lastIsOperate && !lastIsOperator){
+                    lastIsOperate = false;
+                    lastIsOperator = true;
                 }
                 else{
                     return false;
                 }
             }
             if(nParantesis > 0) {
-                System.out.println("Paranteses incorretos.");
+                System.out.println("Parênteses incorretos.");
                 return false;
             }
-            if(!ultimoEraOperando) {
+            if(!lastIsOperate) {
                 System.out.println("Falta um operando.");
                 return false;
             }
@@ -53,7 +61,8 @@ public class Main {
         return true;
     }
     
-    //TODO: erika
+    // Para montar a ávore binária, a estratégia usada foi passar a expressão para posfixa primeiro
+    // Função para indicar a prioridade do operador da expressão
     private static int setPrecedence(String operator) {
         if (operator.equals("+") || operator.equals("-")) {
             return 1;
@@ -63,7 +72,8 @@ public class Main {
             return 0;
         }
     }
-    
+
+    // Função que converte a expressão para posfixa
     private static List<String> convertToPosfix(String expression) {
         Tokenizer tokenizer = new Tokenizer(expression);
         List<String> tokens = tokenizer.tokenize();
@@ -93,7 +103,7 @@ public class Main {
 
         while (!operatorStack.isEmpty()) {
             if (operatorStack.peek().equals("(")) {
-                System.out.println("Parenteses incorretos");
+                System.out.println("Parênteses incorretos");
                 return null;
             }
             postfixExpression.add(operatorStack.pop());
@@ -101,6 +111,7 @@ public class Main {
         return postfixExpression;
     }
 
+    // Cria a árvore binária com a expressão
     public static boolean createTree(String expression, BinaryTree tree) {
         List<String> postfixExpression = convertToPosfix(expression);
         Stack<Node> stack = new Stack<>();
@@ -137,6 +148,7 @@ public class Main {
         }
     }
 
+    // Exibe a árvore na tela
     public static void printTree(BinaryTree tree) {
         System.out.print("Pré-ordem: ");
         tree.preOrderTraversal();
@@ -146,9 +158,12 @@ public class Main {
 
         System.out.print("\n\nPós-ordem: ");
         tree.posOrderTraversal();
+
+        System.out.println();
     }
 
-    //TODO: enzo
+    // TODO: enzo
+    // Calcula o resultado da expressão
     public static float expressionCalculation(BinaryTree tree) {
        /* Queue<Node> queue = new PriorityQueue<Node>();
         Stack<Node> stack = new Stack<Node>();
@@ -180,12 +195,12 @@ public class Main {
 
     }
 
+    // Função com todas as chamadas de menu
     public static void menu() {
         Scanner scan = new Scanner(System.in);
 
         int option = 0;
         String expression =  "", auxOption;
-
 
         boolean isValid = false, hasTree = false;
 
