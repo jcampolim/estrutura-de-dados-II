@@ -8,7 +8,7 @@
 import java.util.*;
 
 public class Main {
-    // Verifica se a string é um número
+    // Verifica se a string é um número válido
     public static boolean isNumber(String string) {
         if (string == null || string.isEmpty()) {
             return false;
@@ -267,6 +267,7 @@ public class Main {
                 System.out.println("Encerrando programa...");
             }
 
+            option = 0;
         } while(option != 5);
     }
 
