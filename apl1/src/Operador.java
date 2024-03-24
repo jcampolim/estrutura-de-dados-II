@@ -23,6 +23,7 @@ public class Operador extends Node {
         this.operator = operator;
     }
 
+    // Calcula a operação utilizando os nós filhos
     public void operate(){
         Float num = 0.0F;
         Float n1 = Float.valueOf(this.getLeft().visit().toString());

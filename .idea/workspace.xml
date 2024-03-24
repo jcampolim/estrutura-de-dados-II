@@ -5,28 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e654b6a8-66ff-46f9-b89a-6b5fe8a4ea65" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/estrutura-de-dados-II.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/estrutura-de-dados-II.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apl1/src/BinaryTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/apl1/src/BinaryTree.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apl1/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/apl1/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apl1/src/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/apl1/src/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apl1/src/Operador.java" beforeDir="false" afterPath="$PROJECT_DIR$/apl1/src/Operador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apl1/src/Operando.java" beforeDir="false" afterPath="$PROJECT_DIR$/apl1/src/Operando.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apl1/src/Tokenizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/apl1/src/Tokenizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/apl1/BinaryTree.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/apl1/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/apl1/Node.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/apl1/Operador.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/apl1/Operando.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/apl1/Tokenizer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/estrutura-de-dados-II/BinaryTree.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/estrutura-de-dados-II/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/estrutura-de-dados-II/Node.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/estrutura-de-dados-II/Operador.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/estrutura-de-dados-II/Operando.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/estrutura-de-dados-II/Teste.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/estrutura-de-dados-II/Tokenizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/apl1/BinaryTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/apl1/BinaryTree.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/apl1/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/apl1/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/apl1/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/apl1/Node.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/apl1/Operador.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/apl1/Operador.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/apl1/Operando.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/apl1/Operando.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/apl1/Tokenizer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/apl1/Tokenizer.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
