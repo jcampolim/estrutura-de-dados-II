@@ -1,10 +1,12 @@
 public class BinaryTree {
     Node root;
 
+    // Construtor
     public BinaryTree() {
         root = null;
     }
 
+    // Getter e setter
     public void setRoot(Node root) {
         this.root = root;
     }
@@ -13,10 +15,12 @@ public class BinaryTree {
         return root;
     }
 
+    // Verifica se a árvore está vazia
     public boolean isEmpty() {
         return root == null;
     }
 
+    // Exibe a ávore na tela dos modos em ordem, pré-ordem e pós-ordem
     public void inOrderTraversal() {
         inOrderTraversal(root);
     }
