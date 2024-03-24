@@ -150,36 +150,32 @@ public class Main {
 
     //TODO: enzo
     public static float expressionCalculation(BinaryTree tree) {
-       /*
-       Character[] a = new Character[]{'+', '*', '(', ')', '-', '/'} ;
-       List<Character> validTokens = Arrays.asList(a);
-       Queue<Node> queue = new PriorityQueue<Node>();
-        Stack<Node> stack = new Stack<Node>();
+        String[] a = new String[]{"+", "*", "(", ")", "-", "/"} ;
+        List<String> validTokens = Arrays.asList(a);
+
+        Queue<Object> queue = new LinkedList<>();
+        Stack<Operador> stack = new Stack<Operador>();
         queue.add(tree.getRoot());
         // Criar fila e pilha de execução (percorrer tree por nivel e colocar na pilha somente operadores)
         while(!queue.isEmpty()){
-            Node aux = queue.pull();
+            Node aux = (Node) queue.poll();
             if(aux.getLeft() != null){
                 queue.add(aux.getLeft());
             }
             if(aux.getRight() != null){
                 queue.add(aux.getRight());
             }
-            if(validTokens.contains(queue.peek())) { // PRECISA IMPLEMENTAR ESSA IDEIA // Acho que implementei kkkkk
-            stack.add(aux);
+            if(validTokens.contains(aux.visit().toString())){ // PRECISA IMPLEMENTAR ESSA IDEIA
+            stack.add((Operador) aux);
             }
         }
-        // Se trabalha a pilha de execução;
+         // Se trabalha a pilha de execução
         while (!stack.isEmpty()){
-            stack.pop().operate(); // Pensar em como fazer o no Operador se tranformar em um no operando
-                                  // equivalente ao resultado dos nos operandos filhos dele.
+            stack.pop().operate();  // Pensar em como fazer o no Operador se tranformar em um no operando
+                                    // equivalente ao resultado dos nos operandos filhos dele.
         }
-*/
 
-
-
-
-        return 9;
+        return Float.valueOf(tree.root.visit().toString());
 
     }
 
