@@ -4,6 +4,7 @@
 // Júlia Campolim de Oste, 10408802
 // Fontes:
 // https://www.geeksforgeeks.org/overriding-in-java/
+// Material disponibilizado pelo professor
 
 import java.util.*;
 
@@ -191,7 +192,10 @@ public class Main {
         }
 
         while (!stack.isEmpty()){
-            stack.pop().operate();
+            if(!stack.pop().operate()){
+                System.out.println("Não é possível fazer divisão por 0.");
+                return 0;
+            }
         }
 
         return Float.valueOf(tree.root.visit().toString());

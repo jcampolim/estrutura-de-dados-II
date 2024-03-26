@@ -4,6 +4,7 @@
 // Júlia Campolim de Oste, 10408802
 // Fontes:
 // https://www.geeksforgeeks.org/overriding-in-java/
+// Material disponibilizado pelo professor
 
 import java.util.ArrayList;
 import java.util.Arrays;
