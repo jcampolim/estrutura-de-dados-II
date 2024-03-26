@@ -37,11 +37,14 @@ public class Operador extends Node {
         }else if(this.visit().equals("*")) {
             num = n1 * n2;
         }else if(this.visit().equals("/")) {
-            if(n2 == 0) return false;
+            if(n2 == 0) {
+                return false;
+            }
             num = n1 / n2;
         }
         this.setOperate(num.toString());
-        retunr true;
+
+        return true;
     }
 
     // Método herdado da super classe que retorna o conteúdo do Node

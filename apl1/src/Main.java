@@ -271,7 +271,6 @@ public class Main {
                 System.out.println("Encerrando programa...");
             }
 
-            option = 0;
         } while(option != 5);
     }
 
