@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e654b6a8-66ff-46f9-b89a-6b5fe8a4ea65" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/estrutura-de-dados-II.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/estrutura-de-dados-II.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apl1/apl1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/apl1/apl1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arvore-binaria-de-busca/arvore-binaria-de-busca.iml" beforeDir="false" afterPath="$PROJECT_DIR$/arvore-binaria-de-busca/arvore-binaria-de-busca.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arvore-binaria/arvore-binaria.iml" beforeDir="false" afterPath="$PROJECT_DIR$/arvore-binaria/arvore-binaria.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heranca/heranca.iml" beforeDir="false" afterPath="$PROJECT_DIR$/heranca/heranca.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avl/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/avl/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +41,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
