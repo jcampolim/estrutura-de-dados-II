@@ -96,7 +96,7 @@ public class BST extends BinaryTree{
             // Caso 3: o nó possui dois filhos (usamos o maior dos menores trocamos as informações)
             if(root.getDegree() == 2) {
                 Node predecessor = this.findPredecessor(data);
-                String dataPredecessor = predecessor.getData();
+                int dataPredecessor = predecessor.getData();
 
                 predecessor.setData(data);
                 root.setData(dataPredecessor);
