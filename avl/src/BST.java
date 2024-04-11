@@ -73,20 +73,20 @@ public class BST extends BinaryTree{
             }
 
             // Caso 2: o nó possui um filho
-            if(root.getDegree() == 1){
-                if (root.getParent().getRight().getData() == data){   // Pai para a direita
-                    if(root.getRight() != null){                           // Filho para a direita
+            if(root.getDegree() == 1) {
+                if(root.getParent() != null && root.getParent().getRight().getData() == data) {   // Pai para a direita
+                    if(root.getRight() != null) {                           // Filho para a direita
                         root.getParent().setRight(root.getRight());
                         root.getRight().setParent(root.getParent());
-                    }else{                                                 // Filho para a esquerda
+                    } else {                                                 // Filho para a esquerda
                         root.getParent().setRight(root.getRight());
                         root.getLeft().setParent(root.getParent());
                     }
-                }else{                                                    // Pai para a esquerda
-                    if(root.getRight() != null){                          // Filho para a direita
+                } else if(root.getParent() != null && root.getParent().getLeft().getData() == data) { // Pai para a esquerda
+                    if(root.getRight() != null) {                           // Filho para a direita
                         root.getParent().setLeft(root.getRight());
                         root.getRight().setParent(root.getParent());
-                    }else{                                               // Filho para esquerda
+                    } else {                                               // Filho para esquerda
                         root.getParent().setLeft(root.getRight());
                         root.getLeft().setParent(root.getParent());
                     }
@@ -201,22 +201,21 @@ public class BST extends BinaryTree{
         clear(root);
     }
 
-    public void clear(Node root) {
-        if(root.getLeft() != null) {
-            clear(root.getLeft());
-            root.setLeft(null);
-        }
-        if(root.getRight() != null) {
-            clear(root.getRight());
-            root.setRight(null);
+    public Node clear(Node node) {
+        if (node == null) {
+            return null;
         }
 
-        root.setParent(null);
-        root.setData(0);
+        // Pós-ordem = percurso LRN.
+        node.setLeft(clear(node.getLeft()));
+        node.setRight(clear(node.getRight()));
+        node.setParent(null);
+
+        return null;
     }
 
     public void treeInfo() {
-        treeInfo(root);
+        treeInfo();
     }
 
     public void treeInfo(Node root) {
