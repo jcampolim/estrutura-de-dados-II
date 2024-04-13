@@ -10,4 +10,12 @@ public class AVL extends BST {
     // TODO: método rl (rotateRightLeft) - júlia
 
     // TODO: update do f
+
+    // TODO: update fator de balanciamento
+
+    public Node insert(int data){
+        Node insertedNode = super.insert(data);
+        insertedNode.updateBalanceFactor();
+        return insertedNode;
+    }
 }

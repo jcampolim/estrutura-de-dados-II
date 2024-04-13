@@ -49,9 +49,21 @@ public class Node {
         this.right = right;
     }
 
+    public void serBalanceFactor(int balanceFactor) {this.balanceFactor = balanceFactor;}
+
     // TODO: fazer função
     public void updateBalanceFactor() {
-
+        if(this.isLeaf()) this.serBalanceFactor(0);
+        int left, right;
+        if(this.getLeft() == null) left = -1;
+        else {
+        left = getLeft().getHeight();
+        }
+        if(this.getRight() == null) right = -1;
+        else{
+            right = getRight().getHeight();
+        }
+        this.serBalanceFactor(left - right);
     }
 
     public Boolean isRoot() {
@@ -111,6 +123,7 @@ public class Node {
         sb.append(" - Grau: " + getDegree());
         sb.append(" - Nível: " + getLevel());
         sb.append(" - Altura: " + getHeight());
+        sb.append(" - Fator de Balanciamento: " + getBalanceFactor());
 
         return sb.toString();
     }
