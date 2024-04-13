@@ -41,14 +41,18 @@ public class Node {
     }
     public void setParent(Node parent) {
         this.parent = parent;
+        updateBalanceFactor();
     }
     public void setLeft(Node left) {
         this.left = left;
+        updateBalanceFactor();
     }
     public void setRight(Node right) {
         this.right = right;
+        updateBalanceFactor();
     }
 
+<<<<<<< HEAD
     public void serBalanceFactor(int balanceFactor) {this.balanceFactor = balanceFactor;}
 
     // TODO: fazer função
@@ -64,6 +68,24 @@ public class Node {
             right = getRight().getHeight();
         }
         this.serBalanceFactor(left - right);
+=======
+    // TODO: arrumar updateBalanceFactor
+    private void updateBalanceFactor() {
+        int left, right;
+        if(getLeft() == null) {
+            left = -1;
+        } else {
+            left = getLeft().getHeight();
+        }
+
+        if(getRight() == null) {
+            right = -1;
+        } else {
+            right = getRight().getHeight();
+        }
+
+        balanceFactor = right - left;
+>>>>>>> 6ffe0d751188eecea6349d502456e6dcd68dd4db
     }
 
     public Boolean isRoot() {
@@ -82,8 +104,8 @@ public class Node {
     }
 
     public int getLevel() {
-        if(this.isRoot()) return 0;
-        return this.parent.getLevel() + 1;
+        if(isRoot()) return 0;
+        return parent.getLevel() + 1;
     }
 
     public int getHeight() {
@@ -123,7 +145,11 @@ public class Node {
         sb.append(" - Grau: " + getDegree());
         sb.append(" - Nível: " + getLevel());
         sb.append(" - Altura: " + getHeight());
+<<<<<<< HEAD
         sb.append(" - Fator de Balanciamento: " + getBalanceFactor());
+=======
+        sb.append(" - Fator de balanceamento: " + getBalanceFactor());
+>>>>>>> 6ffe0d751188eecea6349d502456e6dcd68dd4db
 
         return sb.toString();
     }
