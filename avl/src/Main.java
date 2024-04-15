@@ -67,6 +67,7 @@ public class Main {
         treeA.treeInfo();
 
         // rotateLeft
+        treeA.rotateLeft();
         System.out.println("\n > Depois da rotação: ");
         treeA.treeInfo();
 
@@ -98,6 +99,7 @@ public class Main {
         treeC.treeInfo();
 
         // rotateLeftRight
+        treeC.rotateLeftRight();
         System.out.println("\n > Depois da rotação: ");
         treeC.treeInfo();
 
