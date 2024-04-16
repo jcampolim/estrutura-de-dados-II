@@ -1,4 +1,13 @@
+// Nomes:
+// Enzo Guarnieri, 10410074
+// Erika Borges Piaui, 10403716
+// Júlia Campolim de Oste, 10408802
+// Fontes:
+// Material disponibilizado pelo professor
+// https://profkishimoto.github.io/edii04g11-2024-1/
+
 public class BST extends BinaryTree{
+    // Construtores
     public BST() {
         super();
     }
@@ -7,6 +16,7 @@ public class BST extends BinaryTree{
         super(root);
     }
 
+    // Procura algum elemento na árvore
     public Node search(int data) {
         return search(root, data);
     }
@@ -21,6 +31,7 @@ public class BST extends BinaryTree{
         }
     }
 
+    // Insere algum nó na árvore
     public Node insert(int data) {
         if(isEmpty()) {
             root = new Node(data, null);
@@ -57,6 +68,7 @@ public class BST extends BinaryTree{
         }
     }
 
+    // Remove algum nó da árvore
     public boolean remove(int data) {
         if(!this.isEmpty()) {
             Node root = this.search(data);
@@ -119,6 +131,7 @@ public class BST extends BinaryTree{
         }
     }
 
+    // Encontra nó de menor valor
     public Node findMin() {
         if(this.isEmpty()) {
             return null;
@@ -132,6 +145,7 @@ public class BST extends BinaryTree{
         return node;
     }
 
+    // Encontra nó de maior valor
     public Node findMax() {
         if(this.isEmpty()) {
             return null;
@@ -145,6 +159,7 @@ public class BST extends BinaryTree{
         return node;
     }
 
+    // Encontra nó antecessor de algum elemento
     public Node findPredecessor(int data) {
         Node node = search(root, data);
 
@@ -171,6 +186,7 @@ public class BST extends BinaryTree{
         return predecessor;
     }
 
+    // Encontra o nó sucessor de algum elemento
     public Node findSuccessor(int data) {
         Node node = search(root, data);
 
@@ -197,6 +213,7 @@ public class BST extends BinaryTree{
         return successor;
     }
 
+    // Remove todos os nós da árvore
     public void clear() {
         clear(root);
     }
@@ -206,7 +223,6 @@ public class BST extends BinaryTree{
             return null;
         }
 
-        // Pós-ordem = percurso LRN.
         node.setLeft(clear(node.getLeft()));
         node.setRight(clear(node.getRight()));
         node.setParent(null);
@@ -214,8 +230,9 @@ public class BST extends BinaryTree{
         return null;
     }
 
+    // Exibe as informações de cada nó da árvore
     public void treeInfo() {
-        treeInfo();
+        treeInfo(root);
     }
 
     public void treeInfo(Node root) {

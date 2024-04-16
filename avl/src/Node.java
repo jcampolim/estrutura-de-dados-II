@@ -1,16 +1,26 @@
+// Nomes:
+// Enzo Guarnieri, 10410074
+// Erika Borges Piaui, 10403716
+// Júlia Campolim de Oste, 10408802
+// Fontes:
+// Material disponibilizado pelo professor
+// https://profkishimoto.github.io/edii04g11-2024-1/
+
 public class Node {
+    // Atributos
     private int data;
     private int balanceFactor;
-
     private Node parent;
     private Node left;
     private Node right;
 
+    // Construtores
     public Node() {
         parent = null;
         left = null;
         right = null;
     }
+
     public Node(int data, Node parent) {
         this.data = data;
         this.parent = parent;
@@ -24,14 +34,18 @@ public class Node {
     }
 
     public int getBalanceFactor() {
+        updateBalanceFactor();
         return this.balanceFactor;
     }
+
     public Node getParent() {
         return this.parent;
     }
+
     public Node getLeft() {
         return this.left;
     }
+
     public Node getRight() {
         return this.right;
     }
@@ -39,63 +53,52 @@ public class Node {
     public void setData(int data) {
         this.data = data;
     }
+
     public void setParent(Node parent) {
         this.parent = parent;
-        updateBalanceFactor();
     }
+
     public void setLeft(Node left) {
         this.left = left;
-        updateBalanceFactor();
     }
+
     public void setRight(Node right) {
         this.right = right;
-        updateBalanceFactor();
     }
 
-<<<<<<< HEAD
-    public void serBalanceFactor(int balanceFactor) {this.balanceFactor = balanceFactor;}
-
-    // TODO: fazer função
-    public void updateBalanceFactor() {
-        if(this.isLeaf()) this.serBalanceFactor(0);
-        int left, right;
-        if(this.getLeft() == null) left = -1;
-        else {
-        left = getLeft().getHeight();
-        }
-        if(this.getRight() == null) right = -1;
-        else{
-            right = getRight().getHeight();
-        }
-        this.serBalanceFactor(left - right);
-=======
-    // TODO: arrumar updateBalanceFactor
+    // Atualiza o fator de balanceamento
     private void updateBalanceFactor() {
-        int left, right;
-        if(getLeft() == null) {
-            left = -1;
+        if(this.isLeaf()) {
+            balanceFactor = 0;
         } else {
-            left = getLeft().getHeight();
-        }
+            int left, right;
+            if(this.getLeft() == null) {
+                left = -1;
+            } else {
+                left = this.getLeft().getHeight();
+            }
 
-        if(getRight() == null) {
-            right = -1;
-        } else {
-            right = getRight().getHeight();
-        }
+            if(this.getRight() == null) {
+                right = -1;
+            } else {
+                right = this.getRight().getHeight();
+            }
 
-        balanceFactor = right - left;
->>>>>>> 6ffe0d751188eecea6349d502456e6dcd68dd4db
+            balanceFactor = right - left;
+        }
     }
 
+    // Verifica se é raiz
     public Boolean isRoot() {
         return this.parent == null;
     }
 
+    // Verifica se é folha
     public Boolean isLeaf() {
         return this.right == null && this.left == null;
     }
 
+    // Retorna o grau da árvore
     public int getDegree() {
         if(this.right == null && this.left == null) return 0;
         if(this.right == null || this.left == null) return 1;
@@ -103,11 +106,13 @@ public class Node {
 
     }
 
+    // Retona o nível da árvore
     public int getLevel() {
         if(isRoot()) return 0;
         return parent.getLevel() + 1;
     }
 
+    // Retorna a altura da árvore
     public int getHeight() {
         if(this.isLeaf()) return 0;
         int hl = 0;
@@ -117,6 +122,7 @@ public class Node {
         return Math.max(hl, hr);
     }
 
+    // Retorna as informações do nó
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -145,11 +151,7 @@ public class Node {
         sb.append(" - Grau: " + getDegree());
         sb.append(" - Nível: " + getLevel());
         sb.append(" - Altura: " + getHeight());
-<<<<<<< HEAD
-        sb.append(" - Fator de Balanciamento: " + getBalanceFactor());
-=======
         sb.append(" - Fator de balanceamento: " + getBalanceFactor());
->>>>>>> 6ffe0d751188eecea6349d502456e6dcd68dd4db
 
         return sb.toString();
     }

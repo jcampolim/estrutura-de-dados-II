@@ -1,4 +1,13 @@
+// Nomes:
+// Enzo Guarnieri, 10410074
+// Erika Borges Piaui, 10403716
+// Júlia Campolim de Oste, 10408802
+// Fontes:
+// Material disponibilizado pelo professor
+// https://profkishimoto.github.io/edii04g11-2024-1/
+
 public class AVL extends BST {
+    // Construtores
     public AVL() {
         super();
     }
@@ -7,8 +16,7 @@ public class AVL extends BST {
         super(root);
     }
 
-    // TODO: método ll (rotateLeft) - erika
-
+    // Rotação a esquerda
     public void rotateLeft() {
         rotateLeft(root);
     }
@@ -29,6 +37,7 @@ public class AVL extends BST {
         root.setLeft(oldRoot);
     }
 
+    // Rotação a direita
     public void rotateRight() {
         rotateRight(root);
     }
@@ -49,7 +58,7 @@ public class AVL extends BST {
         root.setRight(oldRoot);
     }
 
-    // TODO: método lr (rotateLeftRight) - erika
+    // Rotação esquerda-direita
     public void rotateLeftRight() {
             rotateLeftRight(root);
         }
@@ -83,21 +92,12 @@ public class AVL extends BST {
     
             newRoot.setRight(oldRoot);
         }
-    
+
+        // Rotação direita-esquerda
     public void rotateRightLeft() {
         rotateRightLeft(root);
     }
 
-<<<<<<< HEAD
-    // TODO: update do f
-
-    // TODO: update fator de balanciamento
-
-    public Node insert(int data){
-        Node insertedNode = super.insert(data);
-        insertedNode.updateBalanceFactor();
-        return insertedNode;
-=======
     public void rotateRightLeft(Node oldRoot) {
         Node aux = root.getRight();
         Node newRoot = aux.getLeft();
@@ -126,6 +126,5 @@ public class AVL extends BST {
         }
 
         newRoot.setLeft(oldRoot);
->>>>>>> 6ffe0d751188eecea6349d502456e6dcd68dd4db
     }
 }
