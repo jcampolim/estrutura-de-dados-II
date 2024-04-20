@@ -58,97 +58,67 @@ public class AVL extends BST {
 
     // Rotação a esquerda
     private void rotateLeft(Node oldRoot) {
-        root = oldRoot.getRight();
+        Node newRoot = oldRoot.getRight();  // y
+        Node aux = newRoot.getLeft(); // beta
 
-        oldRoot.setParent(root);
-        root.setParent(null);
-
-        if (root.getLeft() != null) {
-            oldRoot.setRight(root.getLeft());
-            root.getLeft().setParent(oldRoot);
-        } else {
-            oldRoot.setRight(null);
+        // newRoot se torna root da sub arvore, é conserta o parent dele
+        if(oldRoot.getParent() != null){
+            if(oldRoot.getParent().getRight() == oldRoot){
+                oldRoot.getParent().setRight(newRoot);
+                newRoot.setParent(oldRoot.getParent());
+            }
+            else{
+                oldRoot.getParent().setLeft(newRoot);
+                newRoot.setParent(oldRoot.getParent());
+            }
         }
-
-        root.setLeft(oldRoot);
+        else{
+            newRoot.setParent(null);
+            root = newRoot;
+        }
+        oldRoot.setParent(newRoot);
+        newRoot.setLeft(oldRoot);
+        oldRoot.setRight(aux);
+        if(aux != null) aux.setParent(oldRoot);
     }
 
     // Rotação a direita
     private void rotateRight(Node oldRoot) {
-        root = oldRoot.getLeft();
+        Node newRoot = oldRoot.getLeft(); // x
+        Node aux = newRoot.getRight(); // beta
 
-        oldRoot.setParent(root);
-        root.setParent(null);
-
-        if (root.getRight() != null) {
-            oldRoot.setLeft(root.getRight());
-            root.getRight().setParent(oldRoot);
-        } else {
-            oldRoot.setLeft(null);
+        // newRoot se torna root da sub arvore, é conserta o parent dele
+        if(oldRoot.getParent() != null){
+            if(oldRoot.getParent().getRight() == oldRoot){
+                oldRoot.getParent().setRight(newRoot);
+                newRoot.setParent(oldRoot.getParent());
+            }
+            else{
+                oldRoot.getParent().setLeft(newRoot);
+                newRoot.setParent(oldRoot.getParent());
+            }
         }
-
-        root.setRight(oldRoot);
+        else{
+            newRoot.setParent(null);
+            root = newRoot;
+        }
+        oldRoot.setParent(newRoot);
+        newRoot.setRight(oldRoot);
+        oldRoot.setLeft(aux);
+        if(aux != null) aux.setParent(oldRoot);
     }
 
     // Rotação esquerda-direita
     private void rotateLeftRight(Node oldRoot) {
-        Node aux = root.getLeft();
-        Node newRoot = aux.getRight();
-
-        oldRoot.setLeft(newRoot);
-        aux.setParent(newRoot);
-
-        if (newRoot.getLeft() != null) {
-            aux.setRight(newRoot.getLeft());
-            newRoot.getLeft().setParent(aux);
-        } else {
-            aux.setRight(null);
-        }
-
-        newRoot.setLeft(aux);
-
-        root = newRoot;
-        oldRoot.setParent(newRoot);
-        newRoot.setParent(null);
-
-        if (newRoot.getRight() != null) {
-            oldRoot.setLeft(newRoot.getRight());
-            newRoot.getRight().setParent(oldRoot);
-        } else {
-            oldRoot.setLeft(null);
-        }
-
-        newRoot.setRight(oldRoot);
+        Node newRoot = oldRoot.getLeft();
+        rotateLeft(newRoot);
+        rotateRight(oldRoot);
     }
 
     // Rotação direita-esquerda
     private void rotateRightLeft(Node oldRoot) {
-        Node aux = root.getRight();
-        Node newRoot = aux.getLeft();
-
-        oldRoot.setRight(newRoot);
-        aux.setParent(newRoot);
-
-        if(newRoot.getRight() != null) {
-            aux.setLeft(newRoot.getRight());
-            newRoot.getRight().setParent(aux);
-        } else {
-            aux.setLeft(null);
-        }
-
-        newRoot.setRight(aux);
-
-        root = newRoot;
-        oldRoot.setParent(newRoot);
-        newRoot.setParent(null);
-
-        if(newRoot.getLeft() != null) {
-            oldRoot.setRight(newRoot.getLeft());
-            newRoot.getLeft().setParent(oldRoot);
-        } else {
-            oldRoot.setRight(null);
-        }
-
-        newRoot.setLeft(oldRoot);
+        Node newRoot = oldRoot.getRight();
+        rotateRight(newRoot);
+        rotateLeft(oldRoot);
     }
 }

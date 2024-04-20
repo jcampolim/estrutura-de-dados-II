@@ -129,7 +129,7 @@ public class BST extends BinaryTree{
     }
 
     public void removeLeaf(Node root) {
-        if (root.getParent().getRight().getData() == root.getData()) {
+        if (root.getParent().getRight() != null && root.getParent().getRight().getData() == root.getData()) {
             root.getParent().setRight(null);
             root.setParent(null);
         } else {
