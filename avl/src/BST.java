@@ -22,29 +22,36 @@ public class BST extends BinaryTree{
     }
 
     private Node search(Node root, int data) {
-        if (root == null || data == root.getData()) {
-            return root;
-        } else if (data > root.getData()) {
-            return search(root.getLeft(), data);
-        } else {
-            return search(root.getRight(), data);
+        if(!isEmpty()) {
+            if (root.getData() == data) {
+                return root;
+            } else if (root.getData() > data) {
+                if (root.getLeft() != null) {
+                    return search(root.getLeft(), data);
+                }
+            } else if (root.getData() < data) {
+                if (root.getRight() != null) {
+                    return search(root.getRight(), data);
+                }
+            }
         }
+        return null;
     }
 
     // Insere algum nó na árvore
-    public Node insert(int data) {
+    public Node insertBST(int data) {
         if(isEmpty()) {
             root = new Node(data, null);
             return root;
         } else {
             Node node = new Node(data, null);
-            insert(root, node, data);
+            insertBST(root, node, data);
 
             return node;
         }
     }
 
-    public void insert(Node root, Node node, int data) {
+    public void insertBST(Node root, Node node, int data) {
         if(data < root.getData()) {
             if(root.getLeft() == null) {
                 root.setLeft(node);
@@ -53,7 +60,7 @@ public class BST extends BinaryTree{
                 return;
             }
 
-            insert(root.getLeft(), node, data);
+            insertBST(root.getLeft(), node, data);
         } else if(data > root.getData()) {
             if(root.getRight() == null) {
                 root.setRight(node);
@@ -62,14 +69,14 @@ public class BST extends BinaryTree{
                 return;
             }
 
-            insert(root.getRight(), node, data);
+            insertBST(root.getRight(), node, data);
         } else if(data == root.getData()) {
             return;
         }
     }
 
     // Remove algum nó da árvore
-    public boolean remove(int data) {
+    public boolean removeBST(int data) {
         if(!this.isEmpty()) {
             Node root = this.search(data);
 

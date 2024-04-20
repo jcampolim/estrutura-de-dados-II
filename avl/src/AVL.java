@@ -16,12 +16,52 @@ public class AVL extends BST {
         super(root);
     }
 
+    public boolean remove(int data) {
+        boolean isRemoved = removeBST(data);
+        isBalanced(root);
+
+        return isRemoved;
+    }
+
+    public void insert(int data) {
+        insertBST(data);
+        isBalanced(root);
+    }
+
+    // Verifica se a árvore está balanceada
+    public void isBalanced(Node root) {
+        int bf = root.getBalanceFactor();
+
+        if(!(bf <= 1 && bf >= -1)) {
+            if(bf > 1) {
+                if(root.getRight().getBalanceFactor() < 0) {
+                    rotateRightLeft();
+                } else {
+                    rotateLeft();
+                }
+            } else {
+                if(root.getLeft().getBalanceFactor() > 0) {
+                    rotateLeftRight();
+                } else {
+                    rotateRight();
+                }
+            }
+        }
+
+        if(root.getRight() != null) {
+            isBalanced(root.getRight());
+        }
+        if(root.getLeft() != null) {
+            isBalanced(root.getLeft());
+        }
+    }
+
     // Rotação a esquerda
     public void rotateLeft() {
         rotateLeft(root);
     }
 
-    public void rotateLeft(Node oldRoot) {
+    private void rotateLeft(Node oldRoot) {
         root = oldRoot.getRight();
 
         oldRoot.setParent(root);
@@ -42,7 +82,7 @@ public class AVL extends BST {
         rotateRight(root);
     }
 
-    public void rotateRight(Node oldRoot) {
+    private void rotateRight(Node oldRoot) {
         root = oldRoot.getLeft();
 
         oldRoot.setParent(root);
