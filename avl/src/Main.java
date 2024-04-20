@@ -64,11 +64,11 @@ public class Main {
         treeE.remove(4);
         treeE.treeInfo();
 
-        System.out.println("\nf) Remover o nó 5 da árvore do item (f).");
+        System.out.println("\ng) Remover o nó 5 da árvore do item (f).");
         treeE.remove(5);
         treeE.treeInfo();
 
-        System.out.println("\nf) Remover o nó 1 da árvore do item (g).");
+        System.out.println("\nh) Remover o nó 1 da árvore do item (g).");
         treeE.remove(1);
         treeE.treeInfo();
 
