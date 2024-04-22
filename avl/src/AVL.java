@@ -3,7 +3,7 @@
 // Erika Borges Piaui, 10403716
 // Júlia Campolim de Oste, 10408802
 // Fontes:
-// Material disponibilizado pelo professor
+// Slide disponibilizado pelo professor Jean
 // https://profkishimoto.github.io/edii04g11-2024-1/
 
 public class AVL extends BST {
@@ -28,8 +28,15 @@ public class AVL extends BST {
         isBalanced(root);
     }
 
-    // Verifica se a árvore está balanceada
+    // Verifica se a árvore está balanceada, se não estiver faz as rotações
     private void isBalanced(Node root) {
+        if (root.getRight() != null) {
+            isBalanced(root.getRight());
+        }
+        if (root.getLeft() != null) {
+            isBalanced(root.getLeft());
+        }
+
         int bf = root.getBalanceFactor();
 
         if (!(bf <= 1 && bf >= -1)) {
@@ -46,13 +53,6 @@ public class AVL extends BST {
                     rotateRight(root);
                 }
             }
-        }
-
-        if (root.getRight() != null) {
-            isBalanced(root.getRight());
-        }
-        if (root.getLeft() != null) {
-            isBalanced(root.getLeft());
         }
     }
 

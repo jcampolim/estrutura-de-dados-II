@@ -3,12 +3,13 @@
 // Erika Borges Piaui, 10403716
 // Júlia Campolim de Oste, 10408802
 // Fontes:
-// Material disponibilizado pelo professor
+// Slide disponibilizado pelo professor Jean
 // https://profkishimoto.github.io/edii04g11-2024-1/
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("a) Inserir nós com chaves 1, 2 e 3 (nesta sequência).");
+
         // Cria a árvore do exercício a) e insere os valores
         AVL treeA = new AVL();
         treeA.insert(1);
@@ -18,6 +19,7 @@ public class Main {
 
 
         System.out.println("\nb) Inserir nós com chaves 3, 2 e 1 (nesta sequência).");
+
         // Cria a árvore do exercício b) e insere os valores
         AVL treeB = new AVL();
         treeB.insert(3);
@@ -27,6 +29,7 @@ public class Main {
 
 
         System.out.println("\nc) Inserir nós com chaves 3, 1 e 2 (nesta sequência).");
+
         // Cria a árvore do exercício c) e insere os valores
         AVL treeC = new AVL();
         treeC.insert(3);
@@ -36,6 +39,7 @@ public class Main {
 
 
         System.out.println("\nd) Inserir nós com chaves 1, 3 e 2 (nesta sequência).");
+
         // Cria a árvore do exercício d) e insere os valores
         AVL treeD = new AVL();
         treeD.insert(1);
@@ -46,6 +50,7 @@ public class Main {
 
 
         System.out.println("\ne) Inserir nós com chaves 5, 4, 3, 1, 2, 6, 7, 9 e 8 (nesta sequência).");
+
         // Cria a árvore do exercício d) e insere os valores
         AVL treeE = new AVL();
         treeE.insert(5);
@@ -61,25 +66,21 @@ public class Main {
 
 
         System.out.println("\nf) Remover o nó 4 da árvore do item (e).");
+
+        // Remove o nó 4 (raiz da árvore)
         treeE.remove(4);
         treeE.treeInfo();
 
         System.out.println("\ng) Remover o nó 5 da árvore do item (f).");
+
+        // Remover o nó 5
         treeE.remove(5);
         treeE.treeInfo();
 
         System.out.println("\nh) Remover o nó 1 da árvore do item (g).");
+
+        // Remover o nó 1
         treeE.remove(1);
         treeE.treeInfo();
-
-
-
-
-
-
-
-
-
-
     }
 }

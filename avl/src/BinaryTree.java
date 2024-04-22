@@ -3,7 +3,7 @@
 // Erika Borges Piaui, 10403716
 // Júlia Campolim de Oste, 10408802
 // Fontes:
-// Material disponibilizado pelo professor
+// Slide disponibilizado pelo professor Jean
 // https://profkishimoto.github.io/edii04g11-2024-1/
 
 public class BinaryTree {
@@ -104,6 +104,7 @@ public class BinaryTree {
         }
     }
 
+    // Exibe a árvore pré ordem
     public void preOrderTraversal() {
         preOrderTraversal(root);
     }
@@ -119,6 +120,7 @@ public class BinaryTree {
         }
     }
 
+    // Exibe a árvore pós ordem
     public void posOrderTraversal() {
         posOrderTraversal(root);
     }

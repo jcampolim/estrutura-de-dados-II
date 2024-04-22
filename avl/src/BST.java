@@ -3,7 +3,7 @@
 // Erika Borges Piaui, 10403716
 // Júlia Campolim de Oste, 10408802
 // Fontes:
-// Material disponibilizado pelo professor
+// Slide disponibilizado pelo professor Jean
 // https://profkishimoto.github.io/edii04g11-2024-1/
 
 public class BST extends BinaryTree{
