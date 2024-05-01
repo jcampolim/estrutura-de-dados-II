@@ -1,7 +1,4 @@
 public enum TokenType {
-    DATA,
-    SCOPE,
-    KEY,
     IDENTIFIER,
     VALUE,
     COMMENT,

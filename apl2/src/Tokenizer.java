@@ -103,49 +103,60 @@ public class Tokenizer {
                     } else {
                         tokens.add(new Token(TokenType.STRING, ")"));
                     }
-                } else { // Reconhece o token STRING
-                    // Forma uma string até a linha acabar ou até encontrar '=' ou '('
-                    do {
-                        sb.append(currChar);
-                        currChar = getNextChar();
-                    } while(pos < line.length() && currChar != '=' && currChar != '(');
+                } else if(currChar == '\0') {
+                    isString = true;
+                    startStringWith(sb, currChar);
+                }
+            } else { // Reconhece o token STRING
+                // Forma uma string até a linha acabar ou até encontrar '=' ou '('
+                while(pos < line.length()) {
+                    sb.append(currChar);
+                    currChar = getNextChar();
 
-                    // Se o próximo char for '=', então a string anterior é um IDENTIFIER
-                    if(currChar == '=') {
+                    if(currChar == '=' || currChar == '(') {
+                        break;
+                    }
+                }
+
+                // Se o próximo char for '=', então a string anterior é um IDENTIFIER
+                if(currChar == '=') {
+                    tokens.add(new Token(TokenType.IDENTIFIER, sb.toString()));
+                    sb.setLength(0);
+
+                    tokens.add(new Token(TokenType.STRING, "="));
+
+                    // Ecnontra a string que corresponde ao KEY
+                    while(pos < line.length()) {
+                        currChar = getNextChar();
+                        sb.append(currChar);
+                    }
+
+                    tokens.add(new Token(TokenType.VALUE, sb.toString()));
+                    sb.setLength(0);
+                } else {
+                    // Remove as linhas em branco ou espaços em branco
+                    while(line.isBlank() || currChar == ' ' || currChar == '\t') {
+                        pos = line.length();
+                        currChar = getNextChar();
+                    }
+
+                    // Se o próximo char for '(', então a string anterior é um IDENTIFIER
+                    if(currChar == '(') {
                         tokens.add(new Token(TokenType.IDENTIFIER, sb.toString()));
                         sb.setLength(0);
 
-                        tokens.add(new Token(TokenType.STRING, "="));
-
-                        // Ecnontra a string que corresponde ao KEY
-                        while(pos < line.length()) {
-                            currChar = getNextChar();
-                            sb.append(currChar);
-                        }
-
-                        tokens.add(new Token(TokenType.VALUE, sb.toString()));
-                        sb.setLength(0);
-                    } else {
-                        // Remove as linhas em branco ou espaços em branco
-                        while(line.isBlank() || currChar == ' ' || currChar == '\t') {
-                            pos = line.length();
-                            currChar = getNextChar();
-                        }
-
-                        // Se o próximo char for '(', então a string anterior é um IDENTIFIER
-                        if(currChar == '(') {
-                            tokens.add(new Token(TokenType.IDENTIFIER, sb.toString()));
-                            sb.setLength(0);
-
-                            tokens.add(new Token(TokenType.STRING, "("));
+                        tokens.add(new Token(TokenType.STRING, "("));
                         // Se não, a string é apenas uma string
-                        } else {
-                            tokens.add(new Token(TokenType.STRING, sb.toString()));
-                            sb.setLength(0);
-                        }
+                    } else {
+                        tokens.add(new Token(TokenType.STRING, sb.toString()));
+                        sb.setLength(0);
                     }
                 }
+                isString = false;
             }
+        }
+        for(int i = 0; i < tokens.size(); i++) {
+            System.out.println(tokens.get(i).getType());
         }
         return tokens;
     }
