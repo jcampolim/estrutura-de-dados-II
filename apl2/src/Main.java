@@ -20,7 +20,15 @@ public class Main {
 
     public static void main(String[] args) {
         final String[] test = {
-                "# escopo=value"
+                "# teste1",
+                "teste2 = teste3",
+                "teste 4 (",
+                "teste 5 = teste 6",
+                ")",
+                "teste7",
+                "(",
+
+                ")"
         };
 
         testParser(test);

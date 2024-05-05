@@ -35,17 +35,7 @@ public class Parser {
             if(type == TokenType.COMMENT) {
                 comment();
             } else if(type == TokenType.IDENTIFIER) {
-                System.out.println("e");
-                Token identifier = currToken;
-
-                consume(TokenType.IDENTIFIER);
-                type = currToken.getType();
-
-                if(currToken.getValue() == "=") {
-                    key();
-                } else {
-                    scope();
-                }
+                identifier();
             }
 
             consume(TokenType.NEWLINE);
@@ -62,6 +52,20 @@ public class Parser {
         consume(TokenType.STRING);
     }
 
+    public void identifier() {
+        Token identifier = currToken;
+        TokenType type = currToken.getType();
+
+        consume(TokenType.IDENTIFIER);
+        type = currToken.getType();
+
+        if(currToken.getValue() == "=") {
+            key();
+        } else if(currToken.getValue() == "(") {
+            scope();
+        }
+    }
+
     public void key() {
         consume(TokenType.STRING);
         consume(TokenType.VALUE);
@@ -72,30 +76,39 @@ public class Parser {
 
         boolean hasNewLine = false;
         while(currToken.getValue() != ")") {
-            if(currToken.getType() == TokenType.WHITESPACE) {
+            if(currToken.getType() == TokenType.WHITESPACE || currToken.getType() == TokenType.NEWLINE) {
                 hasNewLine = true;
+                if(currToken.getType() == TokenType.WHITESPACE) {
+                    consume(TokenType.WHITESPACE);
+                } else {
+                    consume(TokenType.NEWLINE);
+                }
             }
-            advance();
+            if(currToken.getType() == TokenType.IDENTIFIER) {
+                identifier();
+                consume(TokenType.NEWLINE);
+            }
         }
 
         if(!hasNewLine) {
-            throw new RuntimeException("Parsesr.scope(): Não há quebra de linha entre '(' e ')' do escopo.");
+            throw new RuntimeException("Parser.scope(): Não há quebra de linha entre '(' e ')' do escopo.");
         }
+        consume(TokenType.STRING);
     }
 
     private void advance() {
         ++index;
-        if(index >= tokens.size()) {
+        if (index >= tokens.size()) {
             throw new RuntimeException("Fim de conteúdo inesperado.");
         }
         currToken = tokens.get(index);
     }
 
     private void consume(TokenType expected) {
-        if(currToken.getType() == expected) {
+        if (currToken.getType() == expected) {
             advance();
         } else {
-            throw new RuntimeException("Parser.consume(): Token incorreto. Esperado: " + expected + ". Obtido: " + currToken + ".");
+            throw new RuntimeException("Parser.consume(): Token incorreto. Esperado: " + expected + ". Obtido: " + currToken);
         }
     }
 }
