@@ -1,12 +1,12 @@
-public class Node {
+public class HashTableData {
     int key;
     String value;
 
-    public Node() {
+    public HashTableData() {
 
     }
 
-    public Node(int key, String value) {
+    public HashTableData(int key, String value) {
         this.key = key;
         this.value = value;
     }
