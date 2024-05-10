@@ -32,14 +32,25 @@ public class Parser {
     private void data() {
         TokenType type = currToken.getType();
         while(type == TokenType.COMMENT || type == TokenType.IDENTIFIER || type == TokenType.WHITESPACE) {
-            if(type == TokenType.COMMENT) {
-                comment();
-            } else if(type == TokenType.IDENTIFIER) {
-                identifier();
+            if(type == TokenType.WHITESPACE) {
+                consume(TokenType.WHITESPACE);
             }
 
-            consume(TokenType.NEWLINE);
+            if(type == TokenType.COMMENT) {
+                comment();
+                consume(TokenType.NEWLINE);
+            }
+
+            if(type == TokenType.IDENTIFIER) {
+                identifier();
+                consume(TokenType.NEWLINE);
+            }
+
             type = currToken.getType();
+
+            if(type == TokenType.STRING) {
+                throw new RuntimeException("Parser.data(): token do tipo STRING encontrado.");
+            }
         }
     }
 
@@ -49,15 +60,12 @@ public class Parser {
         while(currToken.getType() == TokenType.WHITESPACE) {
             consume(TokenType.WHITESPACE);
         }
+
         consume(TokenType.STRING);
     }
 
     public void identifier() {
-        Token identifier = currToken;
-        TokenType type = currToken.getType();
-
         consume(TokenType.IDENTIFIER);
-        type = currToken.getType();
 
         if(currToken.getValue() == "=") {
             key();
@@ -75,18 +83,25 @@ public class Parser {
         consume(TokenType.STRING);
 
         boolean hasNewLine = false;
-        while(currToken.getValue() != ")") {
-            if(currToken.getType() == TokenType.WHITESPACE || currToken.getType() == TokenType.NEWLINE) {
+        while(true) {
+            if(currToken.getType() == TokenType.NEWLINE) {
                 hasNewLine = true;
-                if(currToken.getType() == TokenType.WHITESPACE) {
-                    consume(TokenType.WHITESPACE);
-                } else {
-                    consume(TokenType.NEWLINE);
-                }
+                consume(TokenType.NEWLINE);
             }
             if(currToken.getType() == TokenType.IDENTIFIER) {
                 identifier();
-                consume(TokenType.NEWLINE);
+            }
+            if(currToken.getType() == TokenType.COMMENT) {
+                comment();
+            }
+            if(currToken.getType() == TokenType.STRING) {
+                if(currToken.getValue() == ")") {
+                    break;
+                }
+            }
+
+            while(currToken.getType() == TokenType.WHITESPACE) {
+                consume(TokenType.WHITESPACE);
             }
         }
 

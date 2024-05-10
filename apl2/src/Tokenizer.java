@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Character.isDigit;
+
 //================================================================================
 //        GRAMÁTICA
 //================================================================================
@@ -38,41 +40,27 @@ public class Tokenizer {
         boolean isString = false;
 
         while (true) {
-            // Pode avançar para a próxima linha?
             if (line == null || pos >= line.length()) {
-                // Se o StringBuilder sb não está vazio neste ponto, significa que estávamos
-                // montando uma string quando o cursor pos atingiu o final da linha.
-                // Neste caso, adicionamos a string montada até o momento como um novo token.
                 if (sb.length() > 0) {
                     tokens.add(new Token(TokenType.STRING, sb.toString()));
                     sb.setLength(0);
                 }
 
-                // Adiciona um token NEWLINE após a primeira linha, indicando quebra de linha.
-                // (line == null neste momento significa que ainda vamos ler a primeira linha).
                 if (line != null) {
                     tokens.add(new Token(TokenType.NEWLINE, "\n"));
                 }
 
-                // Acabaram as linhas?
                 if (lineIndex >= contents.size()) {
-                    // Adiciona um token EOF, indicando fim do conteúdo, e encerra o loop.
                     tokens.add(new Token(TokenType.EOF, "\0"));
                     break;
                 }
 
-                // Lê a próxima linha.
                 line = contents.get(lineIndex++);
 
-                // Reinicia variáveis a cada nova linha.
                 pos = 0;
                 currChar = '\0';
                 isString = false;
 
-                // Linha vazia ou somente espaços em branco?
-                // Muda posição do cursor para o final da linha e encerra a iteração antecipadamente.
-                // É importante mudar pos, para que na próxima iteração do loop o código entre nesta
-                // condicional e avance para a próxima linha.
                 if (line.isBlank()) {
                     pos = line.length();
                     continue;
@@ -82,25 +70,17 @@ public class Tokenizer {
             if (!isString) {
                 currChar = getNextChar();
 
-                if (Character.isWhitespace(currChar)) { // Reconhece um token WHITESPACE.
-                    // Considera uma sequência de espaços em branco como um único espaço em branco.
+                if (Character.isWhitespace(currChar)) {
                     while (Character.isWhitespace(currChar)) {
                         currChar = getNextChar();
                     }
-                    tokens.add(new Token(TokenType.WHITESPACE, " "));
 
-                    // Se passamos por uma sequência de espaços em branco, voltamos uma posição do cursor
-                    // somente se o último caractere não for um espaço em branco, para que a instrução
-                    // currChar = getNextChar(); na próxima iteração do loop obtenha o caractere correto.
-                    // Isso deve ser feito porque no loop de sequência de espaços em branco acima,
-                    // sempre avançamos para o próximo caractere.
+
                     if (pos <= line.length() && !Character.isWhitespace(line.charAt(pos - 1))) {
                         --pos;
                     }
 
-                } else if (currChar == '#') { // Reconhece um token PRINT.
-                    // Se o token anterior é um PRINT, então começa uma string (permite que uma string
-                    // comece com o caractere '>').
+                } else if (currChar == '#') {
                     if (tokens.size() > 0 && tokens.get(tokens.size() - 1).getType() == TokenType.COMMENT) {
                         isString = true;
                         startStringWith(sb, currChar);
@@ -115,16 +95,12 @@ public class Tokenizer {
                     } else {
                         tokens.add(new Token(TokenType.STRING, ")"));
                     }
-                } else if (currChar != '\0') { // Provavelmente encontramos uma string.
-                    // Adiciona o caractere atual como primeiro da string e ativa flag isString para que,
-                    // a partir da próxima iteração, os próximos caracteres sejam adicionados à string.
+                } else if (currChar != '\0') {
                     isString = true;
                     startStringWith(sb, currChar);
                 }
 
-            } else { // Reconhece um token STRING.
-                // Neste exemplo, a única condição para indicar que chegamos ao final de uma string é
-                // ler todo o conteúdo da linha atual até o final da linha.
+            } else {
                 while (pos < line.length()) {
                     currChar = getNextChar();
                     sb.append(currChar);
@@ -135,20 +111,48 @@ public class Tokenizer {
                 }
 
                 if(currChar != '=' && currChar != '(') {
-                        while(line.isBlank() || Character.isWhitespace(currChar) || currChar == '\t' || currChar == '\n') {
-                        currChar = getNextChar();
-                        System.out.println(currChar);
-                    }
-                    System.out.println(currChar);
-                    if(currChar == '(') {
-                        tokens.add(new Token(TokenType.IDENTIFIER, sb.toString().substring(0, sb.length() - 1)));
-                        sb.setLength(0);
-
-                        tokens.add(new Token(TokenType.STRING, "("));
-                    } else {
+                    if(tokens.get(tokens.size() - 1).getType() == TokenType.COMMENT || tokens.get(tokens.size() - 2).getType() == TokenType.COMMENT) {
                         tokens.add(new Token(TokenType.STRING, sb.toString()));
                         sb.setLength(0);
+
                         isString = false;
+                    } else {
+                        line = contents.get(lineIndex++);
+
+                        pos = 0;
+                        currChar = '\0';
+                        isString = false;
+
+                        currChar = getNextChar();
+
+                        while(Character.isWhitespace(currChar)) {
+                            currChar = getNextChar();
+                        }
+
+                        if(currChar == '('){
+                            tokens.add(new Token(TokenType.IDENTIFIER, sb.toString()));
+                            sb.setLength(0);
+
+                            isString = false;
+                            pos = 0;
+                            currChar = '\0';
+
+                            tokens.add(new Token(TokenType.STRING, "("));
+                            currChar = getNextChar();
+
+                            if(Character.isWhitespace(currChar)) {
+                                while(Character.isWhitespace(currChar)) {
+                                    currChar = getNextChar();
+                                }
+                            }
+                        } else {
+                            tokens.add(new Token(TokenType.STRING, sb.toString()));
+                            sb.setLength(0);
+
+                            isString = false;
+                            pos = 0;
+                            currChar = '\0';
+                        }
                     }
                 } else {
                     if(currChar == '=') {
@@ -171,6 +175,14 @@ public class Tokenizer {
                         tokens.add(new Token(TokenType.IDENTIFIER, sb.toString().substring(0, sb.length() - 1)));
                         sb.setLength(0);
                         tokens.add(new Token(TokenType.STRING, "("));
+
+                        currChar = getNextChar();
+
+                        if(Character.isWhitespace(currChar)) {
+                            while(Character.isWhitespace(currChar)) {
+                                currChar = getNextChar();
+                            }
+                        }
                     }
                 }
             }
