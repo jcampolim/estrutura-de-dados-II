@@ -77,7 +77,8 @@ public class HashTableOA implements HashTable {
         }
 
         for(int i = 0; i < size; i++) {
-            if(table[i].getKey() == key) {
+            int aux = (hashKey + i) % size;
+            if (table[aux] != null && table[aux].getKey() == key) {
                 table[hashKey].setKey(0);
                 table[hashKey].setValue(null);
                 table[hashKey] = null;
