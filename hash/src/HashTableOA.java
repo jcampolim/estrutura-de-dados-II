@@ -1,3 +1,10 @@
+// Nomes:
+// Enzo Guarnieri, 10410074
+// Erika Borges Piaui, 10403716
+// Júlia Campolim de Oste, 10408802
+// Fontes:
+// Materiais disponibilizados pelos professores
+
 public class HashTableOA implements HashTable {
     int key;
     String value;
@@ -10,10 +17,12 @@ public class HashTableOA implements HashTable {
         this.size = size;
     }
 
+    // Função hash
     public int hashFunction(int k) {
         return k % size;
     }
 
+    // Busca um valor na tabela hash pela chave
     @Override
     public String search(int key) {
         int hashKey = hashFunction(key);
@@ -33,28 +42,30 @@ public class HashTableOA implements HashTable {
         return null;
     }
 
+    // Insere uma chave e um valor na tabela
     @Override
-    public int insert(int key, String value) {
+    public String insert(int key, String value) {
         int hashKey = hashFunction(key);
         int originalHashKey = hashKey;
 
         while(table[hashKey] != null) {
             if(table[hashKey].getKey() == key) {
                 table[hashKey].setValue(value);
-                return 2; // Valor da chave atualizado
+                return "Valor da chave atualizado"; // Valor da chave atualizado
             }
 
             hashKey = (hashKey + 1) % size;
 
             if(hashKey == originalHashKey) {
-                return 0; // Erro ao inserir chave-valor
+                return "Erro ao inserir chave-valor"; // Erro ao inserir chave-valor
             }
         }
 
         table[hashKey] = new HashTableData(key, value);
-        return 1; // Chave-valor inserido
+        return "Chave-valor inserido"; // Chave-valor inserido
     }
 
+    // Remove um valor da tabela pela chave
     @Override
     public boolean remove(int key) {
         int hashKey = hashFunction(key);
@@ -90,14 +101,16 @@ public class HashTableOA implements HashTable {
         return false;
     }
 
+    // Exibe as informações da tabela hash
     public void print() {
         for(int i = 0; i < size; i++) {
             if(table[i] == null) {
-                System.out.println("Null");
+                System.out.println(i + " - Null");
             } else {
-                System.out.println(table[i].getKey() + " " + table[i].getValue());
+                System.out.println(i + " - " + table[i].getKey() + ", " + table[i].getValue());
             }
         }
+        System.out.println();
     }
 
 }
