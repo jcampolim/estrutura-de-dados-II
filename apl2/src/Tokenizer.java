@@ -6,8 +6,8 @@ import static java.lang.Character.isDigit;
 //================================================================================
 //        GRAMÁTICA
 //================================================================================
-//<data>         ::= ((<scope> | <key> | <comment>)* <blank_line>)*
-//<scope>        ::= <identifier> <blank_line>* "(" <blank_line>+ <data>* <blank> ")"
+//<scope>        ::= <identifier> (<blank> | <blank_line>)* "(" <blank_line>+ <data>* <blank> ")"
+//<key>          ::= <identifier> <blank> "=" <blank> <value>
 //<key>          ::= <identifier> "=" <value>
 //<identifier>   ::= <string>
 //<value>        ::= <string>
@@ -75,7 +75,6 @@ public class Tokenizer {
                         currChar = getNextChar();
                     }
 
-
                     if (pos <= line.length() && !Character.isWhitespace(line.charAt(pos - 1))) {
                         --pos;
                     }
@@ -101,6 +100,7 @@ public class Tokenizer {
                 }
 
             } else {
+                // TODO: consumir os espaços em branco do final em caso de identificador
                 while (pos < line.length()) {
                     currChar = getNextChar();
                     sb.append(currChar);
@@ -170,8 +170,7 @@ public class Tokenizer {
 
                         tokens.add(new Token(TokenType.VALUE, sb.toString()));
                         sb.setLength(0);
-                        isString = false;
-                    } else {
+                        isString = false;                    } else {
                         tokens.add(new Token(TokenType.IDENTIFIER, sb.toString().substring(0, sb.length() - 1)));
                         sb.setLength(0);
                         tokens.add(new Token(TokenType.STRING, "("));
