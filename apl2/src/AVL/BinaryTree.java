@@ -1,23 +1,23 @@
 package AVL;
 
 public class BinaryTree {
-    Node root;
+    NodeAVL root;
 
     // Construtor
     public BinaryTree() {
         root = null;
     }
 
-    public BinaryTree(Node root) {
+    public BinaryTree(NodeAVL root) {
         this.root = root;
     }
 
     // Getters e Setters
-    public void setRoot(Node root) {
+    public void setRoot(NodeAVL root) {
         this.root = root;
     }
 
-    public Node getRoot() {
+    public NodeAVL getRoot() {
         return root;
     }
 
@@ -31,7 +31,7 @@ public class BinaryTree {
         return getDegree(root);
     }
 
-    public int getDegree(Node root) {
+    public int getDegree(NodeAVL root) {
         int parent = 0, left = 0, right = 0;
 
         if(root.getLeft() != null) {
@@ -59,7 +59,7 @@ public class BinaryTree {
         }
     }
 
-    public int getHeight(Node root) {
+    public int getHeight(NodeAVL root) {
         if(root.isLeaf()) {
             return 0;
         } else {
@@ -86,12 +86,12 @@ public class BinaryTree {
         System.out.println();
     }
 
-    public void inOrderTraversal(Node root) {
+    public void inOrderTraversal(NodeAVL root) {
         if(root.getLeft() != null) {
             inOrderTraversal(root.getLeft());
         }
 
-        System.out.print(root.getData() + " ");
+        System.out.print(root.getIdentifier() + " ");
 
         if(root.getRight() != null) {
             inOrderTraversal(root.getRight());
@@ -103,8 +103,8 @@ public class BinaryTree {
         preOrderTraversal(root);
     }
 
-    public void preOrderTraversal(Node root) {
-        System.out.print(root.getData() + " ");
+    public void preOrderTraversal(NodeAVL root) {
+        System.out.print(root.getIdentifier() + " ");
 
         if(root.getLeft() != null) {
             preOrderTraversal(root.getLeft());
@@ -119,7 +119,7 @@ public class BinaryTree {
         posOrderTraversal(root);
     }
 
-    public void posOrderTraversal(Node root) {
+    public void posOrderTraversal(NodeAVL root) {
         if(root.getLeft() != null) {
             posOrderTraversal(root.getLeft());
         }
@@ -127,7 +127,7 @@ public class BinaryTree {
             posOrderTraversal(root.getRight());
         }
 
-        System.out.print(root.getData() + " ");
+        System.out.print(root.getIdentifier() + " ");
     }
 }
 

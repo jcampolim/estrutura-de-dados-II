@@ -1,29 +1,29 @@
 package AVL;
 
-public class AVL extends BST {
+public class AVL extends BST_AVL {
     // Construtores
     public AVL() {
         super();
     }
 
-    public AVL(Node root) {
+    public AVL(NodeAVL root) {
         super(root);
     }
 
-    public boolean remove(int data) {
-        boolean isRemoved = removeBST(data);
+    public boolean removeBST(String identifier) {
+        boolean isRemoved = removeBST(identifier);
         isBalanced(root);
 
         return isRemoved;
     }
 
-    public void insert(int data) {
-        insertBST(data);
+    public void insert(NodeAVL newNode) {
+        insertBST(newNode);
         isBalanced(root);
     }
 
     // Verifica se a árvore está balanceada, se não estiver faz as rotações
-    private void isBalanced(Node root) {
+    private void isBalanced(NodeAVL root) {
         if (root.getRight() != null) {
             isBalanced(root.getRight());
         }
@@ -51,9 +51,9 @@ public class AVL extends BST {
     }
 
     // Rotação a esquerda
-    private void rotateLeft(Node oldRoot) {
-        Node newRoot = oldRoot.getRight();  // y
-        Node aux = newRoot.getLeft(); // beta
+    private void rotateLeft(NodeAVL oldRoot) {
+        NodeAVL newRoot = oldRoot.getRight();  // y
+        NodeAVL aux = newRoot.getLeft(); // beta
 
         // newRoot se torna root da sub arvore, é conserta o parent dele
         if(oldRoot.getParent() != null){
@@ -77,9 +77,9 @@ public class AVL extends BST {
     }
 
     // Rotação a direita
-    private void rotateRight(Node oldRoot) {
-        Node newRoot = oldRoot.getLeft(); // x
-        Node aux = newRoot.getRight(); // beta
+    private void rotateRight(NodeAVL oldRoot) {
+        NodeAVL newRoot = oldRoot.getLeft(); // x
+        NodeAVL aux = newRoot.getRight(); // beta
 
         // newRoot se torna root da sub arvore, é conserta o parent dele
         if(oldRoot.getParent() != null){
@@ -103,15 +103,15 @@ public class AVL extends BST {
     }
 
     // Rotação esquerda-direita
-    private void rotateLeftRight(Node oldRoot) {
-        Node newRoot = oldRoot.getLeft();
+    private void rotateLeftRight(NodeAVL oldRoot) {
+        NodeAVL newRoot = oldRoot.getLeft();
         rotateLeft(newRoot);
         rotateRight(oldRoot);
     }
 
     // Rotação direita-esquerda
-    private void rotateRightLeft(Node oldRoot) {
-        Node newRoot = oldRoot.getRight();
+    private void rotateRightLeft(NodeAVL oldRoot) {
+        NodeAVL newRoot = oldRoot.getRight();
         rotateRight(newRoot);
         rotateLeft(oldRoot);
     }

@@ -1,4 +1,7 @@
 import BST.*;
+import AVL.AVL;
+import AVL.ScopeAVL;
+import AVL.KeyAVL;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,27 +17,28 @@ public class Parser {
         index = -1;
     }
 
-    public void run(List<String> contents, BST bst) {
+    public void run(List<String> contents, BST bst, AVL avl) {
         Tokenizer tokenizer = new Tokenizer();
         tokens = tokenizer.tokenize(contents);
         currToken = null;
         index = -1;
 
-        parse(bst);
+        parse(bst, avl);
     }
 
-    private void parse(BST bst) {
+    private void parse(BST bst, AVL avl) {
         advance();
-        data(bst);
+        data(bst, avl);
         if(currToken.getType() != TokenType.EOF) {
             throw new RuntimeException("Parser.parse(): Esperado o fim do conteúdo (EOF), mas encontrou " + currToken + ".");
         }
     }
 
     // <data> ::= ((<scope> | <key> | <comment>)* <blank_line>)*
-    private void data(BST bst) {
+    private void data(BST bst, AVL avl) {
         TokenType type = currToken.getType();
         List<String> path = new ArrayList<>();
+
         while(type == TokenType.COMMENT || type == TokenType.IDENTIFIER || type == TokenType.WHITESPACE) {
             if(type == TokenType.WHITESPACE) {
                 consume(TokenType.WHITESPACE);
@@ -46,7 +50,7 @@ public class Parser {
             }
 
             if(type == TokenType.IDENTIFIER) {
-                identifier(bst, path);
+                identifier(bst, avl, path);
                 consume(TokenType.NEWLINE);
             }
 
@@ -68,25 +72,33 @@ public class Parser {
         consume(TokenType.STRING);
     }
 
-    public void identifier(BST bst, List<String> path) {
+    public void identifier(BST bst, AVL avl, List<String> path) {
         String identifier = currToken.getValue();
         consume(TokenType.IDENTIFIER);
 
         if(currToken.getValue() == "=") {
             String value = key();
 
-            Key key = new Key(identifier, value);
-            key.setPath(new ArrayList<>(path));
+            KeyBST keyBST = new KeyBST(identifier, value);
+            keyBST.setPath(new ArrayList<>(path));
 
-            bst.insert(key);
+            KeyAVL keyAVL = new KeyAVL(identifier, value);
+            keyAVL.setPath(new ArrayList<>(path));
+
+            bst.insert(keyBST);
+            avl.insert(keyAVL);
         } else if(currToken.getValue() == "(") {
-            Scope scope = new Scope(identifier);
-            scope.setPath(new ArrayList<>(path));
+            ScopeBST scopeBST = new ScopeBST(identifier);
+            scopeBST.setPath(new ArrayList<>(path));
 
-            bst.insert(scope);
+            ScopeAVL scopeAVL = new ScopeAVL(identifier);
+            scopeAVL.setPath(new ArrayList<>(path));
+
+            bst.insert(scopeBST);
+            avl.insert(scopeAVL);
 
             path.add(identifier);
-            scope(bst, path);
+            scope(bst, avl, path);
         }
     }
 
@@ -99,7 +111,7 @@ public class Parser {
         return value;
     }
 
-    public void scope(BST bst, List<String> path) {
+    public void scope(BST bst, AVL avl, List<String> path) {
         consume(TokenType.STRING);
 
         boolean hasNewLine = false;
@@ -109,7 +121,7 @@ public class Parser {
                 consume(TokenType.NEWLINE);
             }
             if(currToken.getType() == TokenType.IDENTIFIER) {
-                identifier(bst, path);
+                identifier(bst, avl, path);
             }
             if(currToken.getType() == TokenType.COMMENT) {
                 comment();

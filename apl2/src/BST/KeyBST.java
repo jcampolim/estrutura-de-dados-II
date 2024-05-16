@@ -1,15 +1,17 @@
 package BST;
 
-public class Scope extends Node {
+public class KeyBST extends NodeBST {
     private String identifier;
+    private String value;
 
-    public Scope() {
+    public KeyBST() {
         super();
     }
 
-    public Scope(String identifier) {
+    public KeyBST(String identifier, String value) {
         super();
         this.identifier = identifier;
+        this.value = value;
     }
 
     @Override
@@ -20,5 +22,13 @@ public class Scope extends Node {
     @Override
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

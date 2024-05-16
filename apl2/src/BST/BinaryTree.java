@@ -1,23 +1,23 @@
 package BST;
 
 public class BinaryTree {
-    Node root;
+    NodeBST root;
 
     // Construtor
     public BinaryTree() {
         root = null;
     }
 
-    public BinaryTree(Node root) {
+    public BinaryTree(NodeBST root) {
         this.root = root;
     }
 
     // Getters e Setters
-    public void setRoot(Node root) {
+    public void setRoot(NodeBST root) {
         this.root = root;
     }
 
-    public Node getRoot() {
+    public NodeBST getRoot() {
         return root;
     }
 
@@ -31,7 +31,7 @@ public class BinaryTree {
         return getDegree(root);
     }
 
-    public int getDegree(Node root) {
+    public int getDegree(NodeBST root) {
         int parent = 0, left = 0, right = 0;
 
         if(root.getLeft() != null) {
@@ -59,7 +59,7 @@ public class BinaryTree {
         }
     }
 
-    public int getHeight(Node root) {
+    public int getHeight(NodeBST root) {
         if(root.isLeaf()) {
             return 0;
         } else {
@@ -86,7 +86,7 @@ public class BinaryTree {
         System.out.println();
     }
 
-    public void inOrderTraversal(Node root) {
+    public void inOrderTraversal(NodeBST root) {
         if(root.getLeft() != null) {
             inOrderTraversal(root.getLeft());
         }

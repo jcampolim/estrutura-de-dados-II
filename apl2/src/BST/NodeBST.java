@@ -1,85 +1,49 @@
-package AVL;
+package BST;
 
-public class Node {
-    // Atributos
-    private int data;
-    private int balanceFactor;
-    private Node parent;
-    private Node left;
-    private Node right;
+import java.util.ArrayList;
+import java.util.List;
+
+public class NodeBST {
+    private List<String> path;
+
+    private NodeBST parent;
+    private NodeBST left;
+    private NodeBST right;
 
     // Construtores
-    public Node() {
+    public NodeBST() {
+        path = new ArrayList<>();
         parent = null;
         left = null;
         right = null;
     }
 
-    public Node(int data, Node parent) {
-        this.data = data;
-        this.parent = parent;
-        right = null;
-        left = null;
-    }
-
     // Getters e Setters
-    public int getData() {
-        return this.data;
+    public List<String> getPath() {
+        return this.path;
     }
-
-    public int getBalanceFactor() {
-        updateBalanceFactor();
-        return this.balanceFactor;
-    }
-
-    public Node getParent() {
+    public NodeBST getParent() {
         return this.parent;
     }
-
-    public Node getLeft() {
+    public NodeBST getLeft() {
         return this.left;
     }
-
-    public Node getRight() {
+    public NodeBST getRight() {
         return this.right;
     }
 
-    public void setData(int data) {
-        this.data = data;
+    public void setPath(List<String> path) {
+        this.path = path;
     }
 
-    public void setParent(Node parent) {
+    public void setParent(NodeBST parent) {
         this.parent = parent;
     }
-
-    public void setLeft(Node left) {
+    public void setLeft(NodeBST left) {
         this.left = left;
     }
-
-    public void setRight(Node right) {
+    public void setRight(NodeBST right) {
         this.right = right;
-    }
-
-    // Atualiza o fator de balanceamento
-    private void updateBalanceFactor() {
-        if(this.isLeaf()) {
-            balanceFactor = 0;
-        } else {
-            int left, right;
-            if(this.getLeft() == null) {
-                left = -1;
-            } else {
-                left = this.getLeft().getHeight();
-            }
-
-            if(this.getRight() == null) {
-                right = -1;
-            } else {
-                right = this.getRight().getHeight();
-            }
-
-            balanceFactor = right - left;
-        }
     }
 
     // Verifica se é raiz
@@ -92,7 +56,7 @@ public class Node {
         return this.right == null && this.left == null;
     }
 
-    // Retorna o grau da árvore
+    // Retorna o grau do nó
     public int getDegree() {
         if(this.right == null && this.left == null) return 0;
         if(this.right == null || this.left == null) return 1;
@@ -100,13 +64,13 @@ public class Node {
 
     }
 
-    // Retona o nível da árvore
+    // Retorna o nível do nó
     public int getLevel() {
-        if(isRoot()) return 0;
-        return parent.getLevel() + 1;
+        if(this.isRoot()) return 0;
+        return this.parent.getLevel() + 1;
     }
 
-    // Retorna a altura da árvore
+    // Retorna a altura do nó
     public int getHeight() {
         if(this.isLeaf()) return 0;
         int hl = 0;
@@ -116,7 +80,21 @@ public class Node {
         return Math.max(hl, hr);
     }
 
-    // Retorna as informações do nó
+    public String getIdentifier() {
+        return "";
+    }
+
+    public void setIdentifier(String identifier) {
+
+    }
+
+    @Override
+    public String toString() {
+        return getIdentifier() + getPath();
+    }
+
+    // Exibe na tela as informações do nó
+    /*
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -145,8 +123,8 @@ public class Node {
         sb.append(" - Grau: " + getDegree());
         sb.append(" - Nível: " + getLevel());
         sb.append(" - Altura: " + getHeight());
-        sb.append(" - Fator de balanceamento: " + getBalanceFactor());
 
         return sb.toString();
     }
+    */
 }

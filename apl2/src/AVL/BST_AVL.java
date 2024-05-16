@@ -1,23 +1,22 @@
-package BST;
+package AVL;
 
-public class BST extends BinaryTree {
+public class BST_AVL extends BinaryTree {
 
     // Construtor
-    public BST() {
+    public BST_AVL() {
         super();
     }
 
-    public BST(NodeBST root) {
+    public BST_AVL(NodeAVL root) {
         super(root);
     }
 
-
     // Procura um nó na árvore pela chave
-    public NodeBST search(String identifier) {
+    public NodeAVL search(String identifier) {
         return search(root, identifier);
     }
 
-    private NodeBST search(NodeBST root, String identifier) {
+    private NodeAVL search(NodeAVL root, String identifier) {
         if (root == null || identifier.equals(root.getIdentifier())) {
             return root;
         } else if (identifier.compareTo(root.getIdentifier()) < 0) {
@@ -28,18 +27,18 @@ public class BST extends BinaryTree {
     }
 
     // Insere uma nova chave na árvore
-    public NodeBST insert(NodeBST newNode) {
+    public NodeAVL insertBST(NodeAVL newNode) {
         if(isEmpty()) {
             root = newNode;
             return root;
         } else {
-            insert(root, newNode);
+            insertBST(root, newNode);
 
             return newNode;
         }
     }
 
-    public void insert(NodeBST root, NodeBST node) {
+    public void insertBST(NodeAVL root, NodeAVL node) {
         if(node.getIdentifier().compareTo(root.getIdentifier()) < 0) {
             if(root.getLeft() == null) {
                 root.setLeft(node);
@@ -48,7 +47,7 @@ public class BST extends BinaryTree {
                 return;
             }
 
-            insert(root.getLeft(), node);
+            insertBST(root.getLeft(), node);
         } else if(node.getIdentifier().compareTo(root.getIdentifier()) > 0) {
             if(root.getRight() == null) {
                 root.setRight(node);
@@ -57,16 +56,16 @@ public class BST extends BinaryTree {
                 return;
             }
 
-            insert(root.getRight(), node);
+            insertBST(root.getRight(), node);
         } else if(node.getIdentifier().compareTo(root.getIdentifier()) == 0) {
             return;
         }
     }
 
     // Remove uma chave da árvore
-    public boolean remove(String identifier) {
+    public boolean removeBST(String identifier) {
         if(!this.isEmpty()) {
-            NodeBST root = this.search(identifier);
+            NodeAVL root = this.search(identifier);
 
             // Se o nó não existir
             if(root == null){
@@ -102,7 +101,7 @@ public class BST extends BinaryTree {
 
             // Caso 3: o nó possui dois filhos (usamos o maior dos menores trocamos as informações)
             if(root.getDegree() == 2) {
-                NodeBST predecessor = this.findPredecessor(identifier);
+                NodeAVL predecessor = this.findPredecessor(identifier);
                 String dataPredecessor = predecessor.getIdentifier();
 
                 predecessor.setIdentifier(identifier);
@@ -116,7 +115,7 @@ public class BST extends BinaryTree {
         return false;
     }
 
-    public void removeLeaf(NodeBST root) {
+    public void removeLeaf(NodeAVL root) {
         if (root.getParent().getRight().getIdentifier().equals(root.getIdentifier())) {
             root.getParent().setRight(null);
             root.setParent(null);
@@ -127,12 +126,12 @@ public class BST extends BinaryTree {
     }
 
     // Encontra o menor valor da árvore
-    public NodeBST findMin() {
+    public NodeAVL findMin() {
         if(this.isEmpty()) {
             return null;
         }
 
-        NodeBST node = this.getRoot();
+        NodeAVL node = this.getRoot();
         while (!node.isLeaf()) {
             node = node.getLeft();
         }
@@ -141,12 +140,12 @@ public class BST extends BinaryTree {
     }
 
     // Encontra o maior elemento da árvore
-    public NodeBST findMax() {
+    public NodeAVL findMax() {
         if(this.isEmpty()) {
             return null;
         }
 
-        NodeBST node = this.getRoot();
+        NodeAVL node = this.getRoot();
         while (!node.isLeaf()) {
             node = node.getRight();
         }
@@ -155,19 +154,19 @@ public class BST extends BinaryTree {
     }
 
     // Encontra o antecessor de algum elemento
-    public NodeBST findPredecessor(String identifier) {
-        NodeBST node = search(root, identifier);
+    public NodeAVL findPredecessor(String identifier) {
+        NodeAVL node = search(root, identifier);
 
         if (node != null && node.getLeft() != null) {
-            NodeBST predecessor = node.getLeft();
+            NodeAVL predecessor = node.getLeft();
             while (predecessor.getRight() != null) {
                 predecessor = predecessor.getRight();
             }
             return predecessor;
         }
 
-        NodeBST aux = root;
-        NodeBST predecessor = null;
+        NodeAVL aux = root;
+        NodeAVL predecessor = null;
         while (aux != null) {
             if (identifier.compareTo(aux.getIdentifier()) > 0) {
                 predecessor = aux;
@@ -182,19 +181,19 @@ public class BST extends BinaryTree {
     }
 
     // Encontra o sucessor de algum elemento
-    public NodeBST findSuccessor(String identifier) {
-        NodeBST node = search(root, identifier);
+    public NodeAVL findSuccessor(String identifier) {
+        NodeAVL node = search(root, identifier);
 
         if (node != null && node.getRight() != null) {
-            NodeBST successor = node.getRight();
+            NodeAVL successor = node.getRight();
             while (successor.getLeft() != null) {
                 successor = successor.getLeft();
             }
             return successor;
         }
 
-        NodeBST aux = root;
-        NodeBST successor = null;
+        NodeAVL aux = root;
+        NodeAVL successor = null;
         while (aux != null) {
             if (identifier.compareTo(aux.getIdentifier()) < 0) {
                 successor = aux;
@@ -213,7 +212,7 @@ public class BST extends BinaryTree {
         clear(root);
     }
 
-    public void clear(NodeBST root) {
+    public void clear(NodeAVL root) {
         if(root.getLeft() != null) {
             clear(root.getLeft());
             root.setLeft(null);
@@ -232,7 +231,7 @@ public class BST extends BinaryTree {
         treeInfo(root);
     }
 
-    public void treeInfo(NodeBST root) {
+    public void treeInfo(NodeAVL root) {
         if(root.getLeft() != null) {
             treeInfo(root.getLeft());
         }
