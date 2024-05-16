@@ -32,9 +32,10 @@ public class Node {
         return this.right;
     }
 
-    public void addPath(String scope) {
-        path.add(scope);
+    public void setPath(List<String> path) {
+        this.path = path;
     }
+
     public void setParent(Node parent) {
         this.parent = parent;
     }
@@ -77,6 +78,19 @@ public class Node {
         if(!(this.left == null)) hl = this.left.getHeight() + 1;
         if(!(this.right == null)) hr = this.right.getHeight() + 1;
         return Math.max(hl, hr);
+    }
+
+    public String getIdentifier() {
+        return "";
+    }
+
+    public void setIdentifier(String identifier) {
+
+    }
+
+    @Override
+    public String toString() {
+        return getIdentifier() + getPath();
     }
 
     // Exibe na tela as informações do nó

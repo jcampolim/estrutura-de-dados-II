@@ -9,14 +9,17 @@ public class Key extends Node {
     }
 
     public Key(String identifier, String value) {
+        super();
         this.identifier = identifier;
         this.value = value;
     }
 
+    @Override
     public String getIdentifier() {
         return identifier;
     }
 
+    @Override
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }

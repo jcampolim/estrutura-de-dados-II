@@ -1,7 +1,5 @@
 package BST;
 
-import java.util.ArrayList;
-
 public class Scope extends Node {
     private String identifier;
 
@@ -14,10 +12,12 @@ public class Scope extends Node {
         this.identifier = identifier;
     }
 
+    @Override
     public String getIdentifier() {
         return identifier;
     }
 
+    @Override
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }

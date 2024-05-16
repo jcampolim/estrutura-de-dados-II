@@ -13,35 +13,34 @@ public class BST extends BinaryTree {
 
 
     // Procura um nó na árvore pela chave
-    public Node search(String data) {
-        return search(root, data);
+    public Node search(String identifier) {
+        return search(root, identifier);
     }
 
-    private Node search(Node root, String data) {
-        if (root == null || data.equals(root.getData())) {
+    private Node search(Node root, String identifier) {
+        if (root == null || identifier.equals(root.getIdentifier())) {
             return root;
-        } else if (data.compareTo(root.getData()) < 0) {
-            return search(root.getLeft(), data);
+        } else if (identifier.compareTo(root.getIdentifier()) < 0) {
+            return search(root.getLeft(), identifier);
         } else {
-            return search(root.getRight(), data);
+            return search(root.getRight(), identifier);
         }
     }
 
     // Insere uma nova chave na árvore
-    public Node insert(String data) {
+    public Node insert(Node newNode) {
         if(isEmpty()) {
-            root = new Node(data, null);
+            root = newNode;
             return root;
         } else {
-            Node node = new Node(data, null);
-            insert(root, node, data);
+            insert(root, newNode);
 
-            return node;
+            return newNode;
         }
     }
 
-    public void insert(Node root, Node node, String data) {
-        if(data.compareTo(root.getData()) < 0) {
+    public void insert(Node root, Node node) {
+        if(node.getIdentifier().compareTo(root.getIdentifier()) < 0) {
             if(root.getLeft() == null) {
                 root.setLeft(node);
                 node.setParent(root);
@@ -49,8 +48,8 @@ public class BST extends BinaryTree {
                 return;
             }
 
-            insert(root.getLeft(), node, data);
-        } else if(data.compareTo(root.getData()) > 0) {
+            insert(root.getLeft(), node);
+        } else if(node.getIdentifier().compareTo(root.getIdentifier()) > 0) {
             if(root.getRight() == null) {
                 root.setRight(node);
                 node.setParent(root);
@@ -58,20 +57,20 @@ public class BST extends BinaryTree {
                 return;
             }
 
-            insert(root.getRight(), node, data);
-        } else if(data.compareTo(root.getData()) == 0) {
+            insert(root.getRight(), node);
+        } else if(node.getIdentifier().compareTo(root.getIdentifier()) == 0) {
             return;
         }
     }
 
     // Remove uma chave da árvore
-    public boolean remove(String data) {
+    public boolean remove(String identifier) {
         if(!this.isEmpty()) {
-            Node root = this.search(data);
+            Node root = this.search(identifier);
 
             // Se o nó não existir
             if(root == null){
-                System.out.println("O nó '" + data + "' não existe na árvore.");
+                System.out.println("O nó '" + identifier + "' não existe na árvore.");
                 return false;
             }
 
@@ -82,7 +81,7 @@ public class BST extends BinaryTree {
 
             // Caso 2: o nó possui um filho
             if(root.getDegree() == 1){
-                if (root.getParent().getRight().getData().equals(data)){   // Pai para a direita
+                if (root.getParent().getRight().getIdentifier().equals(identifier)){   // Pai para a direita
                     if(root.getRight() != null){                           // Filho para a direita
                         root.getParent().setRight(root.getRight());
                         root.getRight().setParent(root.getParent());
@@ -103,11 +102,11 @@ public class BST extends BinaryTree {
 
             // Caso 3: o nó possui dois filhos (usamos o maior dos menores trocamos as informações)
             if(root.getDegree() == 2) {
-                Node predecessor = this.findPredecessor(data);
-                String dataPredecessor = predecessor.getData();
+                Node predecessor = this.findPredecessor(identifier);
+                String dataPredecessor = predecessor.getIdentifier();
 
-                predecessor.setData(data);
-                root.setData(dataPredecessor);
+                predecessor.setIdentifier(identifier);
+                root.setIdentifier(dataPredecessor);
 
                 // Removemos o nó que agora é uma folha
                 removeLeaf(predecessor);
@@ -118,7 +117,7 @@ public class BST extends BinaryTree {
     }
 
     public void removeLeaf(Node root) {
-        if (root.getParent().getRight().getData().equals(root.getData())) {
+        if (root.getParent().getRight().getIdentifier().equals(root.getIdentifier())) {
             root.getParent().setRight(null);
             root.setParent(null);
         } else {
@@ -156,8 +155,8 @@ public class BST extends BinaryTree {
     }
 
     // Encontra o antecessor de algum elemento
-    public Node findPredecessor(String data) {
-        Node node = search(root, data);
+    public Node findPredecessor(String identifier) {
+        Node node = search(root, identifier);
 
         if (node != null && node.getLeft() != null) {
             Node predecessor = node.getLeft();
@@ -170,10 +169,10 @@ public class BST extends BinaryTree {
         Node aux = root;
         Node predecessor = null;
         while (aux != null) {
-            if (data.compareTo(aux.getData()) > 0) {
+            if (identifier.compareTo(aux.getIdentifier()) > 0) {
                 predecessor = aux;
                 aux = aux.getRight();
-            } else if (data.compareTo(aux.getData()) < 0) {
+            } else if (identifier.compareTo(aux.getIdentifier()) < 0) {
                 aux = aux.getLeft();
             } else {
                 break;
@@ -183,8 +182,8 @@ public class BST extends BinaryTree {
     }
 
     // Encontra o sucessor de algum elemento
-    public Node findSuccessor(String data) {
-        Node node = search(root, data);
+    public Node findSuccessor(String identifier) {
+        Node node = search(root, identifier);
 
         if (node != null && node.getRight() != null) {
             Node successor = node.getRight();
@@ -197,10 +196,10 @@ public class BST extends BinaryTree {
         Node aux = root;
         Node successor = null;
         while (aux != null) {
-            if (data.compareTo(aux.getData()) < 0) {
+            if (identifier.compareTo(aux.getIdentifier()) < 0) {
                 successor = aux;
                 aux = aux.getLeft();
-            } else if (data.compareTo(aux.getData()) > 0) {
+            } else if (identifier.compareTo(aux.getIdentifier()) > 0) {
                 aux = aux.getRight();
             } else {
                 break;
@@ -225,7 +224,7 @@ public class BST extends BinaryTree {
         }
 
         root.setParent(null);
-        root.setData(null);
+        root.setIdentifier(null);
     }
 
     // Imprime as informações de todos os nós da árvore

@@ -1,3 +1,6 @@
+import BST.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
@@ -11,26 +14,27 @@ public class Parser {
         index = -1;
     }
 
-    public void run(List<String> contents) {
+    public void run(List<String> contents, BST bst) {
         Tokenizer tokenizer = new Tokenizer();
         tokens = tokenizer.tokenize(contents);
         currToken = null;
         index = -1;
 
-        parse();
+        parse(bst);
     }
 
-    private void parse() {
+    private void parse(BST bst) {
         advance();
-        data();
+        data(bst);
         if(currToken.getType() != TokenType.EOF) {
             throw new RuntimeException("Parser.parse(): Esperado o fim do conteúdo (EOF), mas encontrou " + currToken + ".");
         }
     }
 
     // <data> ::= ((<scope> | <key> | <comment>)* <blank_line>)*
-    private void data() {
+    private void data(BST bst) {
         TokenType type = currToken.getType();
+        List<String> path = new ArrayList<>();
         while(type == TokenType.COMMENT || type == TokenType.IDENTIFIER || type == TokenType.WHITESPACE) {
             if(type == TokenType.WHITESPACE) {
                 consume(TokenType.WHITESPACE);
@@ -42,7 +46,7 @@ public class Parser {
             }
 
             if(type == TokenType.IDENTIFIER) {
-                identifier();
+                identifier(bst, path);
                 consume(TokenType.NEWLINE);
             }
 
@@ -64,22 +68,38 @@ public class Parser {
         consume(TokenType.STRING);
     }
 
-    public void identifier() {
+    public void identifier(BST bst, List<String> path) {
+        String identifier = currToken.getValue();
         consume(TokenType.IDENTIFIER);
 
         if(currToken.getValue() == "=") {
-            key();
+            String value = key();
+
+            Key key = new Key(identifier, value);
+            key.setPath(new ArrayList<>(path));
+
+            bst.insert(key);
         } else if(currToken.getValue() == "(") {
-            scope();
+            Scope scope = new Scope(identifier);
+            scope.setPath(new ArrayList<>(path));
+
+            bst.insert(scope);
+
+            path.add(identifier);
+            scope(bst, path);
         }
     }
 
-    public void key() {
+    public String key() {
         consume(TokenType.STRING);
+
+        String value = currToken.getValue();
         consume(TokenType.VALUE);
+
+        return value;
     }
 
-    public void scope() {
+    public void scope(BST bst, List<String> path) {
         consume(TokenType.STRING);
 
         boolean hasNewLine = false;
@@ -89,7 +109,7 @@ public class Parser {
                 consume(TokenType.NEWLINE);
             }
             if(currToken.getType() == TokenType.IDENTIFIER) {
-                identifier();
+                identifier(bst, path);
             }
             if(currToken.getType() == TokenType.COMMENT) {
                 comment();
@@ -108,6 +128,8 @@ public class Parser {
         if(!hasNewLine) {
             throw new RuntimeException("Parser.scope(): Não há quebra de linha entre '(' e ')' do escopo.");
         }
+
+        path.remove(path.size() - 1);
         consume(TokenType.STRING);
     }
 

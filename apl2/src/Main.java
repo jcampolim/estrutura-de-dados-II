@@ -1,16 +1,28 @@
+import BST.BST;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void testParser(final String[] testData) {
-        List<String> contents = new ArrayList<String>();
-        for(var s : testData) {
-            contents.add(s);
+
+    public static List<String> readFile() throws IOException {
+        File file = new File("test.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+
+        List<String> fileList = new ArrayList<>();
+
+        String line;
+        while((line = br.readLine()) != null) {
+            fileList.add(line);
         }
 
+        return fileList;
+    }
+    public static void testParser(List<String> contents, BST bst) {
         Parser parser = new Parser();
         try {
-            parser.run(contents);
+            parser.run(contents, bst);
             System.out.println("A gramática está correta");
         } catch(RuntimeException e) {
             System.out.println("\n**** ERRO! O conteúdo inserido não está bem formatado: ");
@@ -18,22 +30,10 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        final String[] test = {
-                "    # teste1",
-                "    teste2 = teste3",
-                "    teste 4(",
-                "teste 5 = teste 6",
-                ")",
-                "teste7 ",
-                "(",
-                "teste8 = teste9",
-                ") ",
-                "teste10 ( ",
-                "",
-                ")"
-        };
+    public static void main(String[] args) throws IOException {
+         BST bst = new BST();
+        testParser(readFile(), bst);
 
-        testParser(test);
+        bst.treeInfo();
     }
 }

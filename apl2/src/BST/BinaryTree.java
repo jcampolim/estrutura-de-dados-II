@@ -91,7 +91,7 @@ public class BinaryTree {
             inOrderTraversal(root.getLeft());
         }
 
-        System.out.print(root.getData() + " ");
+        System.out.print(root.getIdentifier() + " ");
 
         if(root.getRight() != null) {
             inOrderTraversal(root.getRight());
