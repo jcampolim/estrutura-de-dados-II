@@ -129,7 +129,13 @@ public class Parser {
             if(currToken.getType() == TokenType.STRING) {
                 if(currToken.getValue() == ")") {
                     break;
+                } else {
+                    throw new RuntimeException("Parser.data(): token do tipo STRING encontrado.");
                 }
+            }
+
+            if(currToken.getType() == TokenType.EOF) {
+                throw new RuntimeException("Parser.scope(): ausencia de ')'.");
             }
 
             while(currToken.getType() == TokenType.WHITESPACE) {

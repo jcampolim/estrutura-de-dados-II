@@ -24,6 +24,7 @@ public class KeyBST extends NodeBST {
         this.identifier = identifier;
     }
 
+    @Override
     public String getValue() {
         return value;
     }

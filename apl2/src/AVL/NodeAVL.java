@@ -121,39 +121,32 @@ public class NodeAVL {
     public void setIdentifier(String identifier) {
 
     }
+    public String getValue() {
+        return null;
+    }
 
-    /*
-    // Retorna as informações do nó
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Nó: " + data);
 
-        if(parent == null) {
-            sb.append(" - Pai: null");
+        if(getValue() != null) {
+            sb.append("Tipo de dado: chave");
+            sb.append(" - Valor: " + getValue());
         } else {
-            sb.append(" - Pai: " + parent.getIdentifier());
+            sb.append("Tipo de dado: escopo");
         }
 
-        if(left == null) {
-            sb.append(" - Filho esquerdo: null");
+        sb.append(" - Identificador: " + getIdentifier());
+
+        if(path.isEmpty()) {
+            sb.append(" - Escopo: global");
         } else {
-            sb.append(" - Filho esquerdo: " + left.getIdentifier());
+            sb.append(" - Escopo: " + path.get(path.size() - 1));
         }
 
-        if(right == null) {
-            sb.append(" - Filho direito: null");
-        } else {
-            sb.append(" - Filho direito: " + right.getIdentifier());
-        }
-
-        sb.append(" - É folha: " + isLeaf());
-        sb.append(" - É raiz: " + isRoot());
         sb.append(" - Grau: " + getDegree());
         sb.append(" - Nível: " + getLevel());
-        sb.append(" - Altura: " + getHeight());
-        sb.append(" - Fator de balanceamento: " + getBalanceFactor());
 
         return sb.toString();
-    } */
+    }
 }

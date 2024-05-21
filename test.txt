@@ -4,9 +4,9 @@
 teste 5 = teste 6
 teste7
 (
-teste8 = teste9
+teste8= teste9
 )
 )
-teste10 (
+teste8(
 
 )

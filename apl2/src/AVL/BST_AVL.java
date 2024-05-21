@@ -1,5 +1,9 @@
 package AVL;
 
+import BST.NodeBST;
+
+import java.util.List;
+
 public class BST_AVL extends BinaryTree {
 
     // Construtor
@@ -12,18 +16,27 @@ public class BST_AVL extends BinaryTree {
     }
 
     // Procura um nó na árvore pela chave
-    public NodeAVL search(String identifier) {
-        return search(root, identifier);
+    public int searchAVL(String identifier, List<NodeAVL> listNodes) {
+        return searchAVL(root, identifier, listNodes);
     }
 
-    private NodeAVL search(NodeAVL root, String identifier) {
-        if (root == null || identifier.equals(root.getIdentifier())) {
-            return root;
-        } else if (identifier.compareTo(root.getIdentifier()) < 0) {
-            return search(root.getLeft(), identifier);
-        } else {
-            return search(root.getRight(), identifier);
+    private int searchAVL(NodeAVL root, String identifier, List<NodeAVL> listNodes) {
+        int comp = 0;
+        if(root != null) {
+            if (identifier.compareTo(root.getIdentifier()) < 0) {
+                comp = searchAVL(root.getLeft(), identifier, listNodes);
+                comp++;
+            } else if(identifier.compareTo(root.getIdentifier()) > 0 || identifier.compareTo(root.getIdentifier()) == 0) {
+                comp = searchAVL(root.getRight(), identifier, listNodes);
+                comp++;
+            }
+
+            if (identifier.equals(root.getIdentifier())) {
+                listNodes.add(root);
+                comp++;
+            }
         }
+        return comp;
     }
 
     // Insere uma nova chave na árvore
@@ -33,7 +46,6 @@ public class BST_AVL extends BinaryTree {
             return root;
         } else {
             insertBST(root, newNode);
-
             return newNode;
         }
     }
@@ -48,7 +60,7 @@ public class BST_AVL extends BinaryTree {
             }
 
             insertBST(root.getLeft(), node);
-        } else if(node.getIdentifier().compareTo(root.getIdentifier()) > 0) {
+        } else {
             if(root.getRight() == null) {
                 root.setRight(node);
                 node.setParent(root);
@@ -57,15 +69,23 @@ public class BST_AVL extends BinaryTree {
             }
 
             insertBST(root.getRight(), node);
-        } else if(node.getIdentifier().compareTo(root.getIdentifier()) == 0) {
-            return;
+        }
+    }
+
+    private NodeAVL search(NodeAVL root, String identifier) {
+        if (root == null || identifier.equals(root.getIdentifier())) {
+            return root;
+        } else if (identifier.compareTo(root.getIdentifier()) < 0) {
+            return search(root.getLeft(), identifier);
+        } else {
+            return search(root.getRight(), identifier);
         }
     }
 
     // Remove uma chave da árvore
     public boolean removeBST(String identifier) {
         if(!this.isEmpty()) {
-            NodeAVL root = this.search(identifier);
+            NodeAVL root = this.search(this.root, identifier);
 
             // Se o nó não existir
             if(root == null){
@@ -227,13 +247,13 @@ public class BST_AVL extends BinaryTree {
     }
 
     // Imprime as informações de todos os nós da árvore
-    public void treeInfo() {
-        treeInfo(root);
+    public void inOrder() {
+        inOrder(root);
     }
 
-    public void treeInfo(NodeAVL root) {
+    public void inOrder(NodeAVL root) {
         if(root.getLeft() != null) {
-            treeInfo(root.getLeft());
+            inOrder(root.getLeft());
         }
 
         System.out.println(root);
@@ -241,7 +261,43 @@ public class BST_AVL extends BinaryTree {
                 "--------------------------------------------------------------------");
 
         if(root.getRight() != null) {
-            treeInfo(root.getRight());
+            inOrder(root.getRight());
         }
+    }
+
+    public void preOrder() {
+        preOrder(root);
+    }
+
+    public void preOrder(NodeAVL root) {
+        System.out.println(root);
+        System.out.println("----------------------------------------------------------------------" +
+                "--------------------------------------------------------------------");
+
+        if(root.getLeft() != null) {
+            inOrder(root.getLeft());
+        }
+
+        if(root.getRight() != null) {
+            inOrder(root.getRight());
+        }
+    }
+
+    public void posOrder() {
+        posOrder(root);
+    }
+
+    public void posOrder(NodeAVL root) {
+        if(root.getLeft() != null) {
+            inOrder(root.getLeft());
+        }
+
+        if(root.getRight() != null) {
+            inOrder(root.getRight());
+        }
+
+        System.out.println(root);
+        System.out.println("----------------------------------------------------------------------" +
+                "--------------------------------------------------------------------");
     }
 }

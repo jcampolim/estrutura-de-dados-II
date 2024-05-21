@@ -88,43 +88,32 @@ public class NodeBST {
 
     }
 
-    @Override
-    public String toString() {
-        return getIdentifier() + getPath();
+    public String getValue() {
+        return null;
     }
 
-    // Exibe na tela as informações do nó
-    /*
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Nó: " + data);
 
-        if(parent == null) {
-            sb.append(" - Pai: null");
+        if(getValue() != null) {
+            sb.append("Tipo de dado: chave");
+            sb.append(" - Valor: " + getValue());
         } else {
-            sb.append(" - Pai: " + parent.getData());
+            sb.append("Tipo de dado: escopo");
         }
 
-        if(left == null) {
-            sb.append(" - Filho esquerdo: null");
+        sb.append(" - Identificador: " + getIdentifier());
+
+        if(path.isEmpty()) {
+            sb.append(" - Escopo: global");
         } else {
-            sb.append(" - Filho esquerdo: " + left.getData());
+            sb.append(" - Escopo: " + path.get(path.size() - 1));
         }
 
-        if(right == null) {
-            sb.append(" - Filho direito: null");
-        } else {
-            sb.append(" - Filho direito: " + right.getData());
-        }
-
-        sb.append(" - É folha: " + isLeaf());
-        sb.append(" - É raiz: " + isRoot());
         sb.append(" - Grau: " + getDegree());
         sb.append(" - Nível: " + getLevel());
-        sb.append(" - Altura: " + getHeight());
 
         return sb.toString();
     }
-    */
 }

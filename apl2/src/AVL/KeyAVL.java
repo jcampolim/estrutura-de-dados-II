@@ -24,6 +24,7 @@ public class KeyAVL extends NodeAVL {
         this.identifier = identifier;
     }
 
+    @Override
     public String getValue() {
         return value;
     }

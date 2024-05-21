@@ -1,5 +1,5 @@
-import BST.BST;
-import AVL.AVL;
+import BST.*;
+import AVL.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -44,6 +44,33 @@ public class Main {
         return 1;
     }
 
+    public static void searchIdentifier(BST bst, AVL avl, String identifier) {
+        List<NodeBST> listNodeBST = new ArrayList<>();
+        List<NodeAVL> listNodeAVL = new ArrayList<>();
+
+        int compBST = bst.searchBST(identifier, listNodeBST);
+        int compAVL = avl.searchAVL(identifier, listNodeAVL);
+
+        System.out.println("-------------------------- BUSCA BST --------------------------");
+        System.out.println(" - Quantidade de comparações: " + compBST);
+        if(listNodeBST.isEmpty()) {
+            System.out.println("Não foi encontrada nenhuma chave o escopo com esse identificador.");
+        } else {
+            for(int i = 0; i < listNodeBST.size(); i++) {
+                System.out.println(" - " + listNodeBST.get(i));
+            }
+        }
+
+        System.out.println("\n-------------------------- BUSCA AVL --------------------------");
+        System.out.println(" - Quantidade de comparações: " + compAVL);
+        if(listNodeAVL.isEmpty()) {
+            System.out.println("Não foi encontrada nenhuma chave o escopo com esse identificador.");
+        } else {
+            for(int i = 0; i < listNodeAVL.size(); i++) {
+                System.out.println(" - " + listNodeAVL.get(i));
+            }
+        }
+    }
 
     public static void testParser(List<String> contents, BST bst, AVL avl) {
         Parser parser = new Parser();
@@ -56,96 +83,93 @@ public class Main {
         }
     }
 
-    public static int menu(Scanner scanner){
-        int opt = -1;
-        while(opt < 0 || opt > 9) {
-            System.out.println("1. Carregar dados de um arquivo ED2\n" +
-                    "2. Buscar uma chave/escopo na árvore\n" +
-                    "3. Inserir uma chave/escopo da árvore\n" +
-                    "4. Alterar uma chave da árvore\n" +
-                    "5. Remover uma chave da árvore\n" +
-                    "6. Salvar dados para um arquivo\n" +
-                    "7. Exibir o conteúdo e as propriedades da árvore BST\n" +
-                    "8. Exibir o conteúdo e as propriedades da árvore AVL\n" +
-                    "9. Encerrar o programa");
-            opt = scanner.nextInt();
-            System.out.print("\n");
-        }
-        return opt;
-    }
-
-    public static void main(String[] args) throws IOException {
+    public static void menu() throws IOException {
         BST bst = new BST();
         AVL avl = new AVL();
-        Scanner scanner = new Scanner(System.in);
-        int opt = -1;
 
-        while(true){
+        Scanner scanner = new Scanner(System.in);
+
+        int opt = -1;
+        while(opt != 9) {
+            System.out.println("*********************************************************");
+            System.out.println(" 1. Carregar dados de um arquivo ED2\n" +
+                    " 2. Buscar uma chave/escopo na árvore\n" +
+                    " 3. Inserir uma chave/escopo da árvore\n" +
+                    " 4. Alterar uma chave da árvore\n" +
+                    " 5. Remover uma chave da árvore\n" +
+                    " 6. Salvar dados para um arquivo\n" +
+                    " 7. Exibir o conteúdo e as propriedades da árvore BST\n" +
+                    " 8. Exibir o conteúdo e as propriedades da árvore AVL\n" +
+                    " 9. Encerrar o programa");
+            System.out.println("*********************************************************");
+
+            System.out.print("\nOpção: ");
+            opt = scanner.nextInt();
+            System.out.print("\n");
 
             if (opt == 1) {
                 testParser(readFile(), bst, avl);
-
-            } else if (opt == 2) {
+            } else if(opt > 1 || opt < 9) {
                 if(!bst.isEmpty() && !avl.isEmpty()){
+                    if(opt == 2) {
+                        System.out.print("Chave/escopo: ");
+                        String identifier = scanner.next();
+                        System.out.println();
 
-                }else{
-                    System.out.println("ERRO: O Arquivo ainda não foi carregado.");
-                }
+                        searchIdentifier(bst, avl, identifier);
+                    } else if(opt == 3) {
+                        // inserir nova chave ou escopo
+                    } else if(opt == 4) {
+                        // alterar uma chave
+                    } else if(opt == 5) {
+                        // remover uma chave
+                    } else if(opt == 6) {
+                        try {
+                            writeFile();
+                            System.out.println("Deu tudo certo");
 
+                        } catch(RuntimeException e) {
+                            System.out.println("\n**** ERRO! O conteúdo inserido não está bem formatado: ");
+                            System.out.println("> " + e.getMessage());
+                        }
+                    } else if(opt == 7) {
+                        System.out.println("Em ordem: ");
+                        bst.inOrder();
+                        System.out.println();
 
-            } else if (opt == 3) {
-                if(!bst.isEmpty() && !avl.isEmpty()){
+                        System.out.println("Pré ordem: ");
+                        bst.preOrder();
+                        System.out.println();
 
-                }else{
-                    System.out.println("ERRO: O Arquivo ainda não foi carregado.");
-                }
-            } else if (opt == 4) {
-                if(!bst.isEmpty() && !avl.isEmpty()){
+                        System.out.println("Pós ordem: ");
+                        bst.posOrder();
+                        System.out.println();
+                    } else if(opt == 8) {
+                        System.out.println("Em ordem: ");
+                        avl.inOrder();
+                        System.out.println();
 
-                }else{
-                    System.out.println("ERRO: O Arquivo ainda não foi carregado.");
-                }
-            } else if (opt == 5) {
-                if(!bst.isEmpty() && !avl.isEmpty()){
+                        System.out.println("Pré ordem: ");
+                        avl.preOrder();
+                        System.out.println();
 
-                }else{
-                    System.out.println("ERRO: O Arquivo ainda não foi carregado.");
-                }
-            } else if (opt == 6) {
-                if(!bst.isEmpty() && !avl.isEmpty()){
-                    try {
-                        writeFile();
-                        System.out.println("Deu tudo certo");
-
-                    } catch(RuntimeException e) {
-                        System.out.println("\n**** ERRO! O conteúdo inserido não está bem formatado: ");
-                        System.out.println("> " + e.getMessage());
+                        System.out.println("Pós ordem: ");
+                        avl.posOrder();
+                        System.out.println();
                     }
-
-                }else{
+                } else {
                     System.out.println("ERRO: O Arquivo ainda não foi carregado.");
                 }
-            } else if (opt == 7) {
-                if(!bst.isEmpty() && !avl.isEmpty()){
-
-                }else{
-                    System.out.println("ERRO: O Arquivo ainda não foi carregado.");
-                }
-            } else if (opt == 8) {
-                if(!bst.isEmpty() && !avl.isEmpty()){
-
-
-                }else{
-                    System.out.println("ERRO: O Arquivo ainda não foi carregado.");
-                }
-            }else if (opt == 9) {
+            } else if (opt == 9) {
                 System.out.println("Encerrando o programa ....");
                 break;
             }
 
-            opt = menu(scanner);
+            System.out.println();
         }
+    }
 
-        scanner.close();
+    public static void main(String[] args) throws IOException {
+        menu();
     }
 }

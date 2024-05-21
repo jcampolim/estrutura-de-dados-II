@@ -1,5 +1,7 @@
 package BST;
 
+import java.util.List;
+
 public class BST extends BinaryTree {
 
     // Construtor
@@ -13,18 +15,26 @@ public class BST extends BinaryTree {
 
 
     // Procura um nó na árvore pela chave
-    public NodeBST search(String identifier) {
-        return search(root, identifier);
+    public int searchBST(String identifier, List<NodeBST> listNodes) {
+        return searchBST(root, identifier, listNodes);
     }
 
-    private NodeBST search(NodeBST root, String identifier) {
-        if (root == null || identifier.equals(root.getIdentifier())) {
-            return root;
-        } else if (identifier.compareTo(root.getIdentifier()) < 0) {
-            return search(root.getLeft(), identifier);
-        } else {
-            return search(root.getRight(), identifier);
+    private int searchBST(NodeBST root, String identifier, List<NodeBST> listNodes) {
+        int comp = 0;
+        if(root != null) {
+            if (identifier.compareTo(root.getIdentifier()) < 0) {
+                comp = searchBST(root.getLeft(), identifier, listNodes);
+                comp++;
+            } else if(identifier.compareTo(root.getIdentifier()) > 0 || identifier.compareTo(root.getIdentifier()) == 0) {
+                comp = searchBST(root.getRight(), identifier, listNodes);
+                comp++;
+            }
+            if (identifier.equals(root.getIdentifier())) {
+                listNodes.add(root);
+                comp++;
+            }
         }
+        return comp;
     }
 
     // Insere uma nova chave na árvore
@@ -49,7 +59,7 @@ public class BST extends BinaryTree {
             }
 
             insert(root.getLeft(), node);
-        } else if(node.getIdentifier().compareTo(root.getIdentifier()) > 0) {
+        } else {
             if(root.getRight() == null) {
                 root.setRight(node);
                 node.setParent(root);
@@ -58,15 +68,23 @@ public class BST extends BinaryTree {
             }
 
             insert(root.getRight(), node);
-        } else if(node.getIdentifier().compareTo(root.getIdentifier()) == 0) {
-            return;
+        }
+    }
+
+    private NodeBST search(NodeBST root, String identifier) {
+        if (root == null || identifier.equals(root.getIdentifier())) {
+            return root;
+        } else if (identifier.compareTo(root.getIdentifier()) < 0) {
+            return search(root.getLeft(), identifier);
+        } else {
+            return search(root.getRight(), identifier);
         }
     }
 
     // Remove uma chave da árvore
     public boolean remove(String identifier) {
         if(!this.isEmpty()) {
-            NodeBST root = this.search(identifier);
+            NodeBST root = this.search(this.root, identifier);
 
             // Se o nó não existir
             if(root == null){
@@ -228,13 +246,13 @@ public class BST extends BinaryTree {
     }
 
     // Imprime as informações de todos os nós da árvore
-    public void treeInfo() {
-        treeInfo(root);
+    public void inOrder() {
+        inOrder(root);
     }
 
-    public void treeInfo(NodeBST root) {
+    public void inOrder(NodeBST root) {
         if(root.getLeft() != null) {
-            treeInfo(root.getLeft());
+            inOrder(root.getLeft());
         }
 
         System.out.println(root);
@@ -242,7 +260,43 @@ public class BST extends BinaryTree {
                 "--------------------------------------------------------------------");
 
         if(root.getRight() != null) {
-            treeInfo(root.getRight());
+            inOrder(root.getRight());
         }
+    }
+
+    public void preOrder() {
+        preOrder(root);
+    }
+
+    public void preOrder(NodeBST root) {
+        System.out.println(root);
+        System.out.println("----------------------------------------------------------------------" +
+                "--------------------------------------------------------------------");
+
+        if(root.getLeft() != null) {
+            preOrder(root.getLeft());
+        }
+
+        if(root.getRight() != null) {
+            preOrder(root.getRight());
+        }
+    }
+
+    public void posOrder() {
+        posOrder(root);
+    }
+
+    public void posOrder(NodeBST root) {
+        if(root.getLeft() != null) {
+            posOrder(root.getLeft());
+        }
+
+        if(root.getRight() != null) {
+            posOrder(root.getRight());
+        }
+
+        System.out.println(root);
+        System.out.println("----------------------------------------------------------------------" +
+                "--------------------------------------------------------------------");
     }
 }
