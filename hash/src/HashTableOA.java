@@ -5,15 +5,25 @@
 // Fontes:
 // Materiais disponibilizados pelos professores
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HashTableOA implements HashTable {
     int key;
     String value;
 
     HashTableData table[];
+    Boolean wasRemoved[];
     int size;
 
     public HashTableOA(int size) {
         table = new HashTableData[size];
+        wasRemoved = new Boolean[size];
+
+        for(int i = 0; i < size; i++) {
+            wasRemoved[i] = false;
+        }
+
         this.size = size;
     }
 
@@ -28,9 +38,11 @@ public class HashTableOA implements HashTable {
         int hashKey = hashFunction(key);
         int originalHashKey = hashKey;
 
-        while(table[hashKey] != null) {
-            if(table[hashKey].getKey() == key) {
-                return table[hashKey].getValue();
+        while(table[hashKey] != null || wasRemoved[hashKey]) {
+            if(table[hashKey] != null) {
+                if(table[hashKey].getKey() == key) {
+                    return table[hashKey].getValue();
+                }
             }
 
             hashKey = (hashKey + 1) % size;
@@ -71,13 +83,17 @@ public class HashTableOA implements HashTable {
         int hashKey = hashFunction(key);
         int originalHashKey = hashKey;
 
-        while(table[hashKey] != null) {
-            if(table[hashKey].getKey() == key) {
-                table[hashKey].setKey(0);
-                table[hashKey].setValue(null);
-                table[hashKey] = null;
+        while(table[hashKey] != null || wasRemoved[hashKey]) {
+            if(table[hashKey] != null) {
+                if(table[hashKey].getKey() == key) {
+                    table[hashKey].setKey(0);
+                    table[hashKey].setValue(null);
+                    table[hashKey] = null;
 
-                return true;
+                    wasRemoved[hashKey] = true;
+
+                    return true;
+                }
             }
 
             hashKey = (hashKey + 1) % size;
@@ -87,16 +103,7 @@ public class HashTableOA implements HashTable {
             }
         }
 
-        for(int i = 0; i < size; i++) {
-            int aux = (hashKey + i) % size;
-            if (table[aux] != null && table[aux].getKey() == key) {
-                table[hashKey].setKey(0);
-                table[hashKey].setValue(null);
-                table[hashKey] = null;
 
-                return true;
-            }
-        }
 
         return false;
     }

@@ -85,5 +85,17 @@ public class Main {
         System.out.println("\n > Buscando valores:");
         System.out.println("  > Buscando chave 0 (existe): " + teste2.search(0));
         System.out.println("  > Buscando chave 2 (foi removida): " + teste2.search(2));
+
+        System.out.println("\nExemplo: tabela hash tamanho 3. Insiro chaves 0 e 3. Removo a chave 0. Busco a chave 3.\n");
+
+        HashTableOA teste = new HashTableOA(3);
+        teste.insert(0, "a");
+        teste.insert(3, "b");
+
+        teste.print();
+        teste.remove(0);
+        teste.print();
+
+        System.out.println("buscando chave 3: " + teste.search(3));
     }
 }
