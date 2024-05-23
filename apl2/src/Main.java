@@ -1,10 +1,9 @@
 import BST.*;
 import AVL.*;
 
-import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
@@ -22,8 +21,50 @@ public class Main {
         return fileList;
     }
 
-    public static int writeFile() throws IOException {
-        File file = new File("saida.txt");
+    private static void write(String fileName, LinkedList<NodeAVL> statements, List<String> currentPath, BufferedWriter buffWrite)throws IOException{
+        String linha = "\n";
+        Queue<NodeAVL> paths = new LinkedList<NodeAVL>();
+        LinkedList<NodeAVL> removes = new LinkedList<>();
+        List<String> auxilarPath = new ArrayList<String>();
+
+        if(!statements.isEmpty()) {
+            for (NodeAVL node : statements) {
+                // Imprime todas as Keys que pertecem ao currentPath
+                if (node instanceof KeyAVL && node.getPath().equals(currentPath)) {
+                    linha = node.getIdentifier() + " = " + node.getValue();
+                    buffWrite.append(linha);
+                    buffWrite.newLine();
+                    removes.add(node);
+                } else if (node instanceof ScopeAVL && node.getPath().equals(currentPath)){
+                    paths.add(node);
+                }
+            }
+            // Remove chaves já usadas
+            for (NodeAVL node : removes) {
+                statements.remove(node);
+            }
+            removes.clear();
+            // Entra dentro do proximo Scope
+            for (NodeAVL node : paths){
+                linha = node.getIdentifier() + "(";
+                buffWrite.append(linha);
+                buffWrite.newLine();
+                auxilarPath = node.getPath();
+                auxilarPath.add(node.getIdentifier());
+                // Remove Scopes já usadas
+                statements.remove(node);
+                write(fileName, statements, currentPath = auxilarPath, buffWrite);
+                linha = ")";
+                buffWrite.append(linha);
+                buffWrite.newLine();
+                removes.add(node);
+            }1
+
+        }
+    }
+
+    public static int writeFile(String fileName, AVL avl) throws IOException {
+        File file = new File(fileName);
 
         // Adiciona uma verificação de permissão
         if (!file.exists()) {
@@ -34,9 +75,10 @@ public class Main {
         System.out.println("Escrevendo no arquivo: " + file.getAbsolutePath());
 
         try (BufferedWriter buffWrite = new BufferedWriter(new FileWriter(file))) {
-            String linha = "OK";
-            buffWrite.append(linha);
-            buffWrite.newLine();
+            LinkedList<NodeAVL> statements = avl.toList();
+            List<String> currentPath = new ArrayList<String>();
+
+            write(fileName, statements, currentPath, buffWrite);
         }
 
         System.out.println("Escrita concluída.");
@@ -125,7 +167,7 @@ public class Main {
                         // remover uma chave
                     } else if(opt == 6) {
                         try {
-                            writeFile();
+                            writeFile("saida.txt", avl);
                             System.out.println("Deu tudo certo");
 
                         } catch(RuntimeException e) {

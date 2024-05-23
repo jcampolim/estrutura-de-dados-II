@@ -1,4 +1,5 @@
 package AVL;
+import java.util.LinkedList;
 
 public class AVL extends BST_AVL {
     // Construtores
@@ -115,4 +116,20 @@ public class AVL extends BST_AVL {
         rotateRight(newRoot);
         rotateLeft(oldRoot);
     }
+
+    public LinkedList<NodeAVL> toList() {
+        LinkedList<NodeAVL> list = new LinkedList<>();
+        inOrderTraversal(root, list);
+        return list;
+    }
+
+    // Função para realizar a travessia in-order e adicionar os elementos na lista
+    private void inOrderTraversal(NodeAVL node, LinkedList<NodeAVL> list) {
+        if (node != null) {
+            inOrderTraversal(node.getLeft(), list);
+            list.add(node);
+            inOrderTraversal(node.getRight(), list);
+        }
+    }
 }
+

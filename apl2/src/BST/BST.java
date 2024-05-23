@@ -1,6 +1,10 @@
 package BST;
 
+import BST.NodeBST;
+
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class BST extends BinaryTree {
 
@@ -298,5 +302,19 @@ public class BST extends BinaryTree {
         System.out.println(root);
         System.out.println("----------------------------------------------------------------------" +
                 "--------------------------------------------------------------------");
+    }
+    public Queue<NodeBST> toQueue() {
+        Queue<NodeBST> queue = new LinkedList<>();
+        inOrderTraversal(root, queue);
+        return queue;
+    }
+
+    // Função para realizar a travessia in-order e adicionar os elementos na fila
+    private void inOrderTraversal(NodeBST node, Queue<NodeBST> queue) {
+        if (node != null) {
+            inOrderTraversal(node.getLeft(), queue);
+            queue.add(node);
+            inOrderTraversal(node.getRight(), queue);
+        }
     }
 }
