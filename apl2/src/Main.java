@@ -117,19 +117,56 @@ public class Main {
         avl.searchAVL(scope, listNodeAVL);
 
         boolean isScopeValid = false;
-        for(int i = 0; i < listNodeAVL.size(); i++) {
+
+        int i = 0;
+        while(i < listNodeAVL.size()) {
             if(listNodeAVL.get(i).getValue() == null) {
                 isScopeValid = true;
+                i++;
             } else {
                 listNodeAVL.remove(i);
             }
         }
+
 
         if(!isScopeValid || listNodeAVL == null) {
             return false;
         }
         return true;
     }
+    public static boolean verifyKey(String key, BST bst, AVL avl, List<NodeBST> keyBST, List<NodeAVL> keyAVL) {
+        bst.searchBST(key, keyBST);
+        avl.searchAVL(key, keyAVL);
+
+        boolean isKeyValid = false;
+
+        int i = 0;
+        while(i < keyBST.size()) {
+            if(keyBST.get(i).getValue() == null) {
+                keyBST.remove(i);
+            } else {
+                isKeyValid = true;
+                i++;
+            }
+        }
+
+        i = 0;
+        while(i < keyAVL.size()) {
+            if(keyAVL.get(i).getValue() == null) {
+                keyAVL.remove(i);
+            } else {
+                i++;
+            }
+
+        }
+
+        if(!isKeyValid || keyBST == null) {
+            System.out.println("a");
+            return false;
+        }
+        return true;
+    }
+
 
     public static void testParser(List<String> contents, BST bst, AVL avl) {
         Parser parser = new Parser();
@@ -224,13 +261,64 @@ public class Main {
                             Parser parser = new Parser();
                             parser.run(contents, bst, avl, path);
 
+                            System.out.println("\nChave/escopo inserido com sucesso!");
                         } else {
                             System.out.println("Não foi possível encontrar o escopo.");
                         }
                     } else if(opt == 4) {
                         // alterar uma chave
                     } else if(opt == 5) {
-                        // remover uma chave
+                        System.out.print("Digite a chave que deseja remover: ");
+
+                        scanner.nextLine();
+                        String key = scanner.nextLine();
+
+                        List<NodeBST> keyBST = new ArrayList<>();
+                        List<NodeAVL> keyAVL = new ArrayList<>();
+
+                        NodeBST nodeBST = null;
+                        NodeAVL nodeAVL = null;
+
+                        if(verifyKey(key, bst, avl, keyBST, keyAVL)) {
+                            if(keyBST.size() > 1) {
+                                System.out.println("\nMais de um escopo com o mesmo nome encontrado: ");
+                                for(int i = 0; i < keyBST.size(); i++) {
+                                    System.out.println((i + 1) + ". " + keyBST.get(i).getIdentifier() + " " +
+                                            keyBST.get(i).getPath());
+                                }
+
+                                System.out.print("\nEm qual escopo deseja inserir: ");
+                                int optKey = scanner.nextInt();
+                                scanner.nextLine();
+
+                                while(!(optKey > 0 && optKey <= keyBST.size())) {
+                                    System.out.print("\nOpção inválida. Tente novamente: ");
+                                    optKey = scanner.nextInt();
+                                }
+
+                                nodeBST = keyBST.get(optKey);
+                                for(int i = 0; i < keyAVL.size(); i++) {
+                                    if(keyAVL.get(i).getPath() == nodeBST.getPath()) {
+                                        nodeAVL = keyAVL.get(i);
+                                        break;
+                                    }
+                                }
+                            } else {
+                                nodeBST = keyBST.get(0);
+                                nodeAVL = keyAVL.get(0);
+                            }
+
+                            Boolean aux = bst.remove(nodeBST);
+                            Boolean aux1 = avl.remove(nodeAVL);
+
+                            if(aux && aux1) {
+                                System.out.println("Remoção realizada com sucesso!");
+                            } else {
+                                System.out.println("Ocorreu um erro na remoção.");
+                            }
+                        } else {
+                            System.out.println("\nA chave inserida não é válida.");
+                        }
                     } else if(opt == 6) {
                         try {
                             writeFile("saida.txt", avl);

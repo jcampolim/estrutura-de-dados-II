@@ -83,16 +83,8 @@ public class BST_AVL extends BinaryTree {
     }
 
     // Remove uma chave da árvore
-    public boolean removeBST(String identifier) {
+    public boolean remove(NodeAVL root) {
         if(!this.isEmpty()) {
-            NodeAVL root = this.search(this.root, identifier);
-
-            // Se o nó não existir
-            if(root == null){
-                System.out.println("O nó '" + identifier + "' não existe na árvore.");
-                return false;
-            }
-
             // Caso 1: o nó é folha (subimos para o pai e vemos qual filho temos que remover)
             if(root.isLeaf()) {
                 removeLeaf(root);
@@ -100,7 +92,7 @@ public class BST_AVL extends BinaryTree {
 
             // Caso 2: o nó possui um filho
             if(root.getDegree() == 1){
-                if (root.getParent().getRight().getIdentifier().equals(identifier)){   // Pai para a direita
+                if (root.getParent().getRight().getIdentifier().equals(root.getIdentifier())){   // Pai para a direita
                     if(root.getRight() != null){                           // Filho para a direita
                         root.getParent().setRight(root.getRight());
                         root.getRight().setParent(root.getParent());
@@ -121,10 +113,10 @@ public class BST_AVL extends BinaryTree {
 
             // Caso 3: o nó possui dois filhos (usamos o maior dos menores trocamos as informações)
             if(root.getDegree() == 2) {
-                NodeAVL predecessor = this.findPredecessor(identifier);
+                NodeAVL predecessor = this.findPredecessor(root.getIdentifier());
                 String dataPredecessor = predecessor.getIdentifier();
 
-                predecessor.setIdentifier(identifier);
+                predecessor.setIdentifier(root.getIdentifier());
                 root.setIdentifier(dataPredecessor);
 
                 // Removemos o nó que agora é uma folha

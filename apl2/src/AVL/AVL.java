@@ -11,8 +11,8 @@ public class AVL extends BST_AVL {
         super(root);
     }
 
-    public boolean removeBST(String identifier) {
-        boolean isRemoved = removeBST(identifier);
+    public boolean removeBST(NodeAVL root) {
+        boolean isRemoved = removeBST(root);
         isBalanced(root);
 
         return isRemoved;
