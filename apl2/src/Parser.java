@@ -17,27 +17,26 @@ public class Parser {
         index = -1;
     }
 
-    public void run(List<String> contents, BST bst, AVL avl) {
+    public void run(List<String> contents, BST bst, AVL avl, List<String> path) {
         Tokenizer tokenizer = new Tokenizer();
         tokens = tokenizer.tokenize(contents);
         currToken = null;
         index = -1;
 
-        parse(bst, avl);
+        parse(bst, avl, path);
     }
 
-    private void parse(BST bst, AVL avl) {
+    private void parse(BST bst, AVL avl, List<String> path) {
         advance();
-        data(bst, avl);
+        data(bst, avl, path);
         if(currToken.getType() != TokenType.EOF) {
             throw new RuntimeException("Parser.parse(): Esperado o fim do conteúdo (EOF), mas encontrou " + currToken + ".");
         }
     }
 
     // <data> ::= ((<scope> | <key> | <comment>)* <blank_line>)*
-    private void data(BST bst, AVL avl) {
+    private void data(BST bst, AVL avl, List<String> path) {
         TokenType type = currToken.getType();
-        List<String> path = new ArrayList<>();
 
         while(type == TokenType.COMMENT || type == TokenType.IDENTIFIER || type == TokenType.WHITESPACE) {
             if(type == TokenType.WHITESPACE) {

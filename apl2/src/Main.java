@@ -58,8 +58,7 @@ public class Main {
                 buffWrite.append(linha);
                 buffWrite.newLine();
                 removes.add(node);
-            }1
-
+            }
         }
     }
 
@@ -96,7 +95,7 @@ public class Main {
         System.out.println("-------------------------- BUSCA BST --------------------------");
         System.out.println(" - Quantidade de comparações: " + compBST);
         if(listNodeBST.isEmpty()) {
-            System.out.println("Não foi encontrada nenhuma chave o escopo com esse identificador.");
+            System.out.println("Não foi encontrada nenhuma chave ou escopo com esse identificador.");
         } else {
             for(int i = 0; i < listNodeBST.size(); i++) {
                 System.out.println(" - " + listNodeBST.get(i));
@@ -106,7 +105,7 @@ public class Main {
         System.out.println("\n-------------------------- BUSCA AVL --------------------------");
         System.out.println(" - Quantidade de comparações: " + compAVL);
         if(listNodeAVL.isEmpty()) {
-            System.out.println("Não foi encontrada nenhuma chave o escopo com esse identificador.");
+            System.out.println("Não foi encontrada nenhuma chave ou escopo com esse identificador.");
         } else {
             for(int i = 0; i < listNodeAVL.size(); i++) {
                 System.out.println(" - " + listNodeAVL.get(i));
@@ -114,11 +113,31 @@ public class Main {
         }
     }
 
+    public static boolean verifyScope(String scope, AVL avl, List<NodeAVL> listNodeAVL) {
+        avl.searchAVL(scope, listNodeAVL);
+
+        boolean isScopeValid = false;
+        for(int i = 0; i < listNodeAVL.size(); i++) {
+            if(listNodeAVL.get(i).getValue() == null) {
+                isScopeValid = true;
+            } else {
+                listNodeAVL.remove(i);
+            }
+        }
+
+        if(!isScopeValid || listNodeAVL == null) {
+            return false;
+        }
+        return true;
+    }
+
     public static void testParser(List<String> contents, BST bst, AVL avl) {
         Parser parser = new Parser();
+        List<String> path = new ArrayList<>();
+
         try {
-            parser.run(contents, bst, avl);
-            System.out.println("A gramática está correta\n");
+            parser.run(contents, bst, avl, path);
+            System.out.println("A gramática está correta");
         } catch(RuntimeException e) {
             System.out.println("\n**** ERRO! O conteúdo inserido não está bem formatado: ");
             System.out.println("> " + e.getMessage());
@@ -151,16 +170,63 @@ public class Main {
 
             if (opt == 1) {
                 testParser(readFile(), bst, avl);
-            } else if(opt > 1 || opt < 9) {
+            } else if(opt > 1 && opt < 9) {
                 if(!bst.isEmpty() && !avl.isEmpty()){
                     if(opt == 2) {
                         System.out.print("Chave/escopo: ");
-                        String identifier = scanner.next();
-                        System.out.println();
 
+                        scanner.nextLine();
+                        String identifier = scanner.nextLine();
+
+                        System.out.println();
                         searchIdentifier(bst, avl, identifier);
                     } else if(opt == 3) {
-                        // inserir nova chave ou escopo
+                        System.out.print("Digite o escopo em que deseja inserir a nova chave/escopo: ");
+
+                        scanner.nextLine();
+                        String scope = scanner.nextLine();
+
+                        List<NodeAVL> listNodeAVL = new ArrayList<>();
+                        List<String> path;
+                        if(verifyScope(scope, avl, listNodeAVL)) {
+                            if(listNodeAVL.size() > 1) {
+                                System.out.println("\nMais de um escopo com o mesmo nome encontrado: ");
+                                for(int i = 0; i < listNodeAVL.size(); i++) {
+                                    System.out.println((i + 1) + ". " + listNodeAVL.get(i).getIdentifier() + " " +
+                                            listNodeAVL.get(i).getPath());
+                                }
+
+                                System.out.print("\nEm qual escopo deseja inserir: ");
+                                int optScope = scanner.nextInt();
+                                scanner.nextLine();
+
+                                while(!(optScope > 0 && optScope <= listNodeAVL.size())) {
+                                    System.out.print("\nOpção inválida. Tente novamente: ");
+                                    optScope = scanner.nextInt();
+                                }
+                                path = new ArrayList<>(listNodeAVL.get(optScope - 1).getPath());
+                                path.add(listNodeAVL.get(optScope - 1).getIdentifier());
+                            } else {
+                                path = new ArrayList<>(listNodeAVL.get(0).getPath());
+                                path.add(listNodeAVL.get(0).getIdentifier());
+                            }
+
+                            System.out.print("\nDigite a nova chave ou escopo (linha vazia para parar): ");
+
+                            List<String> contents = new ArrayList<>();
+                            String aux = scanner.nextLine();
+
+                            while(aux != null && !aux.isBlank()) {
+                                contents.add(aux);
+                                aux = scanner.nextLine();
+                            }
+
+                            Parser parser = new Parser();
+                            parser.run(contents, bst, avl, path);
+
+                        } else {
+                            System.out.println("Não foi possível encontrar o escopo.");
+                        }
                     } else if(opt == 4) {
                         // alterar uma chave
                     } else if(opt == 5) {
