@@ -1,3 +1,11 @@
+// Nomes:
+// Enzo Guarnieri, 10410074
+// Erika Borges Piaui, 10403716
+// Júlia Campolim de Oste, 10408802
+// Fontes:
+// Materiais disponibilizados pelos professores
+// https://www.geeksforgeeks.org/different-ways-reading-text-file-java/
+
 import BST.*;
 import AVL.AVL;
 import AVL.ScopeAVL;
@@ -38,6 +46,7 @@ public class Parser {
     private void data(BST bst, AVL avl, List<String> path) {
         TokenType type = currToken.getType();
 
+        // Consome 0+ regras do tipo <comment> e <identifier>
         while(type == TokenType.COMMENT || type == TokenType.IDENTIFIER || type == TokenType.WHITESPACE) {
             if(type == TokenType.WHITESPACE) {
                 consume(TokenType.WHITESPACE);
@@ -61,7 +70,9 @@ public class Parser {
         }
     }
 
+    // <comment>      ::= "#" <string>
     private void comment() {
+        // Se for comentário, consome os tokens do comentário
         consume(TokenType.COMMENT);
 
         while(currToken.getType() == TokenType.WHITESPACE) {
@@ -71,10 +82,12 @@ public class Parser {
         consume(TokenType.STRING);
     }
 
+    // <identifier>   ::= <string>
     public void identifier(BST bst, AVL avl, List<String> path) {
         String identifier = currToken.getValue();
         consume(TokenType.IDENTIFIER);
 
+        // Verifica qual é o tipo do identifier (se é do <scope> ou do <key>) e adiciona nas árvores BST e AVL
         if(currToken.getValue() == "=") {
             String value = key();
 
@@ -101,6 +114,7 @@ public class Parser {
         }
     }
 
+    // <key>          ::= <identifier> <blank> "=" <blank> <value>
     public String key() {
         consume(TokenType.STRING);
 
@@ -110,9 +124,11 @@ public class Parser {
         return value;
     }
 
+    // <scope>        ::= <identifier> (<blank> | <blank_line>)* "(" <blank_line>+ <data>* <blank> ")"
     public void scope(BST bst, AVL avl, List<String> path) {
         consume(TokenType.STRING);
 
+        // Verifica se possui o ')' com quebra de linha e valida os outros tokens que aparecem dentro do escopo
         boolean hasNewLine = false;
         while(true) {
             if(currToken.getType() == TokenType.NEWLINE) {
@@ -150,6 +166,7 @@ public class Parser {
         consume(TokenType.STRING);
     }
 
+    // Avança para o próximo token
     private void advance() {
         ++index;
         if (index >= tokens.size()) {
@@ -158,6 +175,7 @@ public class Parser {
         currToken = tokens.get(index);
     }
 
+    // Avança para o próximo token, mas verifica se o próximo token é do tipo esperado
     private void consume(TokenType expected) {
         if (currToken.getType() == expected) {
             advance();

@@ -1,3 +1,11 @@
+// Nomes:
+// Enzo Guarnieri, 10410074
+// Erika Borges Piaui, 10403716
+// Júlia Campolim de Oste, 10408802
+// Fontes:
+// Materiais disponibilizados pelos professores
+// https://www.geeksforgeeks.org/different-ways-reading-text-file-java/
+
 import BST.*;
 import AVL.*;
 
@@ -7,8 +15,9 @@ import java.util.*;
 
 public class Main {
 
-    public static List<String> readFile() throws IOException {
-        File file = new File("test.txt");
+    // Lê o arquivo e retorna uma lista de strings com o conteúdo lido
+    public static List<String> readFile(String filename) throws IOException {
+        File file = new File(filename);
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         List<String> fileList = new ArrayList<>();
@@ -21,11 +30,12 @@ public class Main {
         return fileList;
     }
 
-    private static void write(String fileName, LinkedList<NodeAVL> statements, List<String> currentPath, BufferedWriter buffWrite)throws IOException{
+    // Escreve no arquivo de saída
+    private static void write(String fileName, LinkedList<NodeAVL> statements, List<String> currentPath, BufferedWriter buffWrite) throws IOException {
         String linha = "\n";
-        Queue<NodeAVL> paths = new LinkedList<NodeAVL>();
+        Queue<NodeAVL> paths = new LinkedList<>();
         LinkedList<NodeAVL> removes = new LinkedList<>();
-        List<String> auxilarPath = new ArrayList<String>();
+        List<String> auxilarPath = new ArrayList<>();
 
         if(!statements.isEmpty()) {
             for (NodeAVL node : statements) {
@@ -62,7 +72,7 @@ public class Main {
         }
     }
 
-    public static int writeFile(String fileName, AVL avl) throws IOException {
+    public static boolean writeFile(String fileName, AVL avl) throws IOException {
         File file = new File(fileName);
 
         // Adiciona uma verificação de permissão
@@ -78,13 +88,14 @@ public class Main {
             List<String> currentPath = new ArrayList<String>();
 
             write(fileName, statements, currentPath, buffWrite);
+        } catch (Exception e) {
+            return false;
         }
 
-        System.out.println("Escrita concluída.");
-
-        return 1;
+        return true;
     }
 
+    // Busca pelo identificador e retorna uma lista de nós com todos os identificadores encontrados
     public static void searchIdentifier(BST bst, AVL avl, String identifier) {
         List<NodeBST> listNodeBST = new ArrayList<>();
         List<NodeAVL> listNodeAVL = new ArrayList<>();
@@ -92,6 +103,7 @@ public class Main {
         int compBST = bst.searchBST(identifier, listNodeBST);
         int compAVL = avl.searchAVL(identifier, listNodeAVL);
 
+        // Exibe os resultados da busca na BST e na AVL
         System.out.println("-------------------------- BUSCA BST --------------------------");
         System.out.println(" - Quantidade de comparações: " + compBST);
         if(listNodeBST.isEmpty()) {
@@ -113,6 +125,7 @@ public class Main {
         }
     }
 
+    // Verifica se os identificadores encontrados na busca são escopos ou não
     public static boolean verifyScope(String scope, AVL avl, List<NodeAVL> listNodeAVL) {
         avl.searchAVL(scope, listNodeAVL);
 
@@ -134,6 +147,8 @@ public class Main {
         }
         return true;
     }
+
+    // Verifica se os idetificadores encontrados são chaves ou não
     public static boolean verifyKey(String key, BST bst, AVL avl, List<NodeBST> keyBST, List<NodeAVL> keyAVL) {
         bst.searchBST(key, keyBST);
         avl.searchAVL(key, keyAVL);
@@ -161,13 +176,13 @@ public class Main {
         }
 
         if(!isKeyValid || keyBST == null) {
-            System.out.println("a");
             return false;
         }
         return true;
     }
 
 
+    // Função que chama o parser para ler e validar o conteudo do texto
     public static void testParser(List<String> contents, BST bst, AVL avl) {
         Parser parser = new Parser();
         List<String> path = new ArrayList<>();
@@ -206,14 +221,18 @@ public class Main {
             System.out.print("\n");
 
             if (opt == 1) {
-                testParser(readFile(), bst, avl);
+                System.out.print("Nome do arquivo: ");
+                String fileName = scanner.next();
+                System.out.println();
+
+                testParser(readFile(fileName), bst, avl);
             } else if(opt > 1 && opt < 9) {
                 if(!bst.isEmpty() && !avl.isEmpty()){
                     if(opt == 2) {
                         System.out.print("Chave/escopo: ");
 
                         scanner.nextLine();
-                        String identifier = scanner.nextLine();
+                        String identifier = scanner.nextLine().trim();
 
                         System.out.println();
                         searchIdentifier(bst, avl, identifier);
@@ -221,7 +240,7 @@ public class Main {
                         System.out.print("Digite o escopo em que deseja inserir a nova chave/escopo: ");
 
                         scanner.nextLine();
-                        String scope = scanner.nextLine();
+                        String scope = scanner.nextLine().trim();
 
                         List<NodeAVL> listNodeAVL = new ArrayList<>();
                         List<String> path;
@@ -259,16 +278,21 @@ public class Main {
                             }
 
                             Parser parser = new Parser();
-                            parser.run(contents, bst, avl, path);
 
-                            System.out.println("\nChave/escopo inserido com sucesso!");
+                            try {
+                                parser.run(contents, bst, avl, path);
+                                System.out.println("\nChave/escopo inserido com sucesso!");
+                            } catch(RuntimeException e) {
+                                System.out.println("\n**** ERRO! O conteúdo inserido não está bem formatado: ");
+                                System.out.println("> " + e.getMessage());
+                            }
                         } else {
                             System.out.println("Não foi possível encontrar o escopo.");
                         }
                     } else if(opt == 4) {
                         System.out.print("Digite a chave que deseja alterar: ");
                         scanner.nextLine();
-                        String oldKey = scanner.nextLine();
+                        String oldKey = scanner.nextLine().trim();
 
                         List<NodeBST> keyBST = new ArrayList<>();
                         List<NodeAVL> keyAVL = new ArrayList<>();
@@ -306,28 +330,19 @@ public class Main {
                             }
 
                             System.out.print("\nDigite a nova chave: ");
-                            String newKey = scanner.nextLine();
+                            String newValue = scanner.nextLine();
 
-                            if (!verifyKey(newKey, bst, avl, keyBST, keyAVL)) {
-                                System.out.println("A nova chave já existe na árvore. Operação de alteração cancelada.");
-                            } else {
-                                Boolean successBST = bst.update(nodeBST.getIdentifier(), newKey);
-                                Boolean successAVL = avl.updateBST(nodeAVL.getIdentifier(), newKey);
-
-                                if (successBST && successAVL) {
-                                    System.out.println("Chave alterada com sucesso!");
-                                } else {
-                                    System.out.println("Ocorreu um erro ao tentar alterar a chave.");
-                                }
-                            }
+                            nodeBST.setValue(newValue);
+                            nodeAVL.setValue(newValue);
+                            System.out.println("Chave alterada com sucesso!");
                         } else {
-                            System.out.println("\nA chave inserida não é válida.");
+                            System.out.println("\nA chave buscada não existe.");
                         }
                     } else if(opt == 5) {
                         System.out.print("Digite a chave que deseja remover: ");
 
                         scanner.nextLine();
-                        String key = scanner.nextLine();
+                        String key = scanner.nextLine().trim();
 
                         List<NodeBST> keyBST = new ArrayList<>();
                         List<NodeAVL> keyAVL = new ArrayList<>();
@@ -364,10 +379,10 @@ public class Main {
                                 nodeAVL = keyAVL.get(0);
                             }
 
-                            Boolean aux = bst.remove(nodeBST);
-                            Boolean aux1 = avl.remove(nodeAVL);
+                            Boolean successBST = bst.remove(nodeBST);
+                            Boolean successAVL = avl.remove(nodeAVL);
 
-                            if(aux && aux1) {
+                            if(successBST && successAVL) {
                                 System.out.println("Remoção realizada com sucesso!");
                             } else {
                                 System.out.println("Ocorreu um erro na remoção.");
@@ -376,13 +391,14 @@ public class Main {
                             System.out.println("\nA chave inserida não é válida.");
                         }
                     } else if(opt == 6) {
-                        try {
-                            writeFile("saida.txt", avl);
-                            System.out.println("Deu tudo certo");
+                        System.out.print("Nome do arquivo: ");
+                        String fileName = scanner.next();
+                        System.out.println();
 
-                        } catch(RuntimeException e) {
-                            System.out.println("\n**** ERRO! O conteúdo inserido não está bem formatado: ");
-                            System.out.println("> " + e.getMessage());
+                        if(writeFile(fileName, avl)) {
+                            System.out.println("Escrita concluída!");
+                        } else {
+                            System.out.println("Erro ao escrever no arquivo.");
                         }
                     } else if(opt == 7) {
                         System.out.println("Em ordem: ");
@@ -413,7 +429,7 @@ public class Main {
                     System.out.println("ERRO: O Arquivo ainda não foi carregado.");
                 }
             } else if (opt == 9) {
-                System.out.println("Encerrando o programa ....");
+                System.out.println("Encerrando o programa...");
                 break;
             }
 

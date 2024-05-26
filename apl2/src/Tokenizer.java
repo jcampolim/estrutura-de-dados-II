@@ -1,3 +1,11 @@
+// Nomes:
+// Enzo Guarnieri, 10410074
+// Erika Borges Piaui, 10403716
+// Júlia Campolim de Oste, 10408802
+// Fontes:
+// Materiais disponibilizados pelos professores
+// https://www.geeksforgeeks.org/different-ways-reading-text-file-java/
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,27 +48,34 @@ public class Tokenizer {
         boolean isString = false;
 
         while (true) {
+            // Se a linha for nula ou todos os caracteres já tiverem sido consumidos, então pode ir para a próxima linha
             if (line == null || pos >= line.length()) {
+
+                // Se o StringBuilder não estiver vazio, cria um novo token
                 if (sb.length() > 0) {
                     tokens.add(new Token(TokenType.STRING, sb.toString()));
                     sb.setLength(0);
                 }
 
+                // Se não for a primeira linha, adiciona uma quebra de linha
                 if (line != null) {
                     tokens.add(new Token(TokenType.NEWLINE, "\n"));
                 }
 
+                // Se não tem mais linhas, então adiciona o fim de arquivo
                 if (lineIndex >= contents.size()) {
                     tokens.add(new Token(TokenType.EOF, "\0"));
                     break;
                 }
 
+                // Lê a próxima linha e reinicia as variáveis de controle da linha
                 line = contents.get(lineIndex++);
 
                 pos = 0;
                 currChar = '\0';
                 isString = false;
 
+                // Pula a linha se não tiver nada nela
                 if (line.isBlank()) {
                     pos = line.length();
                     continue;
@@ -70,6 +85,7 @@ public class Tokenizer {
             if (!isString) {
                 currChar = getNextChar();
 
+                // Consome os espaços vazios
                 if (Character.isWhitespace(currChar)) {
                     while (Character.isWhitespace(currChar)) {
                         currChar = getNextChar();
@@ -79,6 +95,7 @@ public class Tokenizer {
                         --pos;
                     }
 
+                // Reconhece um token de comentário
                 } else if (currChar == '#') {
                     if (tokens.size() > 0 && tokens.get(tokens.size() - 1).getType() == TokenType.COMMENT) {
                         isString = true;
@@ -87,6 +104,7 @@ public class Tokenizer {
                         tokens.add(new Token(TokenType.COMMENT, "#"));
                     }
 
+                // Reconhece uma string de escopo
                 } else if(currChar == ')') {
                     if(tokens.size() > 0 && tokens.get(tokens.size() - 1).getType() == TokenType.COMMENT) {
                         isString = true;
@@ -94,13 +112,15 @@ public class Tokenizer {
                     } else {
                         tokens.add(new Token(TokenType.STRING, ")"));
                     }
+
+                // Provavelmente a próxima sequência de caracteres é uma string
                 } else if (currChar != '\0') {
                     isString = true;
                     startStringWith(sb, currChar);
                 }
 
             } else {
-                // TODO: consumir os espaços em branco do final em caso de identificador
+                // Encontra uma string, parando no final da linha ou se encontrar '=' ou '('
                 while (pos < line.length()) {
                     currChar = getNextChar();
                     sb.append(currChar);
@@ -111,11 +131,14 @@ public class Tokenizer {
                 }
 
                 if(currChar != '=' && currChar != '(') {
+                    // Se a string encontrada for um comentário (se o token anterior for de comentário)
                     if(tokens.get(tokens.size() - 1).getType() == TokenType.COMMENT || tokens.get(tokens.size() - 2).getType() == TokenType.COMMENT) {
                         tokens.add(new Token(TokenType.STRING, sb.toString()));
                         sb.setLength(0);
 
                         isString = false;
+
+                    // verifica se a string for um idenficador (o parenteses aberto precisa estar em outra linha)
                     } else {
                         line = contents.get(lineIndex++);
 
@@ -125,12 +148,14 @@ public class Tokenizer {
 
                         currChar = getNextChar();
 
+                        // Consome espaço em branco
                         while(Character.isWhitespace(currChar)) {
                             currChar = getNextChar();
                         }
 
+                        // É um identificador
                         if(currChar == '('){
-                            tokens.add(new Token(TokenType.IDENTIFIER, sb.toString()));
+                            tokens.add(new Token(TokenType.IDENTIFIER, sb.toString().trim()));
                             sb.setLength(0);
 
                             isString = false;
@@ -145,6 +170,7 @@ public class Tokenizer {
                                     currChar = getNextChar();
                                 }
                             }
+                        // É uma string qualquer
                         } else {
                             tokens.add(new Token(TokenType.STRING, sb.toString()));
                             sb.setLength(0);
@@ -155,8 +181,10 @@ public class Tokenizer {
                         }
                     }
                 } else {
+                    // Verifica se o identificador é de uma chave ou de um escopo
                     if(currChar == '=') {
-                        tokens.add(new Token(TokenType.IDENTIFIER, sb.toString().substring(0, sb.length() - 1)));
+                        // Se for uma chave, procura pelo valor e o associa a um token
+                        tokens.add(new Token(TokenType.IDENTIFIER, sb.toString().substring(0, sb.length() - 1).trim()));
                         sb.setLength(0);
 
                         tokens.add(new Token(TokenType.STRING, "="));
@@ -170,8 +198,10 @@ public class Tokenizer {
 
                         tokens.add(new Token(TokenType.VALUE, sb.toString()));
                         sb.setLength(0);
-                        isString = false;                    } else {
-                        tokens.add(new Token(TokenType.IDENTIFIER, sb.toString().substring(0, sb.length() - 1)));
+                        isString = false;
+                    } else {
+                        // Se for um escopo
+                        tokens.add(new Token(TokenType.IDENTIFIER, sb.toString().substring(0, sb.length() - 1).trim()));
                         sb.setLength(0);
                         tokens.add(new Token(TokenType.STRING, "("));
 
@@ -190,6 +220,7 @@ public class Tokenizer {
         return tokens;
     }
 
+    // Avança para o próximo caractere
     private char getNextChar() {
         if(pos >= line.length()) {
             return '\0';

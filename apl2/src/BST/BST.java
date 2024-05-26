@@ -1,6 +1,12 @@
 package BST;
 
-import BST.NodeBST;
+// Nomes:
+// Enzo Guarnieri, 10410074
+// Erika Borges Piaui, 10403716
+// Júlia Campolim de Oste, 10408802
+// Fontes:
+// Materiais disponibilizados pelos professores
+// https://www.geeksforgeeks.org/different-ways-reading-text-file-java/
 
 import java.util.LinkedList;
 import java.util.List;
@@ -76,12 +82,12 @@ public class BST extends BinaryTree {
     }
 
     // Altera uma chave da árvore
-    public boolean update(String oldKey, String newKey) {
-        NodeBST updateNode = search(root, oldKey);
+    public boolean update(String oldValue, String newValue) {
+        NodeBST updateNode = search(root, oldValue);
     
         if (updateNode != null) {
     
-            updateNode.setIdentifier(newKey);
+            updateNode.setValue(newValue);
             return true;
         }
     
