@@ -75,6 +75,19 @@ public class BST extends BinaryTree {
         }
     }
 
+    // Altera uma chave da árvore
+    public boolean update(String oldKey, String newKey) {
+        NodeBST updateNode = search(root, oldKey);
+    
+        if (updateNode != null) {
+    
+            updateNode.setIdentifier(newKey);
+            return true;
+        }
+    
+        return false;
+    }
+
     private NodeBST search(NodeBST root, String identifier) {
         if (root == null || identifier.equals(root.getIdentifier())) {
             return root;

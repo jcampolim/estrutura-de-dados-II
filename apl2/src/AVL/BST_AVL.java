@@ -72,6 +72,18 @@ public class BST_AVL extends BinaryTree {
         }
     }
 
+    public boolean updateBST(String oldKey, String newKey) {
+        NodeAVL updateNode = search(root, oldKey);
+    
+        if (updateNode != null) {
+    
+            updateNode.setIdentifier(newKey);
+            return true;
+        }
+    
+        return false;
+    }
+
     private NodeAVL search(NodeAVL root, String identifier) {
         if (root == null || identifier.equals(root.getIdentifier())) {
             return root;
