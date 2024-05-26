@@ -266,7 +266,63 @@ public class Main {
                             System.out.println("Não foi possível encontrar o escopo.");
                         }
                     } else if(opt == 4) {
-                        // alterar uma chave
+                        System.out.print("Digite a chave que deseja alterar: ");
+                        scanner.nextLine();
+                        String oldKey = scanner.nextLine();
+
+                        List<NodeBST> keyBST = new ArrayList<>();
+                        List<NodeAVL> keyAVL = new ArrayList<>();
+
+                        NodeBST nodeBST = null;
+                        NodeAVL nodeAVL = null;
+
+                        if (verifyKey(oldKey, bst, avl, keyBST, keyAVL)) {
+                            if (keyBST.size() > 1) {
+                                System.out.println("\nMais de uma chave com o mesmo nome encontrado: ");
+                                for (int i = 0; i < keyBST.size(); i++) {
+                                    System.out.println((i + 1) + ". " + keyBST.get(i).getIdentifier() + " " +
+                                            keyBST.get(i).getPath());
+                                }
+
+                                System.out.print("\nQual chave deseja alterar: ");
+                                int optKey = scanner.nextInt();
+                                scanner.nextLine();
+
+                                while (!(optKey > 0 && optKey <= keyBST.size())) {
+                                    System.out.print("\nOpção inválida. Tente novamente: ");
+                                    optKey = scanner.nextInt();
+                                }
+
+                                nodeBST = keyBST.get(optKey - 1);
+                                for (int i = 0; i < keyAVL.size(); i++) {
+                                    if (keyAVL.get(i).getPath() == nodeBST.getPath()) {
+                                        nodeAVL = keyAVL.get(i);
+                                        break;
+                                    }
+                                }
+                            } else {
+                                nodeBST = keyBST.get(0);
+                                nodeAVL = keyAVL.get(0);
+                            }
+
+                            System.out.print("\nDigite a nova chave: ");
+                            String newKey = scanner.nextLine();
+
+                            if (!verifyKey(newKey, bst, avl, keyBST, keyAVL)) {
+                                System.out.println("A nova chave já existe na árvore. Operação de alteração cancelada.");
+                            } else {
+                                Boolean successBST = bst.update(nodeBST.getIdentifier(), newKey);
+                                Boolean successAVL = avl.updateBST(nodeAVL.getIdentifier(), newKey);
+
+                                if (successBST && successAVL) {
+                                    System.out.println("Chave alterada com sucesso!");
+                                } else {
+                                    System.out.println("Ocorreu um erro ao tentar alterar a chave.");
+                                }
+                            }
+                        } else {
+                            System.out.println("\nA chave inserida não é válida.");
+                        }
                     } else if(opt == 5) {
                         System.out.print("Digite a chave que deseja remover: ");
 
