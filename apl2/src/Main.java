@@ -241,6 +241,9 @@ public class Main {
                 List<String> fileList = new ArrayList<>();
                 isFileValid = readFile(fileName, fileList);
 
+                bst.clear();
+                avl.clear();
+
                 if(isFileValid) {
                     testParser(fileList, bst, avl);
                 }
