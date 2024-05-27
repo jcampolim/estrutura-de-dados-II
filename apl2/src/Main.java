@@ -239,12 +239,13 @@ public class Main {
                 System.out.println();
 
                 List<String> fileList = new ArrayList<>();
+                if(!bst.isEmpty() || !avl.isEmpty()) {
+                     bst = new BST();
+                     avl = new AVL();
+                }
                 isFileValid = readFile(fileName, fileList);
 
-                if(!bst.isEmpty() || !avl.isEmpty()){
-                    bst.clear();
-                    avl.clear();
-                }
+
 
                 if(isFileValid) {
                     testParser(fileList, bst, avl);
