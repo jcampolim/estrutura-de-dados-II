@@ -50,7 +50,7 @@ public class Parser {
         TokenType type = currToken.getType();
 
         // Consome 0+ regras do tipo <comment> e <identifier>
-        while(type == TokenType.COMMENT || type == TokenType.IDENTIFIER || type == TokenType.WHITESPACE) {
+        while(type == TokenType.COMMENT || type == TokenType.IDENTIFIER || type == TokenType.WHITESPACE || type == TokenType.NEWLINE) {
             if(type == TokenType.WHITESPACE) {
                 consume(TokenType.WHITESPACE);
             }
@@ -62,6 +62,9 @@ public class Parser {
 
             if(type == TokenType.IDENTIFIER) {
                 identifier(bst, avl, path);
+                consume(TokenType.NEWLINE);
+            }
+            if(type == TokenType.NEWLINE) {
                 consume(TokenType.NEWLINE);
             }
 

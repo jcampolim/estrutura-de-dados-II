@@ -11,7 +11,6 @@
 
 import BST.*;
 import AVL.*;
-
 import java.util.List;
 import java.io.*;
 import java.util.*;
@@ -28,7 +27,6 @@ public class Main {
             return false;
         }
         BufferedReader br = new BufferedReader(new FileReader(file));
-
         String line;
         while((line = br.readLine()) != null) {
             fileList.add(line);
@@ -43,7 +41,6 @@ public class Main {
         Queue<NodeAVL> paths = new LinkedList<>();
         LinkedList<NodeAVL> removes = new LinkedList<>();
         List<String> auxilarPath = new ArrayList<>();
-
         if(!statements.isEmpty()) {
             for (NodeAVL node : statements) {
                 // Imprime todas as Keys que pertecem ao currentPath
@@ -61,7 +58,6 @@ public class Main {
                 statements.remove(node);
             }
             removes.clear();
-
             // Entra dentro do proximo Scope
             for (NodeAVL node : paths){
                 linha = node.getIdentifier() + "(";
@@ -69,7 +65,6 @@ public class Main {
                 buffWrite.newLine();
                 auxilarPath = node.getPath();
                 auxilarPath.add(node.getIdentifier());
-
                 // Remove Scopes já usadas
                 statements.remove(node);
                 write(fileName, statements, currentPath = auxilarPath, buffWrite);
@@ -88,14 +83,11 @@ public class Main {
         if (!file.exists()) {
             file.createNewFile(); // Cria o arquivo se não existir
         }
-
         // Adiciona um print para depuração
         System.out.println("Escrevendo no arquivo: " + file.getAbsolutePath());
-
         try (BufferedWriter buffWrite = new BufferedWriter(new FileWriter(file))) {
             LinkedList<NodeAVL> statements = avl.toList();
             List<String> currentPath = new ArrayList<String>();
-
             write(fileName, statements, currentPath, buffWrite);
         } catch (Exception e) {
             return false;
@@ -256,17 +248,12 @@ public class Main {
                 if(isFileValid){
                     if(opt == 2) {
                         System.out.print("Chave/escopo: ");
-
-                        scanner.nextLine();
                         String identifier = scanner.nextLine().trim();
-
                         System.out.println();
                         searchIdentifier(bst, avl, identifier);
                     } else if(opt == 3) {
                         System.out.print("Digite o escopo em que deseja inserir a nova chave/escopo: ");
-
                         String scope = scanner.nextLine().trim();
-
                         List<NodeAVL> listNodeAVL = new ArrayList<>();
                         List<String> path;
                         if(verifyScope(scope, avl, listNodeAVL) || scope.equals("global")) {

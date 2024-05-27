@@ -1,0 +1,7 @@
+# Escopo fechado incorretamente
+
+escopo (
+ chaveTeste1 = valorTeste1
+ chaveTeste2 = valorTeste2
+
+chaveTeste3 = valorTeste3
