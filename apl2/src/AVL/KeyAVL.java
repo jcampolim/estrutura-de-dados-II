@@ -7,6 +7,9 @@ package AVL;
 // Fontes:
 // Materiais disponibilizados pelos professores
 // https://www.geeksforgeeks.org/different-ways-reading-text-file-java/
+// https://www.javatpoint.com/java-tokens
+// https://www.devmedia.com.br/tokenizacao-com-scanner-em-java/26508
+// SZWARCFITER, J.L.; MARKENZON, L. Estruturas de Dados e seus Algoritmos. 3ª. ed. Rio de Janeiro: LTC, 2010.
 
 public class KeyAVL extends NodeAVL {
 

@@ -16,21 +16,25 @@ import java.util.List;
 import java.io.*;
 import java.util.*;
 
+import static java.lang.Integer.parseInt;
+
 public class Main {
 
     // Lê o arquivo e retorna uma lista de strings com o conteúdo lido
-    public static List<String> readFile(String filename) throws IOException {
+    public static boolean readFile(String filename, List<String> fileList) throws IOException {
         File file = new File(filename);
+        if(!file.exists()) {
+            System.out.println("Arquivo inválido.");
+            return false;
+        }
         BufferedReader br = new BufferedReader(new FileReader(file));
-
-        List<String> fileList = new ArrayList<>();
 
         String line;
         while((line = br.readLine()) != null) {
             fileList.add(line);
         }
 
-        return fileList;
+        return true;
     }
 
     // Escreve no arquivo de saída
@@ -57,6 +61,7 @@ public class Main {
                 statements.remove(node);
             }
             removes.clear();
+
             // Entra dentro do proximo Scope
             for (NodeAVL node : paths){
                 linha = node.getIdentifier() + "(";
@@ -64,6 +69,7 @@ public class Main {
                 buffWrite.newLine();
                 auxilarPath = node.getPath();
                 auxilarPath.add(node.getIdentifier());
+
                 // Remove Scopes já usadas
                 statements.remove(node);
                 write(fileName, statements, currentPath = auxilarPath, buffWrite);
@@ -196,12 +202,17 @@ public class Main {
         } catch(RuntimeException e) {
             System.out.println("\n**** ERRO! O conteúdo inserido não está bem formatado: ");
             System.out.println("> " + e.getMessage());
+
+            bst = new BST();
+            avl = new AVL();
         }
     }
 
     public static void menu() throws IOException {
         BST bst = new BST();
         AVL avl = new AVL();
+
+        boolean isFileValid = false;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -220,17 +231,29 @@ public class Main {
             System.out.println("*********************************************************");
 
             System.out.print("\nOpção: ");
-            opt = scanner.nextInt();
+            String optAux = scanner.nextLine();
+
+            try {
+                opt = parseInt(optAux);
+            } catch(Exception e) {
+                System.out.print("\nOpção inválida.");
+            }
+
             System.out.print("\n");
 
             if (opt == 1) {
                 System.out.print("Nome do arquivo: ");
-                String fileName = scanner.next();
+                String fileName = scanner.nextLine();
                 System.out.println();
 
-                testParser(readFile(fileName), bst, avl);
+                List<String> fileList = new ArrayList<>();
+                isFileValid = readFile(fileName, fileList);
+
+                if(isFileValid) {
+                    testParser(fileList, bst, avl);
+                }
             } else if(opt > 1 && opt < 9) {
-                if(!bst.isEmpty() && !avl.isEmpty()){
+                if(isFileValid){
                     if(opt == 2) {
                         System.out.print("Chave/escopo: ");
 
@@ -242,13 +265,14 @@ public class Main {
                     } else if(opt == 3) {
                         System.out.print("Digite o escopo em que deseja inserir a nova chave/escopo: ");
 
-                        scanner.nextLine();
                         String scope = scanner.nextLine().trim();
 
                         List<NodeAVL> listNodeAVL = new ArrayList<>();
                         List<String> path;
-                        if(verifyScope(scope, avl, listNodeAVL)) {
-                            if(listNodeAVL.size() > 1) {
+                        if(verifyScope(scope, avl, listNodeAVL) || scope.equals("global")) {
+                            if(scope.equals("global")) {
+                                path = new ArrayList<>();
+                            } else if(listNodeAVL.size() > 1) {
                                 System.out.println("\nMais de um escopo com o mesmo nome encontrado: ");
                                 for(int i = 0; i < listNodeAVL.size(); i++) {
                                     System.out.println((i + 1) + ". " + listNodeAVL.get(i).getIdentifier() + " " +
@@ -270,24 +294,71 @@ public class Main {
                                 path.add(listNodeAVL.get(0).getIdentifier());
                             }
 
-                            System.out.print("\nDigite a nova chave ou escopo (linha vazia para parar): ");
+                            System.out.print("\nDeseja inserir uma chave (1) ou um escopo (2)? ");
+                            int optChoice = scanner.nextInt();
+                            scanner.nextLine();
 
-                            List<String> contents = new ArrayList<>();
-                            String aux = scanner.nextLine();
+                            System.out.print("\nDigite o identificador: ");
+                            String identifier = scanner.nextLine().trim();
 
-                            while(aux != null && !aux.isBlank()) {
-                                contents.add(aux);
-                                aux = scanner.nextLine();
-                            }
+                            if(optChoice == 1) {
+                                List<NodeAVL> key = new ArrayList<>();
+                                avl.searchAVL(identifier, key);
 
-                            Parser parser = new Parser();
+                                int i = 0;
+                                while(i < key.size()) {
+                                    if(key.get(i).getValue() == null) {
+                                        key.remove(i);
+                                    } else {
+                                        i++;
+                                    }
+                                }
 
-                            try {
-                                parser.run(contents, bst, avl, path);
-                                System.out.println("\nChave/escopo inserido com sucesso!");
-                            } catch(RuntimeException e) {
-                                System.out.println("\n**** ERRO! O conteúdo inserido não está bem formatado: ");
-                                System.out.println("> " + e.getMessage());
+                                boolean alreadyExists = false;
+
+                                for(i = 0; i < key.size(); i++) {
+                                    if(key.get(i).getPath().equals(path)) {
+                                        alreadyExists = true;
+                                    }
+                                }
+
+                                if(alreadyExists) {
+                                    System.out.println("\nJá existe uma chave com o mesmo identificador dentro do escopo selecionado.");
+                                } else {
+                                    System.out.print("\nDigite o valor: ");
+                                    String value = scanner.nextLine().trim();
+
+                                    KeyBST keyBST = new KeyBST(identifier, value);
+                                    KeyAVL keyAVL = new KeyAVL(identifier, value);
+
+                                    bst.insert(keyBST);
+                                    avl.insert(keyAVL);
+                                }
+                            } else {
+                                // TODO: arrumar o escopo
+                                List<String> scopeContent = new ArrayList<>();
+                                scopeContent.add(identifier);
+                                scopeContent.add("(");
+
+                                System.out.println("Digite o conteúdo escopo (linha em branco para parar): ");
+                                String aux = scanner.nextLine();
+
+                                while(aux != null && !aux.isBlank()) {
+                                    scopeContent.add(aux);
+                                    aux = scanner.nextLine();
+                                }
+
+                                scopeContent.add(")");
+
+                                Parser parser = new Parser();
+
+                                try {
+                                    parser.run(scopeContent, bst, avl, path);
+                                    System.out.println("\nChave/escopo inserido com sucesso!");
+                                } catch(RuntimeException e) {
+                                    System.out.println("\n**** ERRO! O conteúdo inserido não está bem formatado: ");
+                                    System.out.println("> " + e.getMessage());
+                                }
                             }
                         } else {
                             System.out.println("Não foi possível encontrar o escopo.");
@@ -404,29 +475,37 @@ public class Main {
                             System.out.println("Erro ao escrever no arquivo.");
                         }
                     } else if(opt == 7) {
-                        System.out.println("Em ordem: ");
-                        bst.inOrder();
-                        System.out.println();
+                        if(avl.isEmpty()) {
+                            System.out.println("A árvore está vazia.");
+                        } else {
+                            System.out.println("Em ordem: ");
+                            bst.inOrder();
+                            System.out.println();
 
-                        System.out.println("Pré ordem: ");
-                        bst.preOrder();
-                        System.out.println();
+                            System.out.println("Pré ordem: ");
+                            bst.preOrder();
+                            System.out.println();
 
-                        System.out.println("Pós ordem: ");
-                        bst.posOrder();
-                        System.out.println();
+                            System.out.println("Pós ordem: ");
+                            bst.posOrder();
+                            System.out.println();
+                        }
                     } else if(opt == 8) {
-                        System.out.println("Em ordem: ");
-                        avl.inOrder();
-                        System.out.println();
+                        if(avl.isEmpty()) {
+                            System.out.println("A árvore está vazia.");
+                        } else {
+                            System.out.println("Em ordem: ");
+                            avl.inOrder();
+                            System.out.println();
 
-                        System.out.println("Pré ordem: ");
-                        avl.preOrder();
-                        System.out.println();
+                            System.out.println("Pré ordem: ");
+                            avl.preOrder();
+                            System.out.println();
 
-                        System.out.println("Pós ordem: ");
-                        avl.posOrder();
-                        System.out.println();
+                            System.out.println("Pós ordem: ");
+                            avl.posOrder();
+                            System.out.println();
+                        }
                     }
                 } else {
                     System.out.println("ERRO: O Arquivo ainda não foi carregado.");
@@ -437,6 +516,7 @@ public class Main {
             }
 
             System.out.println();
+            opt = 0;
         }
     }
 
