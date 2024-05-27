@@ -284,14 +284,12 @@ public class Main {
                             System.out.print("\nDeseja inserir uma chave (1) ou um escopo (2)? ");
                             int optChoice = scanner.nextInt();
                             scanner.nextLine();
-
                             System.out.print("\nDigite o identificador: ");
                             String identifier = scanner.nextLine().trim();
 
                             if(optChoice == 1) {
                                 List<NodeAVL> key = new ArrayList<>();
                                 avl.searchAVL(identifier, key);
-
                                 int i = 0;
                                 while(i < key.size()) {
                                     if(key.get(i).getValue() == null) {
@@ -300,15 +298,12 @@ public class Main {
                                         i++;
                                     }
                                 }
-
                                 boolean alreadyExists = false;
-
                                 for(i = 0; i < key.size(); i++) {
                                     if(key.get(i).getPath().equals(path)) {
                                         alreadyExists = true;
                                     }
                                 }
-
                                 if(alreadyExists) {
                                     System.out.println("\nJá existe uma chave com o mesmo identificador dentro do escopo selecionado.");
                                 } else {
@@ -324,8 +319,8 @@ public class Main {
                             } else {
                                 // TODO: arrumar o escopo
                                 List<String> scopeContent = new ArrayList<>();
-                                scopeContent.add(identifier);
-                                scopeContent.add("(");
+                                scopeContent.add(identifier + "(");
+                                //scopeContent.add("(");
 
                                 System.out.println("Digite o conteúdo escopo (linha em branco para parar): ");
                                 String aux = scanner.nextLine();
