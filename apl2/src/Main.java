@@ -355,19 +355,46 @@ public class Main {
                                     KeyBST keyBST = new KeyBST(identifier, value);
                                     KeyAVL keyAVL = new KeyAVL(identifier, value);
 
+                                    keyBST.setPath(path);
+                                    keyAVL.setPath(path);
+
                                     bst.insert(keyBST);
                                     avl.insert(keyAVL);
 
                                     System.out.println("Chave inserida com sucesso!");
                                 }
                             } else {
-                                ScopeBST scopeBST = new ScopeBST(identifier);
-                                ScopeAVL scopeAVL = new ScopeAVL(identifier);
+                                List<NodeAVL> scopeAux = new ArrayList<>();
+                                avl.searchAVL(identifier, scopeAux);
 
-                                bst.insert(scopeBST);
-                                avl.insert(scopeAVL);
+                                int i = 0;
+                                while(i < scopeAux.size()) {
+                                    if(scopeAux.get(i).getValue() == null) {
+                                        i++;
+                                    } else {
+                                        scopeAux.remove(i);
+                                    }
+                                }
+                                boolean alreadyExists = false;
+                                for(i = 0; i < scopeAux.size(); i++) {
+                                    if(scopeAux.get(i).getPath().equals(path)) {
+                                        alreadyExists = true;
+                                    }
+                                }
+                                if(alreadyExists) {
+                                    System.out.println("\nJá existe um escopo com o mesmo identificador dentro do escopo selecionado.");
+                                } else {
+                                    ScopeBST scopeBST = new ScopeBST(identifier);
+                                    ScopeAVL scopeAVL = new ScopeAVL(identifier);
 
-                                System.out.println("\nEscopo inserido com sucesso!");
+                                    scopeBST.setPath(path);
+                                    scopeAVL.setPath(path);
+
+                                    bst.insert(scopeBST);
+                                    avl.insert(scopeAVL);
+
+                                    System.out.println("\nEscopo inserido com sucesso!");
+                                }
                             }
                         } else {
                             System.out.println("Não foi possível encontrar o escopo.");
@@ -510,6 +537,8 @@ public class Main {
                         if(avl.isEmpty()) {
                             System.out.println("A árvore está vazia.");
                         } else {
+                            System.out.println(bst + "\n");
+
                             System.out.println("Em ordem: ");
                             bst.inOrder();
                             System.out.println();
@@ -526,6 +555,8 @@ public class Main {
                         if(avl.isEmpty()) {
                             System.out.println("A árvore está vazia.");
                         } else {
+                            System.out.println(avl + "\n");
+
                             System.out.println("Em ordem: ");
                             avl.inOrder();
                             System.out.println();
