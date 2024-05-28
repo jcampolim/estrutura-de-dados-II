@@ -331,4 +331,23 @@ public class BST extends BinaryTree {
             inOrderTraversal(node.getRight(), queue);
         }
     }
+
+    public int qtdeNodes(NodeBST root) {
+        if(root == null) {
+            return 0;
+        }
+
+        return 1 + qtdeNodes(root.getLeft()) + qtdeNodes(root.getRight());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Grau da árvore: " + getDegree());
+        sb.append(" - Altura da árvore: " + getHeight());
+        sb.append(" - Quantidade de nós: " + qtdeNodes(root));
+
+        return sb.toString();
+    }
 }

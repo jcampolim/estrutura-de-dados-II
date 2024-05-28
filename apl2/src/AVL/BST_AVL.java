@@ -11,6 +11,8 @@ package AVL;
 // https://www.devmedia.com.br/tokenizacao-com-scanner-em-java/26508
 // SZWARCFITER, J.L.; MARKENZON, L. Estruturas de Dados e seus Algoritmos. 3ª. ed. Rio de Janeiro: LTC, 2010.
 
+import BST.NodeBST;
+
 import java.util.List;
 
 public class BST_AVL extends BinaryTree {
@@ -312,5 +314,24 @@ public class BST_AVL extends BinaryTree {
         System.out.println(root);
         System.out.println("----------------------------------------------------------------------" +
                 "--------------------------------------------------------------------");
+    }
+
+    public int qtdeNodes(NodeAVL root) {
+        if(root == null) {
+            return 0;
+        }
+
+        return 1 + qtdeNodes(root.getLeft()) + qtdeNodes(root.getRight());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Grau da árvore: " + getDegree());
+        sb.append(" - Altura da árvore: " + getHeight());
+        sb.append(" - Quantidade de nós: " + qtdeNodes(root));
+
+        return sb.toString();
     }
 }

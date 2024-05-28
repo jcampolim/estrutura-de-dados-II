@@ -162,6 +162,9 @@ public class NodeAVL {
 
         sb.append(" - Grau: " + getDegree());
         sb.append(" - Nível: " + getLevel());
+        sb.append(" - Altura: " + getHeight());
+        sb.append(" - Raiz: " + isRoot());
+        sb.append(" - Folha: " + isLeaf());
 
         return sb.toString();
     }
