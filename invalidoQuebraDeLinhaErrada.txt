@@ -1,0 +1,8 @@
+# Quebra de linha no meio do escopo
+
+escopoTeste1
+(
+ chaveTeste1 = valorTeste1
+
+ chaveTeste2 = valorTeste2
+)
