@@ -199,7 +199,8 @@ public class Tokenizer {
                             sb.append(currChar);
                         }
 
-                        tokens.add(new Token(TokenType.VALUE, sb.toString()));
+                        if(!sb.toString().isBlank())
+                            tokens.add(new Token(TokenType.VALUE, sb.toString().trim()));
                         sb.setLength(0);
                         isString = false;
                     } else {

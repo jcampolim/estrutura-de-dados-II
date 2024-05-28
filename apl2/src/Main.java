@@ -228,7 +228,7 @@ public class Main {
             try {
                 opt = parseInt(optAux);
             } catch(Exception e) {
-                System.out.print("\nOpção inválida.");
+
             }
 
             System.out.print("\n");
@@ -256,12 +256,15 @@ public class Main {
                         System.out.print("Chave/escopo: ");
                         String identifier = scanner.nextLine().trim();
                         System.out.println();
+
                         searchIdentifier(bst, avl, identifier);
                     } else if(opt == 3) {
                         System.out.print("Digite o escopo em que deseja inserir a nova chave/escopo: ");
                         String scope = scanner.nextLine().trim();
+
                         List<NodeAVL> listNodeAVL = new ArrayList<>();
                         List<String> path;
+
                         if(verifyScope(scope, avl, listNodeAVL) || scope.equals("global")) {
                             if(scope.equals("global")) {
                                 path = new ArrayList<>();
@@ -273,13 +276,27 @@ public class Main {
                                 }
 
                                 System.out.print("\nEm qual escopo deseja inserir: ");
-                                int optScope = scanner.nextInt();
-                                scanner.nextLine();
+                                String aux = scanner.nextLine();
+                                int optScope = 0;
 
                                 while(!(optScope > 0 && optScope <= listNodeAVL.size())) {
-                                    System.out.print("\nOpção inválida. Tente novamente: ");
-                                    optScope = scanner.nextInt();
+                                    try {
+                                        optScope = parseInt(aux);
+                                        if(!(optScope > 0 && optScope <= listNodeAVL.size())) {
+                                            System.out.println("Opção inválida. Tente novamente.");
+                                            optScope = 0;
+
+                                            System.out.print("\nEm qual escopo deseja inserir: ");
+                                            aux = scanner.nextLine();
+                                        }
+                                    } catch(Exception e) {
+                                        System.out.println("Opção inválida. Tente novamente.");
+
+                                        System.out.print("\nEm qual escopo deseja inserir: ");
+                                        aux = scanner.nextLine();
+                                    }
                                 }
+
                                 path = new ArrayList<>(listNodeAVL.get(optScope - 1).getPath());
                                 path.add(listNodeAVL.get(optScope - 1).getIdentifier());
                             } else {
@@ -288,8 +305,27 @@ public class Main {
                             }
 
                             System.out.print("\nDeseja inserir uma chave (1) ou um escopo (2)? ");
-                            int optChoice = scanner.nextInt();
-                            scanner.nextLine();
+                            int optChoice = 0;
+                            String aux = scanner.nextLine();
+
+                            while(optChoice != 1 && optChoice != 2) {
+                                try {
+                                    optChoice = parseInt(aux);
+                                    if(optChoice != 1 && optChoice != 2) {
+                                        System.out.println("Opção inválida. Tente novamente.");
+                                        optChoice = 0;
+
+                                        System.out.print("\nDeseja inserir uma chave (1) ou um escopo (2)? ");
+                                        aux = scanner.nextLine();
+                                    }
+                                } catch(Exception e) {
+                                    System.out.println("Opção inválida. Tente novamente.");
+
+                                    System.out.print("\nDeseja inserir uma chave (1) ou um escopo (2)? ");
+                                    aux = scanner.nextLine();
+                                }
+                            }
+
                             System.out.print("\nDigite o identificador: ");
                             String identifier = scanner.nextLine().trim();
 
@@ -321,39 +357,23 @@ public class Main {
 
                                     bst.insert(keyBST);
                                     avl.insert(keyAVL);
+
+                                    System.out.println("Chave inserida com sucesso!");
                                 }
                             } else {
-                                // TODO: arrumar o escopo
-                                List<String> scopeContent = new ArrayList<>();
-                                scopeContent.add(identifier + "(");
-                                //scopeContent.add("(");
+                                ScopeBST scopeBST = new ScopeBST(identifier);
+                                ScopeAVL scopeAVL = new ScopeAVL(identifier);
 
-                                System.out.println("Digite o conteúdo escopo (linha em branco para parar): ");
-                                String aux = scanner.nextLine();
+                                bst.insert(scopeBST);
+                                avl.insert(scopeAVL);
 
-                                while(aux != null && !aux.isBlank()) {
-                                    scopeContent.add(aux);
-                                    aux = scanner.nextLine();
-                                }
-
-                                scopeContent.add(")");
-
-                                Parser parser = new Parser();
-
-                                try {
-                                    parser.run(scopeContent, bst, avl, path);
-                                    System.out.println("\nChave/escopo inserido com sucesso!");
-                                } catch(RuntimeException e) {
-                                    System.out.println("\n**** ERRO! O conteúdo inserido não está bem formatado: ");
-                                    System.out.println("> " + e.getMessage());
-                                }
+                                System.out.println("\nEscopo inserido com sucesso!");
                             }
                         } else {
                             System.out.println("Não foi possível encontrar o escopo.");
                         }
                     } else if(opt == 4) {
                         System.out.print("Digite a chave que deseja alterar: ");
-                        scanner.nextLine();
                         String oldKey = scanner.nextLine().trim();
 
                         List<NodeBST> keyBST = new ArrayList<>();
@@ -371,12 +391,25 @@ public class Main {
                                 }
 
                                 System.out.print("\nQual chave deseja alterar: ");
-                                int optKey = scanner.nextInt();
-                                scanner.nextLine();
+                                int optKey = 0;
+                                String aux = scanner.nextLine();
 
-                                while (!(optKey > 0 && optKey <= keyBST.size())) {
-                                    System.out.print("\nOpção inválida. Tente novamente: ");
-                                    optKey = scanner.nextInt();
+                                while(!(optKey > 0 && optKey <= keyAVL.size())) {
+                                    try {
+                                        optKey = parseInt(aux);
+                                        if(!(optKey > 0 && optKey <= keyAVL.size())) {
+                                            System.out.println("Opção inválida. Tente novamente.");
+                                            optKey = 0;
+
+                                            System.out.print("\nQual chave deseja alterar: ");
+                                            aux = scanner.nextLine();
+                                        }
+                                    } catch(Exception e) {
+                                        System.out.println("Opção inválida. Tente novamente.");
+
+                                        System.out.print("\nQual chave deseja alterar: ");
+                                        aux = scanner.nextLine();
+                                    }
                                 }
 
                                 nodeBST = keyBST.get(optKey - 1);
@@ -402,8 +435,6 @@ public class Main {
                         }
                     } else if(opt == 5) {
                         System.out.print("Digite a chave que deseja remover: ");
-
-                        scanner.nextLine();
                         String key = scanner.nextLine().trim();
 
                         List<NodeBST> keyBST = new ArrayList<>();
@@ -421,12 +452,25 @@ public class Main {
                                 }
 
                                 System.out.print("\nEm qual escopo deseja inserir: ");
-                                int optKey = scanner.nextInt();
-                                scanner.nextLine();
+                                int optKey = 0;
+                                String aux = scanner.nextLine();
 
-                                while(!(optKey > 0 && optKey <= keyBST.size())) {
-                                    System.out.print("\nOpção inválida. Tente novamente: ");
-                                    optKey = scanner.nextInt();
+                                while(!(optKey > 0 && optKey <= keyAVL.size())) {
+                                    try {
+                                        optKey = parseInt(aux);
+                                        if(!(optKey > 0 && optKey <= keyAVL.size())) {
+                                            System.out.println("Opção inválida. Tente novamente.");
+                                            optKey = 0;
+
+                                            System.out.print("\nEm qual escopo deseja inserir: ");
+                                            aux = scanner.nextLine();
+                                        }
+                                    } catch(Exception e) {
+                                        System.out.println("Opção inválida. Tente novamente.");
+
+                                        System.out.print("\nEm qual escopo deseja inserir: ");
+                                        aux = scanner.nextLine();
+                                    }
                                 }
 
                                 nodeBST = keyBST.get(optKey);
@@ -454,7 +498,7 @@ public class Main {
                         }
                     } else if(opt == 6) {
                         System.out.print("Nome do arquivo: ");
-                        String fileName = scanner.next();
+                        String fileName = scanner.nextLine();
                         System.out.println();
 
                         if(writeFile(fileName, avl)) {
@@ -501,6 +545,8 @@ public class Main {
             } else if (opt == 9) {
                 System.out.println("Encerrando o programa...");
                 break;
+            } else {
+                System.out.println("Opção inválida.");
             }
 
             System.out.println();

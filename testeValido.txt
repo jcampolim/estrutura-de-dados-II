@@ -1,0 +1,19 @@
+# Comentario teste
+
+chaveTeste1 = valorTeste1
+
+chaveTeste2 = valorTeste2
+
+escopoTeste1(
+ chaveTeste3 = valorTeste3
+ chaveTeste4= valorTeste4
+ escopoTeste2
+ (
+  chaveTeste5 = valorTeste5
+  chaveTeste6 = valorTeste6
+ )
+)
+
+escopoTeste2(
+
+)
